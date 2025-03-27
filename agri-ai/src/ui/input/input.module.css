@@ -1,0 +1,131 @@
+.attribute {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+
+    position: relative;
+    left: 6px;
+    top: -5px;
+}
+
+.label,
+.errorMessage,
+.alert > span {
+    font-family: var(--ff-p);
+    font-weight: 500;
+    font-size: .875rem;
+
+    color: #020817;
+
+    padding-left: 6px;
+}
+
+.errorMessage {
+    margin-top: 0.5rem;
+}
+
+.errorMessage,
+.alert > span {
+    color: #EF4444;
+}
+
+.alert > span {
+    padding: 0;
+    position: relative;
+    top: 1.4px;
+}
+
+.container {
+    border-radius: 7px;
+    height: max-content;
+    width: max-content;
+    border: 2px solid transparent;
+
+    margin: 0.5rem 0;
+
+    outline: none;
+    transition: all 0.4s;
+
+    height: 46px;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon {
+    width: 35px;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* When the input inside is focused or has content */
+.container:focus-within {
+    border: 2px solid #020817;
+}
+
+.wrapper {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(226, 232, 240);
+    border-radius: 7px;
+
+    width: 99%;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    font-size: .7rem;
+    font-weight: 400;
+    font-family: var(--ff-js);
+    
+    padding: 0.5rem .75rem;
+
+    margin: auto auto;
+ 
+    background-color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 7px;
+
+    outline: none;
+    color: #020817;
+
+    width: calc(100% - 35px);
+    height: 100%;
+}
+
+.input:disabled {
+    background-color: rgb(243 244 246 / 1);
+}
+
+.input:-webkit-autofill {
+    background-color: rgb(255, 255, 255) !important;
+}
+
+.input:focus ~ .container {
+    border: 2px solid #020817;
+}
+
+.input:focus ~ .container,
+.input:valid ~ .container,
+.input:disabled ~ .container {
+    border: 2px solid #020817;
+}
+
+@media (min-width: 768px) {
+    .input {
+        font-size: .875rem;
+        line-height: 1.25rem;
+    }
+}
