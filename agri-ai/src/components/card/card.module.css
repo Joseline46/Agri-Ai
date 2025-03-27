@@ -1,0 +1,56 @@
+/* Navigation Card */
+.navCard {
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in forwards;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .navCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Icon Wrapper */
+  .iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 8px;
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    margin-bottom: 1rem;
+  }
+  
+  /* Heading */
+  .heading {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Description */
+  .description {
+    font-size: 1rem;
+    color: #6b7280;
+  }
+  
+  /* Fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

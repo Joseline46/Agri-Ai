@@ -1,0 +1,73 @@
+/* Section Styles */
+.section {
+    padding: 5rem 0;
+    background: linear-gradient(to bottom, #ffffff, rgba(191, 219, 254, 0.3));
+  }
+  
+  /* Container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  
+  /* Centered Text */
+  .textCenter {
+    text-align: center;
+    margin-bottom: 4rem;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in forwards;
+  }
+  
+  /* AI Tag */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Heading */
+  .heading {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in forwards;
+  }
+  
+  /* Description */
+  .description {
+    font-size: 1.125rem;
+    color: #6b7280;
+    max-width: 40rem;
+    margin: 0 auto;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in forwards;
+  }
+  
+  /* Grid Layout */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Fade-in Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

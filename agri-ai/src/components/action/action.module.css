@@ -1,0 +1,110 @@
+/* Section Styling */
+.section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+  
+  /* Container */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  /* Glass Card Styling */
+  .card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Background Elements */
+  .bgCircleOne, .bgCircleTwo {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(56, 119, 252, 0.1);
+    filter: blur(100px);
+  }
+  
+  .bgCircleOne {
+    width: 16rem;
+    height: 16rem;
+    bottom: -5rem;
+    right: -5rem;
+  }
+  
+  .bgCircleTwo {
+    width: 20rem;
+    height: 20rem;
+    top: -5rem;
+    left: -5rem;
+  }
+  
+  /* Content Styling */
+  .content {
+    position: relative;
+    z-index: 10;
+    max-width: 48rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  /* Heading Styling */
+  .heading {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+  }
+  
+  /* Text Styling */
+  .text {
+    font-size: 1.125rem;
+    color: rgba(107, 114, 128, 1);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+    animation-delay: 0.2s;
+  }
+  
+  /* Button Styling */
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: var(--ff-js);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+    animation-delay: 0.4s;
+  }
+  
+  /* Button Hover Effect */
+  .button:hover {
+    background-color: #2563eb;
+  }
+  
+  /* Fade-In Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

@@ -1,0 +1,78 @@
+/* Card Styling */
+.metricCard {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1.5rem;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in forwards;
+    transition: transform 0.3s ease;
+  }
+  
+  .metricCard:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Title */
+  .title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+  }
+  
+  /* Icon */
+  .icon {
+    color: #3b82f6;
+  }
+  
+  /* Content */
+  .content {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+  
+  /* Value */
+  .value {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #111827;
+  }
+  
+  /* Trend Indicator */
+  .trend {
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Positive Trend */
+  .positive {
+    color: #10b981;
+  }
+  
+  /* Negative Trend */
+  .negative {
+    color: #ef4444;
+  }
+  
+  /* Fade-in Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
