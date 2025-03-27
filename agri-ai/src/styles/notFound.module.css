@@ -1,0 +1,36 @@
+.notFoundContainer {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .glassCard {
+    padding: 3rem; /* 12px */
+    max-width: 28rem; /* 448px */
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1); /* Glass card background */
+    border-radius: 1rem; /* Optional: rounded corners */
+  }
+  
+  .heading {
+    font-size: 2.25rem; /* Heading-lg equivalent */
+    margin-bottom: 1rem; /* mb-4 */
+  }
+  
+  .textMuted {
+    font-size: 1.25rem; /* Text-xl equivalent */
+    color: rgba(107, 114, 128, 1); /* muted-foreground equivalent */
+    margin-bottom: 2rem; /* mb-8 */
+  }
+  
+  .buttonPrimary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* gap-2 */
+    background-color: var(--primary-color); /* Update with your primary color */
+    padding: 0.75rem 1.5rem; /* Padding for button */
+    text-decoration: none;
+    border-radius: 0.375rem; /* Optional: rounded corners */
+  }
+  

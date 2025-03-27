@@ -8,7 +8,7 @@ const Header = ({ className }) => {
           <span className={styles.logoText}>Agri-AI</span>
         </div>
         <nav className={styles.nav}>
-          <a href='/signIn/'>
+          <a href='/sign-in/'>
             <button className={styles.signInButton}>Sign In</button>
           </a>
         </nav>

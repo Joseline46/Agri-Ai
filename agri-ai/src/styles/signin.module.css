@@ -93,6 +93,8 @@
     position: relative;
     right: -202px;
     top: 16px;
+
+    z-index: 10000000;
   }
   
   .forgotPasswordLink:hover {
