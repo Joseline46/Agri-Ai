@@ -18,14 +18,86 @@
     z-index: 50;
 
     margin-bottom: 2rem;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.controls {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.addUser,
+.addSale {
+    height: 40px;
+    width: max-content;
+
+    padding: 0.125rem 0.8rem;
+
+    font-weight: bold;
+    font-size: 0.875rem;
+    font-family: var(--ff-js);
+
+    color: black;
+    cursor: pointer;
+
+    transition: all 0.4s;
+
+    background-color: transparent;
+    border: 1px solid #f0f0f0;
+    border-radius: 7px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 5px;
+    align-items: center;
+}
+
+.addSale {
+    font-weight: bold;
+    font-size: 0.875rem;
+    font-family: var(--ff-js);
+
+    color: white;
+    cursor: pointer;
+
+    transition: all 0.4s;
+
+    background-color: #3b82f6;
+    border: none;
+    border-radius: 7px;
 }
   
-.logoText {
+.logoText,
+.logo,
+.inventoryOverview > p {
     font-weight: bold;
     font-size: 1.85rem;
     font-family: var(--ff-js);
-    letter-spacing: -0.5px;
-    color: black;
+    /* letter-spacing: -0.5px; */
+}
+
+.logo {
+    font-size: 1.25rem;
+    color: #3b82f6;
+}
+
+.inventoryOverview > p {
+    font-size: 1.25rem;
+    
+}
+
+.inventoryOverview {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    margin-bottom: 0.75rem;
 }
 
 .corusel {

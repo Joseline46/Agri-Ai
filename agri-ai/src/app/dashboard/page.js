@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 
 // Components
 import Header from '@/components/header/header'
+import AddUser from '@/components/addUser/addUser'
 
 // Context
 import { UserAuth } from '@/contexts/auth'
@@ -13,7 +14,7 @@ import { UserAuth } from '@/contexts/auth'
 import styles from '@/styles/dashboard.module.css'
 
 // Assets
-import { TrendingUp, TrendingDown, Wheat } from 'lucide-react' 
+import { TrendingUp, TrendingDown, Wheat, Package, UserPlus, CirclePlus, Bean, Nut } from 'lucide-react' 
 
 const Consumed = (props) => {
     const [primaryColor, setPrimaryColor] = useState("");
@@ -116,7 +117,7 @@ const Card = ({children, selectedTab='Maize', cardName, currentValue, previousVa
         </section>
         <p className={styles.h2}>{cardName}</p>
         <section className={styles.comparisonH1}>
-          <p className={styles.h1}>{currentValue}T</p>
+          <p className={styles.h1}>{currentValue}t</p>
           
         {
             hasIncreased===null?null:(
@@ -131,7 +132,7 @@ const Card = ({children, selectedTab='Maize', cardName, currentValue, previousVa
             hasIncreased===null?null:(
                 <p className={styles.comparedValue} style={{ color: hasIncreased ? "#217346" : "#EB173A", }}>
                     {hasIncreased ? ( <TrendingUp color="#217346" size={15} /> ) : ( <TrendingDown color="#EB173A" size={15} /> )}
-                    {difference} Tonnes
+                    {difference} tonnes
                 </p>
             )
         }
@@ -145,6 +146,7 @@ const Card = ({children, selectedTab='Maize', cardName, currentValue, previousVa
 const Dashboard = ()=> {
   const { user, credentials } = UserAuth()
   const router = useRouter() 
+  const [showAddUserForm, setShowAddUserForm] = useState(false)
 
   useEffect(()=>{
     if(user === null ){
@@ -155,15 +157,40 @@ const Dashboard = ()=> {
   if(user){
     return (
       <section className={styles.component}>
-          <Header />
+        {
+          showAddUserForm?<AddUser />:null
+        }
+          <section className={styles.header}>
+            <p className={styles.logo}>Agri-Ai</p>
+          </section>
           <section className={styles.header}>
               <p className={styles.logoText}>Dashboard</p>
+              <section className={styles.controls}>
+                <button className={styles.addUser} onClick={()=>setShowAddUserForm((prevState)=>!prevState)}>
+                  <UserPlus size={17} color='#020817' />
+                  <p>Add User</p>
+                </button>
+                <button className={styles.addSale}>
+                  <CirclePlus size={17} color='#ffffff' />
+                  <p>Record Sale</p>
+                </button>
+              </section>
           </section>
 
+          <section className={styles.inventoryOverview}>
+            <Package size={17} color='#020817' />
+            <p>Inventory Overview</p>
+          </section>
           <section className={styles.corusel}>
-              <Card cardName="Maize" selectedTab="Maize" currentValue={120} previousValue={110} target={134}>
-                  <Wheat size={17} color='black' />
-              </Card> 
+            <Card cardName="Maize" selectedTab="Maize" currentValue={120} previousValue={110} target={134}>
+              <Wheat size={17} color='black' />
+            </Card>
+            <Card cardName="Beans" selectedTab="Beans" currentValue={231} previousValue={110} target={200}>
+              <Bean size={17} color='black' />
+            </Card>  
+            <Card cardName="Groundnuts" selectedTab="Groundnuts" currentValue={61} previousValue={53} target={100}>
+              <Nut  size={17} color='black' />
+            </Card>
           </section>
       </section>
     )

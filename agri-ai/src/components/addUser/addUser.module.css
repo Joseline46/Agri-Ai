@@ -1,0 +1,155 @@
+/* SignIn Page Styles */
+.signInContainer {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.5);
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000000;
+    backdrop-filter: blur(3px);
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+  }
+  
+  .header {
+    text-align: center;
+  }
+  
+  .logoText {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+    text-align: left;
+  }
+  
+  .heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+
+    margin-top: 0.8rem;
+    position: relative;
+    left: -4px;
+  }
+  
+  .subText {
+    font-size: 0.875rem;
+    color: #6c757d;
+
+    margin-top: 0.5rem;
+    text-align: left;
+  }
+  
+  .alert {
+    margin-top: 1rem;
+  }
+  
+  .form {
+    margin-top: 2rem;
+  }
+  
+  .inputGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .inputField {
+    margin-bottom: 1.5rem;
+  }
+  
+  .inputWrapper {
+    position: relative;
+  }
+  
+  .icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .input {
+    padding-left: 2.5rem;
+    width: 100%;
+  }
+  
+  .passwordHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .forgotPasswordLink {
+    font-size: 0.875rem;
+    color: #007bff;
+    text-decoration: none;
+
+    position: relative;
+    right: -202px;
+    top: 16px;
+
+    z-index: 10000000;
+  }
+  
+  .forgotPasswordLink:hover {
+    text-decoration: underline;
+  }
+  
+  .passwordToggle {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .submitButton {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #007bff;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .submitButton:disabled {
+    background-color: #d6e4f0;
+    cursor: not-allowed;
+  }
+  
+  .createAccountText {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #6c757d;
+
+    margin-top: 0.975rem;
+    position: relative;
+    left: -18px;
+  }
+  
+  .createAccountLink {
+    font-weight: 600;
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .createAccountLink:hover {
+    text-decoration: underline;
+  }
+  

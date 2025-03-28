@@ -8,9 +8,6 @@ import AIInsights from '@/components/aiinsights/aiinsights'
 import Action from '@/components/action/action'
 import Header from '@/components/header/header'
 
-// Layout
-import Main from '@/layouts/main/main'
-
 export default function Home() {
   const featuresRef = useRef(null)
   
