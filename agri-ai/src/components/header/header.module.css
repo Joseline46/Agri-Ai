@@ -28,10 +28,11 @@
   }
   
   .logoText {
-    font-weight: 600;
+    font-weight: bold;
     font-size: 1.25rem;
     font-family: var(--ff-js);
     letter-spacing: -0.5px;
+    color: #3b82f6;
   }
   
   /* Navigation and Sign In Button */

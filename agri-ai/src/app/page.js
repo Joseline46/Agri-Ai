@@ -6,6 +6,7 @@ import Hero from '@/components/hero/hero'
 import Features from '@/components/features/features'
 import AIInsights from '@/components/aiinsights/aiinsights'
 import Action from '@/components/action/action'
+import Header from '@/components/header/header'
 
 // Layout
 import Main from '@/layouts/main/main'
@@ -19,6 +20,7 @@ export default function Home() {
 
   return (
     <Main>
+      <Header />
       <Hero onExplore={scrollToFeatures} />
       <Features ref={featuresRef} />
       <AIInsights />

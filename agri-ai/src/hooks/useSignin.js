@@ -1,9 +1,16 @@
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+// Context
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, getAuth, sendPasswordResetEmail } from 'firebase/auth'
+import { auth, db } from '@/firebase'
 
 // Hooks
 import useValidation from './useValidation'
 
 const useSignin = () => {
+  const router = useRouter()
+
     const [isLoading, setIsLoading] = useState(false)
     const [values, setValues] = useState({
         username: '',
@@ -41,11 +48,34 @@ const useSignin = () => {
     }
 
     const signIn = async ()=> {
+        console.log('clckeed')
+
         const numberOfErrors = checkErrors()
         if(numberOfErrors <= 0) {
             const numberOfFieldsErrors = checkEmptyFields()
             if(numberOfFieldsErrors <= 0) {
+                console.log('in here')
                 setIsLoading(true)
+                const accessAccount = (username, password)=> {
+                        setIsLoading(true)
+                        signInWithEmailAndPassword(auth, username, password)
+                        .then((userCredential) => {
+                            // user id
+                            const uid = userCredential.uid
+                            router.push('/dashboard')
+                            setIsLoading(false)
+                        }).catch((error) => {
+                            setNotificationStatus({
+                                head: 'Access Account',
+                                meta: '', 
+                                show: true, 
+                                type: 'fail', 
+                                message: error.code })
+                            setIsLoading(false)
+                        })
+                    }
+                accessAccount(values.username, values.password)
+                setIsLoading(false)
             }
         }
     }

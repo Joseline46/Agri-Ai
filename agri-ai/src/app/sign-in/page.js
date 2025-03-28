@@ -1,12 +1,15 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useRouter } from 'next/navigation'
 
 // Components
 import Button from "@/ui/button/button"
 import Input  from "@/ui/input/input"
-import { Eye, EyeOff, Lock, User } from "lucide-react"
-import Main from '@/layouts/main/main'
+import { Lock, User } from "lucide-react"
+
+// Context
+import { UserAuth } from '@/contexts/auth'
 
 // Styles
 import styles from '@/styles/signin.module.css'
@@ -15,22 +18,27 @@ import styles from '@/styles/signin.module.css'
 import useSignin from '@/hooks/useSignin'
 
 const SignIn = () => {
+  const { user } = UserAuth()
+  const router = useRouter()
   const { values, errors, isLoading, signIn, changeValues } = useSignin()
 
+  useEffect(()=>{
+    if(user){
+      router.push('/dashboard')
+    }
+  },[user, router])
+
   return (
-    <Main hideHeader>
-      <div className={styles.signInContainer}>
+    <div className={styles.signInContainer}>
       <div className={styles.card}>
           <div className={styles.header}>
             <a href="/" className={styles.logo}>
-              {/* <h2 className={styles.logoText}>Agri-AI</h2> */}
               <h2 className={styles.logoText}>Sign-In</h2>
             </a>
-          {/* <h1 className={styles.heading}>Sign In</h1> */}
           <p className={styles.subText}>Enter your credentials to access your account</p>
           </div>
 
-          <form className={styles.form}>
+          <section className={styles.form}>
             <div className={styles.inputGroup}>
                 <div className={styles.inputField}>
                   <Input label='Username' errorMessage='Username is required' placeholder='ruemapara@gmail.com' name='username' type='text' value={values.username} error={errors.username} change={changeValues}>
@@ -45,7 +53,7 @@ const SignIn = () => {
                     </a>
                 </div>
                 <div className={styles.inputWrapper}>
-                  <Input label='Password' errorMessage='Password is required' placeholder='***********' name='password' type='text' value={values.password} error={errors.password} change={changeValues}>
+                  <Input label='Password' errorMessage='Password is required' placeholder='***********' name='password' type='password' value={values.password} error={errors.password} change={changeValues}>
                     <Lock color='#808080' size={17} />
                   </Input>
                 </div>
@@ -62,10 +70,9 @@ const SignIn = () => {
                 Create account
               </a>
             </p>
-          </form>
+          </section>
       </div>
-      </div>
-    </Main>
+    </div>
   )
 }
 
