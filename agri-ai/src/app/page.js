@@ -19,12 +19,12 @@ export default function Home() {
   }
 
   return (
-    <Main>
+    <>
       <Header />
       <Hero onExplore={scrollToFeatures} />
       <Features ref={featuresRef} />
       <AIInsights />
       <Action />
-    </Main>
+    </>
   )
 }
