@@ -7,11 +7,11 @@ const Header = ({ className }) => {
         <div className={styles.logo}>
           <span className={styles.logoText}>Agri-AI</span>
         </div>
-        <nav className={styles.nav}>
+        {/* <nav className={styles.nav}>
           <a href='/sign-in/'>
             <button className={styles.signInButton}>Sign In</button>
           </a>
-        </nav>
+        </nav> */}
       </div>
     </header>
   )

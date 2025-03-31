@@ -1,5 +1,33 @@
+/* font-family: muli */
+@import url("https://use.typekit.net/ysf4qrp.css");
+
+/* font-family: poppins */
+@import url("https://use.typekit.net/ysf4qrp.css");
+
+
 :root {
---ff-js: "Plus Jakarta Sans", sans-serif;
+  --ff-m: muli, sans-serif;
+  --ff-p: poppins, sans-serif;
+  --ff-js: "Plus Jakarta Sans", sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #eeeeee;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border-radius: 5px;
+  background-color: #f0f0f0;
 }
 
 html,

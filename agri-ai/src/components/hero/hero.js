@@ -32,9 +32,11 @@ const Hero = ({ onExplore }) => {
               Explore Features
               <ArrowDownRight size={18} />
             </button>
-            <button className={styles.buttonSecondary}>
-              Learn More
-            </button>
+            <a href='/sign-in/'>
+              <button className={styles.buttonSecondary}>
+                Get Started
+              </button>
+            </a>
           </div>
         </div>
       </div>

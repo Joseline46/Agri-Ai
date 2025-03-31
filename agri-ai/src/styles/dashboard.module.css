@@ -1,18 +1,76 @@
 .component {
     min-height: 100vh;
     width: 100vw;
-    padding: 2rem 1rem;
+    padding: 0;
 
     display: flex;
     flex-flow: column nowrap;
 }
 
+.nav {
+    height: 100px;
+    width: 100vw;
+
+    display: flex;
+    flex-flow: column nowrap;
+
+    border-bottom: 1px solid #f0f0f0;
+
+    padding: 0 20px 0 20px;
+}
+
+.roof {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    height: 90px;
+    width: 100vw;
+}
+
+.floor {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.ul {
+    list-style: none;
+
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 60px;
+}
+
+.link,
+.selectedLink {
+    font-family: var(--ff-p);
+    font-size: 0.7rem;
+
+    padding-bottom: 5px;
+
+    color: #020817;
+    cursor: pointer;
+
+    transition: all 0.4s;
+    text-transform: uppercase;
+
+    letter-spacing: 0.3px;
+}
+
+.selectedLink {
+    border-bottom: 2px solid #3b82f6;
+}
+
 /* Header Styles */
 .header {
     width: 100%;
+    height: 150px;
+
     backdrop-filter: blur(10px);
     background-color: rgba(255, 255, 255, 0.7);
     border-bottom: 1px solid rgba(229, 231, 235, 0.3);
+
+    padding: 0 20px 0 20px;
     position: sticky;
     top: 0;
     z-index: 50;
@@ -23,6 +81,21 @@
     flex-flow: row nowrap;
     align-items: center;
     justify-content: space-between;
+}
+
+.inventoryOverview {
+    font-weight: 450;
+    font-family: var(--ff-p);
+    font-size: 0.65rem;
+    color: #666;
+    display: block;
+}
+
+.dashboardTitle {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    gap: 0px;
 }
 
 .controls {
@@ -41,7 +114,7 @@
 
     font-weight: bold;
     font-size: 0.875rem;
-    font-family: var(--ff-js);
+    font-family: var(--ff-p);
 
     color: black;
     cursor: pointer;
@@ -61,7 +134,7 @@
 .addSale {
     font-weight: bold;
     font-size: 0.875rem;
-    font-family: var(--ff-js);
+    font-family: var(--ff-p);
 
     color: white;
     cursor: pointer;
@@ -74,30 +147,16 @@
 }
   
 .logoText,
-.logo,
-.inventoryOverview > p {
+.logo {
     font-weight: bold;
     font-size: 1.85rem;
-    font-family: var(--ff-js);
-    /* letter-spacing: -0.5px; */
+    font-family: var(--ff-p);
+    letter-spacing: -2px;
 }
 
 .logo {
     font-size: 1.25rem;
     color: #3b82f6;
-}
-
-.inventoryOverview > p {
-    font-size: 1.25rem;
-    
-}
-
-.inventoryOverview {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-
-    margin-bottom: 0.75rem;
 }
 
 .corusel {
@@ -111,7 +170,7 @@
     align-items: center;
     gap: 10px;
 
-    padding-bottom: 10px;
+    padding: 0 20px 10px 20px;
 }
 
 .card {
@@ -128,6 +187,8 @@
     justify-content: flex-end;
     gap: 5px;
 
+    cursor: pointer;
+    
     padding: 10px 10px 5px;
     transition: all .4s;
 }
@@ -146,7 +207,7 @@
 .h1 {
     font-size: 1.5rem;
     font-weight: 900;
-    font-family: var(--ff-js);
+    font-family: var(--ff-p);
 
     color: black;
 }
@@ -162,7 +223,7 @@
 .h3 {
     font-size: .65rem;
     font-weight: 550;
-    font-family: var(--ff-js);
+    font-family: var(--ff-p);
 
     color: #808080;
 }
@@ -176,7 +237,7 @@
 
     font-size: .65rem;
     font-weight: 700;
-    font-family: var(--ff-js);
+    font-family: var(--ff-p);
 }
 
 .comparedValue {
@@ -206,7 +267,7 @@
 .consumed > span {
     font-weight: 700;
     font-size: .65rem;
-    font-family: var(--ff-js);
+    font-family: var(--ff-p);
 
     color: #217346;
 }
@@ -232,4 +293,214 @@
     left: 0;
     top: 0;
     bottom: 0;
+}
+
+.calendar {
+    width: 350px;
+}
+
+.section {
+    display: flex;
+    align-items: flex-start;
+    flex-flow: column wrap;
+    gap: 0;
+
+    width: 100%;
+    height: 630px;
+
+    border: 1px solid #F0F0F0;
+    border-radius: 5px;
+
+    padding: 0 10px 10px;
+    position: relative;
+
+    margin: 50px 20px 10px;
+
+    padding: 20px 10px;
+}
+
+.sectionHeader {
+    height: 60px;
+    width: 100%;
+
+    display: flex;
+}
+
+.doughnutAndLabelsContent {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    /* justify-content: space-between; */
+    gap: 45px;
+  
+    width: 100%;
+    height: max-content;
+  
+    overflow-x: scroll;
+    overflow-y: hidden;
+  
+}
+
+.overview {
+    border-radius: 7px;
+    /* border: 1px solid var(--light-gray); */
+    border: none;
+  
+    padding: 15px 15px;
+  
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 20px;
+  
+    height: 460px;
+    width: 450px;
+  
+    position: relative;
+}
+
+.h2,
+.title {
+  font-size: 0.7rem;
+  font-family: var(--ff-m);
+  font-weight: 550;
+
+  color: #808080;
+}
+
+.title {
+  font-weight: 550;
+  font-size: 0.7rem;
+  font-family: var(--ff-p);
+
+  color: black;
+
+  font-family: var(--ff-p);
+  font-weight: 700;
+  font-size: 0.65rem;
+
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+
+  width: max-content;
+}
+
+.doughnut {
+  position: absolute;
+  left: 165px;
+  top: 244px;
+
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 2px;
+
+  align-items: center;
+}
+
+.doughnut > span:first-child {
+  font-size: 0.7rem;
+  font-family: var(--ff-p);
+  color: black;
+}
+
+.doughnut > span:last-child {
+  display: block;
+  white-space: wrap;
+
+  font-size: 0.65rem;
+  font-family: var(--ff-m);
+  color: #808080;
+
+  width: 115px;
+
+  position: relative;
+  left: 17px;
+}
+
+
+.category,
+.selectedCategory {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  width: max-content;
+  width: 230px;
+  height: 50px;
+
+  border-radius: 5px;
+  border: 1px solid #f2f2f2;
+  padding: 5px 5px;
+
+  transition: all 0.4s;
+}
+
+.category:hover {
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+.selectedCategory {
+  background-color: #f2f2f2;
+}
+
+.labelAndAmount {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 3px;
+}
+
+.avatar {
+  height: 40px;
+  width: 40px;
+
+  border-radius: 50%;
+  background-color: var(--off-white);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  font-family: var(--ff-m);
+  font-size: 0.6rem;
+  font-weight: bold;
+
+  color: var(--dark-gray);
+  width: max-content;
+}
+
+.amount {
+  font-size: 0.7rem;
+  font-family: var(--ff-p);
+  color: var(--black);
+
+  font-weight: bold;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  gap: 8px;
+  width: max-content;
+}
+
+.compared,
+.comparedValue {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 3px;
+  align-items: center;
+
+  font-size: 0.65rem;
+  font-weight: bold;
+  font-family: var(--ff-p);
+
+  color: var(--dull-red);
+}
+
+.comparedValue {
+  position: relative;
+  top: -9px;
 }
