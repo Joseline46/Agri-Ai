@@ -93,7 +93,11 @@ const grainCategoriesColumnMaps = [
     { unTransformedName: 'Soybeans', transformedName: 'Soybeans' },
 ]
 
-const grainsTypes = ['Maize', 'Groundnuts', 'Beans', 'Wheat']
+function formatNumber(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+const grainsTypes = ['Maize', 'Beans', 'Groundnuts', 'Wheat', 'Rice', 'Barley', 'Sorghum', 'Soybeans']
   
 const useDashboard = ()=> {
     const [showComparativeStats, setShowComparativeStats] = useState(true)
@@ -106,14 +110,26 @@ const useDashboard = ()=> {
         to: ''
     })
     const [copyGrainCategory, setCopyGrainCategory] = useState({
-        maize: 0,
-        beans: 0,
-        wheat: 0,
+        Maize: 0,
+        Beans: 0,
+        Wheat: 0,
+        Groundnuts: 0,
+        Wheat: 0,
+        Rice: 0,
+        Barley: 0,
+        Sorghum: 0,
+        Soybeans: 0
     })
     const [grainCategories, setGrainCategories] = useState({
-        maize: 0,
-        beans: 0,
-        wheat: 0,
+        Maize: 0,
+        Beans: 0,
+        Wheat: 0,
+        Groundnuts: 0,
+        Wheat: 0,
+        Rice: 0,
+        Barley: 0,
+        Sorghum: 0,
+        Soybeans: 0
     })
 
     const handleChangeDateRange = (range)=> {
@@ -246,10 +262,12 @@ const useDashboard = ()=> {
             })
         }
 
+        console.log('grainsTypesAndTotal', grainsTypesAndTotal)
+
         setGrainCategories(grainsTypesAndTotal)
 
-        let { Maize, Groundnuts, Beans } =  grainsTypesAndTotal
-        setDoughnutValues([Maize, Beans, Groundnuts])
+        let { Maize, Beans, Groundnuts, Wheat, Rice, Barley, Sorghum, Soybeans } = grainsTypesAndTotal
+        setDoughnutValues([Maize, Beans, Groundnuts, Wheat, Rice, Barley, Sorghum, Soybeans])
     }, [filteredGrainsData])
 
     return { doughnutValues, filteredGrainsData, grainCategories, copyGrainCategory, showComparativeStats, dateFilterValues, setDateFilterValues, handleChangeDateRange, handleChangeDateFilterValues, mapIcons, grainCategoriesColumnMaps }
