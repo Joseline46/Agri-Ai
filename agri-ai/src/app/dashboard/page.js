@@ -326,18 +326,17 @@ const Dashboard = ()=> {
 
               {/* Labels */}
               <section className={styles.labels}>
-                  {
-                    grainCategoriesColumnMaps.map((grain, index)=> {
-                      return (
-                        <GrainLabel  mapIcons={mapIcons} grainCategoryFilter={grainCategoryFilter} setGrainsCategoryFilter={setGrainsCategoryFilter} showComparativeStats={showComparativeStats} key={index} copyCategories={copyGrainCategory} categories={grainCategories} grain={grain} />
-                      )
-                    })
-                  }
+                {
+                  grainCategoriesColumnMaps.map((grain, index)=> {
+                    return (
+                      <GrainLabel  mapIcons={mapIcons} grainCategoryFilter={grainCategoryFilter} setGrainsCategoryFilter={setGrainsCategoryFilter} showComparativeStats={showComparativeStats} key={index} copyCategories={copyGrainCategory} categories={grainCategories} grain={grain} />
+                    )
+                  })
+                }
               </section>
 
               <GrainsTable setGrainsCategoryFilter={setGrainsCategoryFilter} grainCategoryFilter={grainCategoryFilter} grains={filteredGrainsData} />
             </section>
-
         </section>
       </section>
     )
