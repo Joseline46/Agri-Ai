@@ -326,6 +326,20 @@
     display: flex;
 }
 
+.labels {
+    height: max-content;
+
+    display: flex;
+    flex-flow: wrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 5px;
+
+    min-width: 700px;
+    width: 700px;
+  }
+
 .doughnutAndLabelsContent {
     display: flex;
     flex-flow: row nowrap;
@@ -386,8 +400,8 @@
 
 .doughnut {
   position: absolute;
-  left: 165px;
-  top: 244px;
+  left: 125px;
+  top: 200px;
 
   display: flex;
   flex-flow: column nowrap;
@@ -454,7 +468,7 @@
   width: 40px;
 
   border-radius: 50%;
-  background-color: var(--off-white);
+  background-color: #FAF9F6;
 
   display: flex;
   align-items: center;
@@ -462,18 +476,18 @@
 }
 
 .label {
-  font-family: var(--ff-m);
-  font-size: 0.6rem;
-  font-weight: bold;
+  font-family: var(--ff-p);
+  font-size: 0.65rem;
+  font-weight: 500;
 
-  color: var(--dark-gray);
+  color: #808080;
   width: max-content;
 }
 
 .amount {
   font-size: 0.7rem;
   font-family: var(--ff-p);
-  color: var(--black);
+  color: black;
 
   font-weight: bold;
 

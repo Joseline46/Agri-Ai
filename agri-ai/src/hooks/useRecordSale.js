@@ -1,9 +1,8 @@
 import { useState } from 'react'
 
 // Context
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, getAuth, sendPasswordResetEmail } from 'firebase/auth'
 import { collection, deleteDoc, setDoc, onSnapshot, updateDoc, doc, arrayUnion } from "firebase/firestore"
-import { auth, db } from '@/firebase'
+import {  db } from '@/firebase'
 
 // Hooks
 import useValidation from './useValidation'
@@ -66,20 +65,22 @@ const useRecordSale = () => {
             const numberOfFieldsErrors = checkEmptyFields()
             if(numberOfFieldsErrors <= 0) {
                 setIsLoading(true)
-                let salesDocument = {...values}
+
+                let mm = new Date().getMonth()+1
+                let dd = new Date().getDate()
+                let yyyy = new Date().getFullYear()
+
+                let date = `${mm}/${dd}/${yyyy}`
+                let salesDocument = {...values, date}
                 let salesDocumentId = createRandomString(10)
+
                 setDoc(doc(db, 'sales', salesDocumentId), salesDocument)
-                .then(()=>{})
-                .catch((error)=> {
-                    setNotificationStatus({
-                        head: 'Add A New EXpense',
-                        meta: 'Unable to save the new expense item.',
-                        show: true,
-                        type: 'fail',
-                        message: error.code
-                    })
+                .then(()=>{
+                    setIsLoading(false)
                 })
-                setIsLoading(false)
+                .catch((error)=> {
+                    setIsLoading(false)
+                })
             }
         }
     }

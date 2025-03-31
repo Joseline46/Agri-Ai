@@ -9,7 +9,7 @@ import Header from '@/components/header/header'
 import AddUser from '@/components/addUser/addUser'
 import RecordSale from '@/components/recordSale/recordSale'
 import Calendar from '@/components/calendar/calendar'
-import Doughnut from "@/components/charts/doughnut/doughnut";
+import Doughnut from "@/components/charts/doughnut/doughnut"
 import GrainsTable from '@/components/tables/grains/grains'
 
 // Hooks
@@ -23,10 +23,9 @@ import { UserAuth } from '@/contexts/auth'
 import styles from '@/styles/dashboard.module.css'
 
 // Assets
-import { TrendingUp, TrendingDown, Wheat, Package, UserPlus, CirclePlus, Bean, Nut } from 'lucide-react' 
+import { TrendingUp, TrendingDown, Bean, Nut } from 'lucide-react' 
 
 import { PiGrainsBold } from "react-icons/pi"
-import { GiPeanut } from "react-icons/gi"
 
 const Consumed = (props) => {
     const [primaryColor, setPrimaryColor] = useState("");
@@ -192,7 +191,7 @@ const GrainLabel = (props)=> {
       setHasIncreased(calculatedDifference > 0);
       setDifference(Math.abs(calculatedDifference));
     }
-  }, [props.copyCategories, props.categories]);
+  }, [props.copyCategories, props.categories])
   
   useEffect(()=> {
     const isSelected = props.grain.transformedName===props.grainCategoryFilter
@@ -207,7 +206,7 @@ const GrainLabel = (props)=> {
       <section className={styles.labelAndAmount}>
         <p className={styles.label}>{props.grain.transformedName}</p>
         <section className={styles.amount}>
-          { props.categories[`${props.grain.unTransformedName}`] }
+          { props.categories[`${props.grain.unTransformedName}`] }Kg
           {/* {
             props.showComparativeStats?(
               hasIncreased===null?null:(
@@ -241,7 +240,7 @@ const Dashboard = ()=> {
 
   const [grainCategoryFilter, setGrainsCategoryFilter] = useState('all')
   const { setValues } = useRecordSale()
-  const { filteredGrainsData, grainCategories, copyGrainCategory, showComparativeStats, dateFilterValues, setDateFilterValues, handleChangeDateRange, handleChangeDateFilterValues, mapIcons, grainCategoriesColumnMaps } = useDashboard()
+  const { doughnutValues, filteredGrainsData, grainCategories, copyGrainCategory, showComparativeStats, dateFilterValues, setDateFilterValues, handleChangeDateRange, handleChangeDateFilterValues, mapIcons, grainCategoriesColumnMaps } = useDashboard()
 
   const recordGrainSale = (price, grainType)=> {
     setShowRecordSale((prevState)=>!prevState)
@@ -304,7 +303,7 @@ const Dashboard = ()=> {
             <Bean size={17} color='black' />
           </Card>  
           <Card recordGrainSale={recordGrainSale} cardName="Groundnuts" selectedTab="Groundnuts" currentValue={61} previousValue={53} target={100}>
-            <GiPeanut  size={20} color='black' />
+            <Nut  size={20} color='black' />
           </Card>
         </section>
 
@@ -316,12 +315,12 @@ const Dashboard = ()=> {
           </section>
           <section className={styles.doughnutAndLabelsContent}>
               <section className={styles.overview}>
-                <h2 className={styles.title} style={{  position: "relative", left: "152px", top: "91px"}}> Silos Overview </h2>
+                <h2 className={styles.title} style={{  position: "relative", left: "116px", top: "41px"}}> Silos Overview </h2>
                 <h1 className={styles.doughnut}>
-                  <span>416Kg Tonnes</span>
+                  <span>416Kg</span>
                   <span>Total Produce</span>
                 </h1>
-                <Doughnut values={[120, 231, 61]} />
+                <Doughnut values={doughnutValues} />
               </section>
 
               {/* Labels */}

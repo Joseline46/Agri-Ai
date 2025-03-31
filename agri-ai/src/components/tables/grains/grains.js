@@ -76,7 +76,7 @@ export default function ScrollableTable(props) {
                     recordsToUse.length > 0 && recordsToUse.map(expense => (
                         <tr key={expense.id}>
                             <td>{expense.date}</td>
-                            <td>{expense.quantity}</td>
+                            <td>{expense.quantity}Kg</td>
                             <td>{expense.consumerType}</td>
                         </tr>
                     ))

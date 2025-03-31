@@ -9,12 +9,12 @@ import { Chart } from 'chart.js/auto'
 
 
 const Pie = (props) => {
-  let defaultData = [0,0,0]
+  let defaultData = [0,0,0,0,0,0,0,0]
     const data = {
-      labels: ['Maize', 'Beans', 'Wheat'],
+      labels: ['Maize', 'Beans', 'Groundnuts', 'Wheat', 'Rice', 'Barley', 'Sorghum', 'Soybeans'],
         datasets: [{
           data: props.values?(props.values.length?props.values:defaultData):defaultData,
-          backgroundColor: ['#0058FF', '#4B10BF', '#21D59B'],
+          backgroundColor: ['#0058FF', '#4B10BF', '#21D59B', '#FFC700', '#F99600', '#5E17EB' , '#C817EB', '#EB17A4'],
           borderWidth:1,
           borderRadius: 5,
           hoverOffset: 4,
