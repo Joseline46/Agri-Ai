@@ -240,7 +240,8 @@ const GrainLabel = (props)=> {
 }
 
 const Dashboard = ()=> {
-  const { user, credentials } = UserAuth()
+  const { user, credentials, signout } = UserAuth()
+  console.log('credentials', credentials)
   const router = useRouter() 
   const [showAddUserForm, setShowAddUserForm] = useState(false)
   const [showRecordSale, setShowRecordSale] = useState(false)
@@ -266,7 +267,7 @@ const Dashboard = ()=> {
     return (
 
       <section className={styles.dashboard}>
-        <Sidebar />
+        <Sidebar setShowAddUserForm={setShowAddUserForm} signout={signout} credentials={credentials} />
         <section className={styles.component}>
           {
             showAddUserForm?<AddUser setShowAddUserForm={setShowAddUserForm}/>:null

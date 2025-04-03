@@ -17,7 +17,7 @@ const Sidebar = (props)=> {
                     <section className={styles.link}>
                         <Plus size={17} color='black' /> &nbsp;&nbsp;Register Farmer
                     </section>
-                    <section className={styles.link}>
+                    <section className={styles.link} onClick={()=>props.setShowAddUserForm((prevState)=>!prevState)}>
                         <UserRoundPlus size={17} color='black' /> &nbsp;&nbsp;Register User
                     </section>
                     <section className={styles.link}>
@@ -50,10 +50,10 @@ const Sidebar = (props)=> {
                     </section>
                     <section className={styles.credentials}>
                         <p className={styles.title}>Account User</p>
-                        <p className={styles.username}>stnganyani@gmail.com</p>
+                        <p className={styles.username}>{props.credentials.email}</p>
                     </section>
                 </section>
-                <button className={styles.signout} onClick={null}>
+                <button className={styles.signout} onClick={()=>props.signout()}>
                     <LogOut size={17} color='black' />&nbsp;Sign Out
                 </button>
             </section>

@@ -14,10 +14,10 @@ import useAddUser from '@/hooks/useAddUser'
 const AddUser = ((props) => {
   const { values, errors, isLoading, addUser, changeValues } = useAddUser()
   return (
-    <div className={styles.signInContainer} onClick={()=>props.setShowAddUserForm((prevState)=>!prevState)}>
+    <div className={styles.signInContainer}>
       <div className={styles.card}>
           <div className={styles.header}>
-            <h2 className={styles.logoText} onClick={()=>props.setShowAddUserForm((prevState)=>!prevState)}>Add User</h2>
+            <h2 className={styles.logoText}>Add User</h2>
             <p className={styles.subText}>Create a new user account with role permissions.</p>
           </div>
 
@@ -39,6 +39,9 @@ const AddUser = ((props) => {
             <Button click={addUser} disabled={isLoading}>
               {isLoading ? "Creating User..." : "Create User"}
             </Button>
+            <button className={styles.cancel} onClick={()=>props.setShowAddUserForm((prevState)=>!prevState)} disabled={isLoading}>
+              Cancel
+            </button>
           </section>
       </div>
     </div>

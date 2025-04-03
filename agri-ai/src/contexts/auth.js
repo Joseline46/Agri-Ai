@@ -84,12 +84,16 @@ export const AuthContextProvider = ({children})=> {
         })
     }
 
-    const logout = ()=> {
+    const signout = ()=> {
         signOut(auth)
     }
 
     useEffect(()=>{
         let subscribe = onAuthStateChanged(auth, (currentUser)=> {
+            if(currentUser){
+                const { email } = currentUser
+                setCredentials({...credentials, email:email})
+            }
             setUser(currentUser)
         })
         return subscribe
@@ -113,12 +117,11 @@ export const AuthContextProvider = ({children})=> {
     },[user])
 
     return (
-        <AuthContext.Provider value={{user, registering, credentials, updateUserPassword, notificationStatus, setNotificationStatus, accessAccount, forgotPassword, logout }}>
+        <AuthContext.Provider value={{user, registering, credentials, updateUserPassword, notificationStatus, setNotificationStatus, accessAccount, forgotPassword, signout }}>
             {children}
         </AuthContext.Provider>
     )
 }
-
 
 export const UserAuth = ()=> {
     return useContext(AuthContext)
