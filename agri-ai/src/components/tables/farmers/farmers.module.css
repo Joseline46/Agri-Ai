@@ -1,0 +1,193 @@
+/* Parent container */
+.component {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+  
+    height: 490px;
+  }
+  
+  .search {
+    height: 50px;
+    width: 100%;
+  
+    border: 1px solid #f0f0f0;
+    border-radius: 5px;
+    
+    display: flex;
+    align-items: center;
+    flex-flow: row nowrap;
+    gap: 10px;
+  
+    padding: 0 7px;
+  }
+  
+  .search input {
+    height: 45px;
+    width: calc(100% - 70px);
+  
+    border: none;
+    outline: none;
+  
+    font-family: var(--ff-p);
+    font-size: 0.65rem;
+    font-weight: 400;
+  
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .search input::placeholder {
+    color: #808080;
+  }
+  
+  .search:hover,
+  .search:focus {
+    border: 1px solid #e2e8f0;
+  }
+  
+  
+  .controls {
+    width: 90px;
+    height: 100%;
+  
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 8px;
+  
+    align-items: center;
+  }
+  
+  .circle {
+    height: 40px;
+    width: 40px;
+  
+    background: transparent;
+    border-radius: 50%;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  
+    transition: all 0.3s;
+  }
+  
+  .circle:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .tableContainer {
+    display: flex;
+    width: max-content;
+    height: 400px;
+    position: relative;
+  }
+    
+    /* Fixed Column - Doesn't Scroll */
+    .fixedColumnContainer {
+      flex: 0 0 150px;
+      background: white;
+      position: relative;
+      z-index: 2;
+      box-shadow: 1px 2px 3px #b9b2b2;
+      overflow-y: hidden; /* Prevent independent scrolling */
+      max-height: 400px;
+      border-radius: 5px 0 0 5px;
+    }
+    
+    .fixedColumnTable {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    /* Sticky Header for Fixed Column */
+    .fixedColumnTable thead th {
+      position: sticky;
+      top: 0;
+      background: #e5e7eb;
+      font-weight: bold;
+      z-index: 3; /* Higher than other elements */
+      padding-left: 5px;
+      border: 1px solid #ddd;
+      text-align: left;
+      font-family: var(--ff-p);
+      font-weight: 400;
+      font-size: 0.7rem;
+      color: #808080;
+      height: 40px; /* Ensure uniform height */
+    }
+    
+    /* Fixed Column Cells */
+    .fixedColumnTable td {
+      width: 100%;
+      padding-left: 5px;
+      border: 1px solid #ddd;
+      background: white;
+      text-align: left;
+      font-family: var(--ff-p);
+      font-weight: 400;
+      font-size: 0.65rem;
+      color: #808080;
+      height: 40px; /* Match row height */
+      box-sizing: border-box;
+    }
+    
+    /* Scrollable Table */
+    .scrollableWrapper {
+      overflow: auto;
+      width: 100%;
+      max-height: 450px;
+  
+      border-radius: 0 5px 5px 0;
+    }
+    
+    /* Scrollbar Sync */
+    .scrollableWrapper::-webkit-scrollbar {
+      height: 5px;
+    }
+    
+    .scrollableWrapper::-webkit-scrollbar-thumb {
+      background: #b9b2b2;
+      border-radius: 5px;
+    }
+    
+    .scrollableTable {
+      min-width: 600px;
+      border-collapse: collapse;
+    }
+    
+    /* Sticky Header for Scrollable Table */
+    .scrollableTable thead th {
+      background-color: #e5e7eb;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 2; /* Ensure it stays above table rows */
+      border: 1px solid #ddd;
+      text-align: left;
+      font-family: var(--ff-p);
+      font-weight: 400;
+      font-size: 0.65rem;
+      color: #808080;
+      height: 40px; /* Ensure uniform height */
+      padding-left: 5px;
+    }
+    
+    /* Scrollable Table Cells */
+    .scrollableTable td {
+      border: 1px solid #ddd;
+      text-align: left;
+      font-family: var(--ff-p);
+      font-weight: 400;
+      font-size: 0.65rem;
+      color: #808080;
+      height: 40px;
+      padding-left: 5px;
+    }
+    
+    /* Alternating row colors */
+    .scrollableTable tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    

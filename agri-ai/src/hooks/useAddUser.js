@@ -1,21 +1,41 @@
 import { useState } from 'react'
 
 // Context
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, getAuth, sendPasswordResetEmail } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from '@/firebase'
 
 // Hooks
 import useValidation from './useValidation'
 
+export const createRandomString = (length) => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
+// Context
+import { UserAuth } from '@/contexts/auth'
+
 const useAddUser = () => {
+    const { signout } = UserAuth()
     const [isLoading, setIsLoading] = useState(false)
     const [values, setValues] = useState({
         username: '',
-        role: '',
+        plants: '',
+        landsize: '',
+        arable: '',
+        region: '',
     })
     const [errors, setErrors] = useState({
         username: false,
-        role: false,
+        plants: false,
+        landsize: false,
+        arable: false,
+        region: false,
     })
     const [dateFilterValues, setDateFilterValues] = useState({ date: '' })
 
@@ -30,11 +50,17 @@ const useAddUser = () => {
     const reset = ()=> {
         setValues({
             username: '',
-            role: '',
+            plants: '',
+            landsize: '',
+            arable: '',
+            region: '',
         })
         setErrors({
             username: false,
-            role: false,
+            plants: false,
+            landsize: false,
+            arable: false,
+            region: false,
         })
         setNotificationStatus({
             show: false,
@@ -44,14 +70,43 @@ const useAddUser = () => {
         setIsLoading(false)
     }
 
-    const addUser = async ()=> {
+     const addUser = async ()=> {
         const numberOfErrors = checkErrors()
         if(numberOfErrors <= 0) {
             const numberOfFieldsErrors = checkEmptyFields()
             if(numberOfFieldsErrors <= 0) {
                 setIsLoading(true)
-                
-                setIsLoading(false)
+
+                let mm = new Date().getMonth()+1
+                let dd = new Date().getDate()
+                let yyyy = new Date().getFullYear()
+
+                let date = `${mm}/${dd}/${yyyy}`
+                let usersDocument = {...values, date}
+                let usersDocumentId = createRandomString(10)
+
+                const auth = getAuth();
+                createUserWithEmailAndPassword(auth, values.username, values.username)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+
+                    console.log('user', user)
+                    console.log('user.uid', user.uid)
+
+                    setDoc(doc(db, 'farmers', usersDocumentId), {...usersDocument, id:user.uid})
+                    .then(()=>{
+                        signout()
+                        setIsLoading(false)
+                    })
+                    .catch((error)=> {
+                        console.log('error-1', error)
+                        setIsLoading(false)
+                    })
+                })
+                .catch((error) => {
+                    console.log('error-2', error)
+                    setIsLoading(false)
+                });
             }
         }
     }

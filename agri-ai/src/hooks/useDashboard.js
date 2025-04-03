@@ -103,6 +103,8 @@ const useDashboard = ()=> {
     const [showComparativeStats, setShowComparativeStats] = useState(true)
     const [filteredGrainsData, setFilteredGrainsData] = useState([])
     const [grainsData, setGrainsData] = useState([])
+    const [farmersData, setFarmersData] = useState([])
+
     const [doughnutValues, setDoughnutValues] = useState([])
 
     const [dateFilterValues, setDateFilterValues] = useState({ 
@@ -235,6 +237,21 @@ const useDashboard = ()=> {
         })
     }, [])
 
+
+    // Fetch sales data in real time
+    useEffect(() => {
+        const farmersDocsRef = collection(db, "farmers")
+    
+        const unsubscribeProperty = onSnapshot(farmersDocsRef, (querySnapshot) => {
+            let records = []
+            querySnapshot.forEach((doc) => {
+            records.push(doc.data())
+            })
+    
+            setFarmersData(records)
+        })
+    }, [])
+
     // Filter sales data by date
     useEffect(()=> {
         if(grainsData.length){
@@ -270,7 +287,7 @@ const useDashboard = ()=> {
         setDoughnutValues([Maize, Beans, Groundnuts, Wheat, Rice, Barley, Sorghum, Soybeans])
     }, [filteredGrainsData])
 
-    return { doughnutValues, filteredGrainsData, grainCategories, copyGrainCategory, showComparativeStats, dateFilterValues, setDateFilterValues, handleChangeDateRange, handleChangeDateFilterValues, mapIcons, grainCategoriesColumnMaps }
+    return { farmersData, doughnutValues, filteredGrainsData, grainCategories, copyGrainCategory, showComparativeStats, dateFilterValues, setDateFilterValues, handleChangeDateRange, handleChangeDateFilterValues, mapIcons, grainCategoriesColumnMaps }
 }
 
 export default useDashboard

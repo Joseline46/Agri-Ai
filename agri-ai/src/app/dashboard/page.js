@@ -11,6 +11,7 @@ import RecordSale from '@/components/recordSale/recordSale'
 import Calendar from '@/components/calendar/calendar'
 import Doughnut from "@/components/charts/doughnut/doughnut"
 import GrainsTable from '@/components/tables/grains/grains'
+import FarmersTable from '@/components/tables/farmers/farmers'
 import Sidebar from '@/components/sidebar/sidebar'
 
 // Hooks
@@ -198,8 +199,6 @@ const GrainLabel = (props)=> {
     }
   }, [props.copyCategories, props.categories])
 
-  console.log('formatNumber(props.categories[`${props.grain.unTransformedName}`])', formatNumber(props.categories[`${props.grain.unTransformedName}`]))
-  
   useEffect(()=> {
     const isSelected = props.grain.transformedName===props.grainCategoryFilter
     setIsCategorySelected(isSelected)
@@ -248,7 +247,7 @@ const Dashboard = ()=> {
 
   const [grainCategoryFilter, setGrainsCategoryFilter] = useState('all')
   const { setValues } = useRecordSale()
-  const { doughnutValues, filteredGrainsData, grainCategories, copyGrainCategory, showComparativeStats, dateFilterValues, setDateFilterValues, handleChangeDateRange, handleChangeDateFilterValues, mapIcons, grainCategoriesColumnMaps } = useDashboard()
+  const { farmersData, doughnutValues, filteredGrainsData, grainCategories, copyGrainCategory, showComparativeStats, dateFilterValues, setDateFilterValues, handleChangeDateRange, handleChangeDateFilterValues, mapIcons, grainCategoriesColumnMaps } = useDashboard()
 
   const recordGrainSale = (price, grainType)=> {
     setShowRecordSale((prevState)=>!prevState)
@@ -347,6 +346,7 @@ const Dashboard = ()=> {
 
             </section>
             <GrainsTable setGrainsCategoryFilter={setGrainsCategoryFilter} grainCategoryFilter={grainCategoryFilter} grains={filteredGrainsData} />
+            <FarmersTable  farmersData={farmersData} />
           </section>
         </section>
       </section>
