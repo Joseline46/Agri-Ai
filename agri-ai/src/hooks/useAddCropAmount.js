@@ -19,8 +19,7 @@ export const createRandomString = (length) => {
 // Context
 import { UserAuth } from '@/contexts/auth'
 
-const useAddUser = (cropData) => {
-    const { signout } = UserAuth()
+const useAddCropAmount = (cropData, closeModal) => {
     const [isLoading, setIsLoading] = useState(false)
     const [values, setValues] = useState({
         amount: '',
@@ -67,11 +66,17 @@ const useAddUser = (cropData) => {
             const numberOfFieldsErrors = checkEmptyFields()
             if(numberOfFieldsErrors <= 0) {
                 setIsLoading(true)
-                const documentId = createRandomString(10)
                 let newAmount = parseFloat(cropData.amount) + parseFloat(values.amount)
-                updateDoc(doc(db, 'crops', documentId), {amount: newAmount})
+                console.log('newAmount', newAmount)
+                console.log(' parseFloat(cropData.amount)',  parseFloat(cropData.amount))
+                console.log('parseFloat(values.amount)',  parseFloat(values.amount))
+
+                updateDoc(doc(db, 'crops', cropData.name), {amount: newAmount})
                 .then(()=>{
                     setIsLoading(false)
+                    reset()
+                    closeModal()
+                    console.log('updated crop amount successfully')
                 }).catch((error)=> {
                     setIsLoading(false)
                 })
@@ -82,4 +87,4 @@ const useAddUser = (cropData) => {
     return { values, errors, isLoading, updateCropAmount, changeValues }
 }
  
-export default useAddUser
+export default useAddCropAmount

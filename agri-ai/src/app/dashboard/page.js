@@ -5,19 +5,16 @@ import { useRouter } from 'next/navigation'
 import { clsx } from 'clsx'
 
 // Components
-import Header from '@/components/header/header'
 import AddFarmer from '@/components/addUser/addUser'
 import AddCropAmount from '@/components/addCropAmount/addCropAmount'
 import RecordSale from '@/components/recordSale/recordSale'
 import Calendar from '@/components/calendar/calendar'
 import Doughnut from "@/components/charts/doughnut/doughnut"
 import GrainsTable from '@/components/tables/grains/grains'
-import FarmersTable from '@/components/tables/farmers/farmers'
 import Sidebar from '@/components/sidebar/sidebar'
 
 // Hooks
 import useDashboard from '@/hooks/useDashboard'
-import useRecordSale from '@/hooks/useRecordSale'
 
 // Context
 import { UserAuth } from '@/contexts/auth'
@@ -26,7 +23,7 @@ import { UserAuth } from '@/contexts/auth'
 import styles from '@/styles/dashboard.module.css'
 
 // Assets
-import { TrendingUp, TrendingDown, Bean, Wheat } from 'lucide-react' 
+import { TrendingUp, TrendingDown, Bean, Wheat, Plus } from 'lucide-react' 
 import { GiPeas  } from "react-icons/gi"
 
 import { PiGrainsBold } from "react-icons/pi"
@@ -82,79 +79,79 @@ const Consumed = (props) => {
     );
 }
   
-const Card = ({children, recordGrainSale, cardName, currentValue, previousValue, target, updateCropAmount}) => {
-    const [percentageIncrease, setPercentageIncrease] = useState(0);
-    const [hasIncreased, setHasIncreased] = useState(false);
-    const [difference, setDifference] = useState(0);
-  
-    useEffect(() => {
-      // Ensure values are valid numbers
-      let calculatedDifference = 0;
-      if (isNaN(previousValue) || isNaN(currentValue)) {
-        setPercentageIncrease(0);
-        setHasIncreased(false);
-        setDifference(0);
-        return;
+const Card = ({children, cardName, currentValue, previousValue, target, updateCropAmount}) => {
+  const [percentageIncrease, setPercentageIncrease] = useState(0);
+  const [hasIncreased, setHasIncreased] = useState(false);
+  const [difference, setDifference] = useState(0);
+
+  useEffect(() => {
+    // Ensure values are valid numbers
+    let calculatedDifference = 0;
+    if (isNaN(previousValue) || isNaN(currentValue)) {
+      setPercentageIncrease(0);
+      setHasIncreased(false);
+      setDifference(0);
+      return;
+    }
+
+      if(previousValue === currentValue) {
+      setPercentageIncrease(null);
+      setHasIncreased(null);
+      setDifference(null);
+    } else if (previousValue === 0) {
+      setPercentageIncrease(100)
+      
+      setHasIncreased(true);
+      setDifference(currentValue);
+    }  else {
+      calculatedDifference = currentValue - previousValue;
+      let percent = (calculatedDifference / previousValue) * 100;
+
+      // Round to nearest whole number
+      percent = Math.round(percent);
+
+      setPercentageIncrease(percent);
+      if(cardName.trim().toLowerCase()==='expenses'){
+        setHasIncreased(calculatedDifference < 0);
+      }else {
+        setHasIncreased(calculatedDifference > 0);
       }
-  
-       if(previousValue === currentValue) {
-        setPercentageIncrease(null);
-        setHasIncreased(null);
-        setDifference(null);
-      } else if (previousValue === 0) {
-        setPercentageIncrease(100)
-        
-        setHasIncreased(true);
-        setDifference(currentValue);
-      }  else {
-        calculatedDifference = currentValue - previousValue;
-        let percent = (calculatedDifference / previousValue) * 100;
-  
-        // Round to nearest whole number
-        percent = Math.round(percent);
-  
-        setPercentageIncrease(percent);
-        if(cardName.trim().toLowerCase()==='expenses'){
-          setHasIncreased(calculatedDifference < 0);
-        }else {
-          setHasIncreased(calculatedDifference > 0);
-        }
-        
-        setDifference(Math.abs(calculatedDifference));
-      }
-    }, [currentValue, previousValue]);
-  
-    return (
-      <section className={styles.card}  >
-        <section className={styles.icons} onClick={()=>updateCropAmount(cardName, currentValue)}>
-          {children}
-          <Consumed gained={currentValue} target={target} />
-        </section>
-        <p className={styles.h2}>{cardName}</p>
-        <section className={styles.comparisonH1}>
-          <p className={styles.h1} onClick={()=>recordGrainSale(4.3, cardName)}>{currentValue}</p>
-          
-        {
-            hasIncreased===null?null:(
-                <p className={styles.compared} style={{ color: hasIncreased ? "#217346" : "#EB173A" }}>
-                    {`${hasIncreased ? "+" : ""}${percentageIncrease}%`}
-                </p>
-            )
-        }
-  
-  
-        {
-            hasIncreased===null?null:(
-                <p className={styles.comparedValue} style={{ color: hasIncreased ? "#217346" : "#EB173A", }}>
-                    {hasIncreased ? ( <TrendingUp color="#217346" size={15} /> ) : ( <TrendingDown color="#EB173A" size={15} /> )}
-                    {difference} tonnes
-                </p>
-            )
-        }
-  
-        </section>
+      
+      setDifference(Math.abs(calculatedDifference));
+    }
+  }, [currentValue, previousValue]);
+
+  return (
+    <section className={styles.card} onClick={()=>updateCropAmount(cardName, currentValue)}>
+      <section className={styles.icons}>
+        <section className={styles.circle}>{children}</section>
+        <Consumed gained={currentValue} target={target} />
       </section>
-    );
+      <p className={styles.h2}>{cardName}</p>
+      <section className={styles.comparisonH1}>
+        <p className={styles.h1}>{currentValue} Kgs</p>
+        
+      {
+        hasIncreased===null?null:(
+          <p className={styles.compared} style={{ color: hasIncreased ? "#217346" : "#EB173A" }}>
+              {`${hasIncreased ? "+" : ""}${percentageIncrease}%`}
+          </p>
+        )
+      }
+
+
+      {
+        hasIncreased===null?null:(
+          <p className={styles.comparedValue} style={{ color: hasIncreased ? "#217346" : "#EB173A", }}>
+            {hasIncreased ? ( <TrendingUp color="#217346" size={15} /> ) : ( <TrendingDown color="#EB173A" size={15} /> )}
+            {difference} kgs
+          </p>
+        )
+      }
+
+      </section>
+    </section>
+  );
 }
 
 function formatNumber(number) {
@@ -169,36 +166,38 @@ const GrainLabel = (props)=> {
 
   useEffect(() => {
     // Ensure values are valid numbers
-    let calculatedDifference = 0;
-    let previousValue = props.copyCategories[`${props.grain.unTransformedName}`]
-    let currentValue = props.categories[`${props.grain.unTransformedName}`]
-    if (isNaN(previousValue) || isNaN(currentValue)) {
-      setPercentageIncrease(0);
-      setHasIncreased(false);
-      setDifference(0);
-      return;
+    if(props.stocks){
+      let calculatedDifference = 0;
+      let previousValue = props.copyCategories[`${props.grain.unTransformedName}`]
+      let currentValue = props.stocks[`${props.grain.unTransformedName}`]
+      if (isNaN(previousValue) || isNaN(currentValue)) {
+        setPercentageIncrease(0);
+        setHasIncreased(false);
+        setDifference(0);
+        return;
+      }
+
+      if(previousValue === currentValue) {
+        setPercentageIncrease(null);
+        setHasIncreased(null);
+        setDifference(null);
+      } else if(previousValue === 0) {
+        setPercentageIncrease(100);
+        setHasIncreased(true);
+        setDifference(currentValue);
+      } else {
+        calculatedDifference = currentValue - previousValue;
+        let percent = (calculatedDifference / previousValue) * 100;
+
+        // Round to nearest whole number
+        percent = Math.round(percent);
+
+        setPercentageIncrease(percent);
+        setHasIncreased(calculatedDifference > 0);
+        setDifference(Math.abs(calculatedDifference));
+      }
     }
-
-    if(previousValue === currentValue) {
-      setPercentageIncrease(null);
-      setHasIncreased(null);
-      setDifference(null);
-    } else if(previousValue === 0) {
-      setPercentageIncrease(100);
-      setHasIncreased(true);
-      setDifference(currentValue);
-    } else {
-      calculatedDifference = currentValue - previousValue;
-      let percent = (calculatedDifference / previousValue) * 100;
-
-      // Round to nearest whole number
-      percent = Math.round(percent);
-
-      setPercentageIncrease(percent);
-      setHasIncreased(calculatedDifference > 0);
-      setDifference(Math.abs(calculatedDifference));
-    }
-  }, [props.copyCategories, props.categories])
+  }, [props.copyCategories, props.stocks])
 
   useEffect(()=> {
     const isSelected = props.grain.transformedName===props.grainCategoryFilter
@@ -213,7 +212,7 @@ const GrainLabel = (props)=> {
       <section className={styles.labelAndAmount}>
         <p className={styles.label}>{props.grain.transformedName}</p>
         <section className={styles.amount}>
-          { formatNumber(props.categories[`${props.grain.unTransformedName}`]) }Kg
+          { props.stocks && formatNumber(props.stocks[`${props.grain.unTransformedName}`]) }Kg
           {/* {
             props.showComparativeStats?(
               hasIncreased===null?null:(
@@ -248,8 +247,8 @@ const Dashboard = ()=> {
   const [cropData, setCropData] = useState(null)
 
   const [grainCategoryFilter, setGrainsCategoryFilter] = useState('all')
-  const { setValues } = useRecordSale()
   const {
+    stocks,
     insertDoc, 
     farmersData, 
     doughnutValues, 
@@ -263,11 +262,8 @@ const Dashboard = ()=> {
     mapIcons, 
     grainCategoriesColumnMaps } = useDashboard()
 
-  const recordGrainSale = (price, grainType)=> {
+  const recordGrainSale = ()=> {
     setShowRecordSale((prevState)=>!prevState)
-    setValues((prevState)=>{
-      return {...prevState, price: price,  grainType:grainType}
-    })
   }
 
   useEffect(()=>{
@@ -303,45 +299,48 @@ const Dashboard = ()=> {
             </section>
 
             <section className={styles.corusel}>
-              <Card updateCropAmount={updateCropAmount} recordGrainSale={recordGrainSale} cardName="Maize" currentValue={120} previousValue={110} target={134}>
+              <Card updateCropAmount={updateCropAmount} cardName="Maize" currentValue={stocks?stocks['Maize'] : 0} previousValue={110} target={134}>
                 <PiGrainsBold size={20} color='#0058FF' />
               </Card>
-              <Card updateCropAmount={updateCropAmount} recordGrainSale={recordGrainSale} cardName="Beans" currentValue={231} previousValue={110} target={200}>
+              <Card updateCropAmount={updateCropAmount} cardName="Beans" currentValue={stocks?stocks['Beans'] : 0} previousValue={110} target={200}>
                 <Bean size={17} color='#4B10BF' />
               </Card>  
-              <Card updateCropAmount={updateCropAmount} recordGrainSale={recordGrainSale} cardName="Wheat" currentValue={61} previousValue={53} target={100}>
+              <Card updateCropAmount={updateCropAmount} cardName="Wheat" currentValue={stocks?stocks['Wheat'] : 0} previousValue={53} target={100}>
                 <Wheat  size={20} color='#FFC700' />
               </Card>
-               <Card updateCropAmount={updateCropAmount} recordGrainSale={recordGrainSale} cardName="Soybeans" currentValue={61} previousValue={53} target={100}>
+               <Card updateCropAmount={updateCropAmount} cardName="Soybeans" currentValue={stocks?stocks['Soybeans'] : 0} previousValue={53} target={100}>
                 <GiPeas  size={20} color='#EB17A4' />
               </Card>
             </section>
 
             <section className={styles.section}>
               <section className={styles.sectionHeader}>
+                <section className={styles.recordSale} onClick={()=>recordGrainSale(4.3, 'Maize')}>
+                  <Plus size={20} color='#ffffff' /> 
+                  <p>Record Sale</p>
+                </section>
                 <section className={styles.calendar}>
                   <Calendar setDateFilterValues={setDateFilterValues} handleChangeDateRange={handleChangeDateRange} dateFilterValues={dateFilterValues} handleChangeDateFilterValues={handleChangeDateFilterValues} />
                 </section>
               </section>
               <section className={styles.doughnutAndLabelsContent}>
-                  <section className={styles.overview}>
-                    <h1 className={styles.doughnut}>
-                      <span>416Kg</span>
-                    </h1>
-                    <Doughnut values={[261, 45, 61, 67]} />
-                  </section>
+                <section className={styles.overview}>
+                  <h1 className={styles.doughnut}>
+                    <span>416Kg</span>
+                  </h1>
+                  <Doughnut values={[261, 45, 61, 67]} />
+                </section>
 
-                  {/* Labels */}
-                  <section className={styles.labels}>
-                    {
-                      grainCategoriesColumnMaps.map((grain, index)=> {
-                        return (
-                          <GrainLabel  mapIcons={mapIcons} grainCategoryFilter={grainCategoryFilter} setGrainsCategoryFilter={setGrainsCategoryFilter} key={index} copyCategories={copyGrainCategory} categories={grainCategories} grain={grain} />
-                        )
-                      })
-                    }
-                  </section>
-
+                {/* Labels */}
+                <section className={styles.labels}>
+                  {
+                    grainCategoriesColumnMaps.map((grain, index)=> {
+                      return (
+                        <GrainLabel  stocks={stocks} mapIcons={mapIcons} grainCategoryFilter={grainCategoryFilter} setGrainsCategoryFilter={setGrainsCategoryFilter} key={index} copyCategories={copyGrainCategory} categories={grainCategories} grain={grain} />
+                      )
+                    })
+                  }
+                </section>
               </section>
 
               <p className={styles.headerText}>Grains Inventory</p>

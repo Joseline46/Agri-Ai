@@ -18,9 +18,13 @@
   background-color: transparent;
 
   color: #020817;
-  transition: all .4s;
+  transition: all .2s;
 
   margin-top: 0.5rem;
+}
+
+.cancel:active {
+  transform: scale(0.98);
 }
 
 .signInContainer {

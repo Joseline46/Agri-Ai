@@ -15,7 +15,7 @@ import styles from './addCropAmount.module.css'
 import useAddCropAmount from '@/hooks/useAddCropAmount'
 
 const AddCropAmount = ((props) => {
-  const { values, errors, isLoading, updateCropAmount, changeValues } = useAddCropAmount(props.cropData)
+  const { values, errors, isLoading, updateCropAmount, changeValues } = useAddCropAmount(props.cropData, props.closeUpdateCropAmount)
   return (
     <div className={styles.signInContainer}>
       <div className={styles.card}>

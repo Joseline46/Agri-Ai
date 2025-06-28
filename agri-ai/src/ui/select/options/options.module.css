@@ -1,0 +1,30 @@
+.component {
+    position: relative;
+    
+    height: 40px;
+    width: 97%;
+
+    padding: 0 10px 0 10px;
+    transition: all 0.1s ease-in-out;
+    border-radius: 5px 5px;
+    
+    font-weight: 400;
+    font-size: var(--fs-7);
+    font-family: var(--ff-p);
+
+    background-color: white;
+
+    color: var(--dark-gray);
+    text-overflow: ellipsis;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.component:hover {
+    cursor: pointer;
+    color: #020817;
+
+    background-color: white;
+}

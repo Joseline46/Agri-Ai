@@ -20,7 +20,7 @@ export const createRandomString = (length) => {
 // Context
 import { UserAuth } from '@/contexts/auth'
 
-const useAddUser = () => {
+const useAddUser = (closeModal) => {
     const { signout } = UserAuth()
     const [isLoading, setIsLoading] = useState(false)
     const [values, setValues] = useState({
@@ -97,6 +97,7 @@ const useAddUser = () => {
                     .then(()=>{
                         signout()
                         setIsLoading(false)
+                        closeModal()
                     })
                     .catch((error)=> {
                         console.log('error-1', error)

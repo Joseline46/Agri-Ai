@@ -190,6 +190,49 @@
     color: #808080;
 }
 
+.circle {
+  height: 40px;
+  width: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition: all 0.2s;
+
+  border-radius: 50%;
+  background-color: #f0f0f0;
+}
+
+.recordSale {
+  height: 45px;
+  width: 200px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  cursor: pointer;
+
+  border-radius: 7px;
+  background-color: green;
+}
+
+.recordSale > p {
+  font-family: var(--ff-p);
+  font-size: 0.7rem;
+
+  color: white;
+}
+
+.recordSale:active,
+.circle:active {
+  transform: scale(0.98);
+}
+
 .compared,
 .comparedValue {
     display: flex;
@@ -298,6 +341,7 @@
   margin-top: 30px;
 
   display: flex;
+  justify-content: space-between;
 }
 
 .labels {

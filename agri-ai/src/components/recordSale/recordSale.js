@@ -3,8 +3,8 @@
 // Components
 import Button from "@/ui/button/button"
 import Input  from "@/ui/input/input"
-
-import { AudioWaveform, PersonStanding, HandCoins, Torus  } from 'lucide-react' 
+import Select from "@/ui/select/select"
+import { AudioWaveform, PersonStanding, HandCoins  } from 'lucide-react' 
 
 import { PiGrainsBold } from "react-icons/pi"
 
@@ -15,7 +15,18 @@ import styles from './recordSale.module.css'
 import useRecordSale from '@/hooks/useRecordSale'
 
 const RecordSale = ((props) => {
-  const { values, setValues, errors, isLoading, recordSale, changeValues } = useRecordSale()
+  const { 
+    optionsValues, 
+    setOptionsValues, 
+    listItem, 
+    values, 
+    setErrors, 
+    setValues, 
+    errors, 
+    isLoading, 
+    recordSale, 
+    changeValues } = useRecordSale()
+
   return (
     <div className={styles.signInContainer}>
       <div className={styles.card}>
@@ -28,16 +39,52 @@ const RecordSale = ((props) => {
             <div className={styles.inputGroup}>
               <div className={styles.inputField}>
                 <div className={styles.inputWrapper}>
-                  <Input label='Grain Type' errorMessage='Grain type is required' placeholder='Maize' name='grainType' type='text' value={values.grainType} error={errors.grainType} change={changeValues}>
-                    <PiGrainsBold size={20} color='black' />
-                  </Input>
+                  <Select 
+                    id='grainType'
+                    notification={null} 
+                    label='Grain Type' 
+                    errorMessage='Grain type is required'
+                    placeholder='Maize' 
+                    name='grainType' 
+                    type='text' 
+                    value={values.grainType} 
+                    error={errors.grainType} 
+                    change={changeValues}
+
+                    list={listItem.grainType}  
+                    values={values} 
+                    setValue={setValues} 
+                    errors={errors} 
+                    setError={setErrors}
+                    optionsValues={optionsValues}
+                    setOptionsValues={setOptionsValues}>
+                    <PiGrainsBold color='#808080' size={17} />
+                  </Select>
                 </div>
               </div>
 
               <div className={styles.inputField}>
-                <Input label='Consumer Type' errorMessage='Consumer type is required' placeholder='Livestock/Human' name='consumerType' type='text' value={values.consumerType} error={errors.consumerType} change={changeValues}>
-                  <PersonStanding size={20} color='black' />
-                </Input>
+                <Select 
+                  id='consumerType'
+                  notification={null} 
+                  label='Consumer Type' 
+                  errorMessage='Consumer Type is required'
+                  placeholder='Livestock/Human' 
+                  name='consumerType' 
+                  type='text' 
+                  value={values.consumerType} 
+                  error={errors.consumerType} 
+                  change={changeValues}
+
+                  list={listItem.consumerType}  
+                  values={values} 
+                  setValue={setValues} 
+                  errors={errors} 
+                  setError={setErrors}
+                  optionsValues={optionsValues}
+                  setOptionsValues={setOptionsValues}>
+                  <PersonStanding color='#808080' size={17} />
+                </Select>
               </div>
 
               <div className={styles.inputField}>
@@ -50,7 +97,7 @@ const RecordSale = ((props) => {
 
               <div className={styles.inputField}>
                 <div className={styles.inputWrapper}>
-                  <Input label='Price' errorMessage='Price is required' placeholder='25' name='price' type='text' value={values.price} error={errors.price} change={changeValues}>
+                  <Input label='Price' errorMessage='Price is required' disabled placeholder='25' name='price' type='text' value={values.price} error={errors.price} change={changeValues}>
                     <HandCoins size={20} color='black' />
                   </Input>
                 </div>

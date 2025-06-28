@@ -12,7 +12,7 @@ import styles from './addUser.module.css'
 import useAddUser from '@/hooks/useAddUser'
 
 const AddUser = ((props) => {
-  const { values, errors, isLoading, addUser, changeValues } = useAddUser()
+  const { values, errors, isLoading, addUser, changeValues } = useAddUser(props.setShowAddUserForm)
   return (
     <div className={styles.signInContainer}>
       <div className={styles.card}>

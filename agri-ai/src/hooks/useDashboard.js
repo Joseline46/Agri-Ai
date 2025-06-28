@@ -56,8 +56,7 @@ export const createRandomString = (length) => {
 }
 
 const insertDoc = ()=> {
-    let usersDocumentId = createRandomString(10)
-    setDoc(doc(db, 'crops', usersDocumentId), {name: 'Soybeans', amount: 0})
+    setDoc(doc(db, 'crops', 'Wheat'), {name: 'Wheat', amount: 0})
     .then(()=>{
         console.log('we are done')
     })
@@ -101,6 +100,7 @@ function formatNumber(number) {
 const grainsTypes = ['Maize', 'Beans', 'Wheat', 'Soybeans']
   
 const useDashboard = ()=> {
+    const [stocks, setStocks] = useState(null)
     const [filteredGrainsData, setFilteredGrainsData] = useState([])
     const [grainsData, setGrainsData] = useState([])
     const [farmersData, setFarmersData] = useState([])
@@ -111,6 +111,7 @@ const useDashboard = ()=> {
         from: '',
         to: ''
     })
+    
     const [copyGrainCategory, setCopyGrainCategory] = useState({
         Maize: 0,
         Beans: 0,
@@ -240,6 +241,23 @@ const useDashboard = ()=> {
         })
     }, [])
 
+    // Fetch crops stocks data in real time
+    useEffect(() => {
+        const cropsDocsRef = collection(db, "crops")
+    
+        const unsubscribeProperty = onSnapshot(cropsDocsRef, (querySnapshot) => {
+            let records = []
+            querySnapshot.forEach((doc) => {
+                records.push(doc.data())
+            })
+            let obj = {}
+            records.map((record)=> {
+                obj = {...obj, [record.name]: record.amount}
+            })
+            setStocks(obj)
+        })
+    }, [])
+
     // Filter sales data by date
     useEffect(()=> {
         if(grainsData.length){
@@ -272,6 +290,7 @@ const useDashboard = ()=> {
     }, [filteredGrainsData])
 
     return { 
+        stocks,
         insertDoc,
         farmersData, 
         doughnutValues, 

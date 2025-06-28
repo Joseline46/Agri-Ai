@@ -73,6 +73,11 @@
     font-family: var(--ff-p);
 }
 
+.link:active,
+.signout:active {
+  transform: scale(0.98);
+}
+
 .link:hover {
     background-color: #f0f0f0;
 }

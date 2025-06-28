@@ -1,8 +1,6 @@
-import { useState } from 'react'
-
-// Context
-import { collection, deleteDoc, setDoc, onSnapshot, updateDoc, doc, arrayUnion } from "firebase/firestore"
-import {  db } from '@/firebase'
+import { useEffect, useState } from 'react'
+import { collection, setDoc, onSnapshot, updateDoc, doc, arrayUnion } from "firebase/firestore"
+import {db} from '@/firebase'
 
 // Hooks
 import useValidation from './useValidation'
@@ -18,9 +16,10 @@ export const createRandomString = (length) => {
 
 const useRecordSale = () => {
     const [isLoading, setIsLoading] = useState(false)
+    const [stocks, setStocks] = useState(null)
     const [values, setValues] = useState({
         grainType: '',
-        consumerType: '',
+        consumerType: 'Human',
         quantity: '',
         price: '',
     })
@@ -35,6 +34,52 @@ const useRecordSale = () => {
         message:'',
         type:'success'
     })
+
+    const [optionsValues, setOptionsValues] = useState({
+        grainType: '',
+        consumerType: ''
+    })
+
+    const listItem = {
+        grainType: [
+            { name: 'Maize', code: 'Maize' },
+            { name: 'Wheat', code: 'Wheat' },
+            { name: 'Soybeans', code: 'Soybeans' },
+            { name: 'Beans', code: 'Beans' },
+        ],
+        consumerType: [
+            { name: 'Human', code: 'Human' },
+            { name: 'Livestock', code: 'Livestock' },
+        ]
+    }
+
+     // Fetch crops stocks data in real time
+        useEffect(() => {
+            const cropsDocsRef = collection(db, "crops")
+        
+            const unsubscribeProperty = onSnapshot(cropsDocsRef, (querySnapshot) => {
+                let records = []
+                querySnapshot.forEach((doc) => {
+                    records.push(doc.data())
+                })
+                setStocks(records)
+            })
+        }, [])
+
+    useEffect(()=> {
+        if(stocks) {
+            if(values.grainType !==''){
+                let stock = stocks.find((stock)=> stock.name.trim().toLowerCase() === values.grainType.trim().toLowerCase())
+                setValues((prevState)=>{
+                    return {
+                        ...prevState,
+                        price: stock ? stock.price : 0,
+                    }
+                })
+            }
+        }
+    }, [stocks, values.grainType])
+
     const { changeValues, checkEmptyFields, checkErrors } = useValidation(values, errors, setValues, setErrors, setNotificationStatus)
 
     // Reset to defaults
@@ -84,7 +129,18 @@ const useRecordSale = () => {
             }
         }
     }
-    return { values, setValues, errors, isLoading, recordSale, changeValues }
+
+    return { 
+        optionsValues, 
+        setOptionsValues, 
+        listItem, 
+        values, 
+        setErrors, 
+        setValues, 
+        errors, 
+        isLoading, 
+        recordSale, 
+        changeValues }
 }
  
 export default useRecordSale
