@@ -40,12 +40,12 @@
     height: 150px;
 
     backdrop-filter: blur(10px);
-    background-color: rgba(255, 255, 255, 0.7);
-    border-bottom: 1px solid rgba(229, 231, 235, 0.3);
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid #f0f0f0;
 
     padding: 0 20px 0 20px;
 
-    margin-bottom: 2rem;
+    margin-bottom: 30px;
 
     display: flex;
     flex-flow: row nowrap;
@@ -130,37 +130,37 @@
 }
 
 .corusel {
-    width: 100%;
+  width: 100%;
 
-    overflow: hidden;
-    overflow-x: hidden;
+  overflow: hidden;
+  overflow-x: hidden;
 
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 10px;
 
-    padding: 0 20px 10px 20px;
+  padding: 10px;
 }
 
 .card {
-    width: 262px;
-    min-width: 240px;
-    min-height: 130px;
-    height: 130px;
+  width: 262px;
+  min-width: 240px;
+  min-height: 130px;
+  height: 130px;
 
-    border: 1px solid #e2e8f0;
-    border-radius: 7px;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
 
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: flex-end;
-    gap: 5px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  gap: 5px;
 
-    cursor: pointer;
-    
-    padding: 10px 10px 5px;
-    transition: all .4s;
+  cursor: pointer;
+  
+  padding: 10px 10px 5px;
+  transition: all .4s;
 }
 
 .icons {
@@ -186,14 +186,6 @@
     font-size: 0.7rem;
     font-family: var(--ff-js);
     font-weight: 550;
-
-    color: #808080;
-}
-
-.h3 {
-    font-size: .65rem;
-    font-weight: 550;
-    font-family: var(--ff-p);
 
     color: #808080;
 }
@@ -243,87 +235,94 @@
 }
 
 .faint {
-    width: 80px;
-    height: 4px;
+  width: 80px;
+  height: 4px;
 
-    border-radius: 10px;
-    background-color: #98fb98;
+  border-radius: 10px;
+  background-color: #98fb98;
 
-    position: relative;
+  position: relative;
 }
 
 .fluid {
-    height: 100%;
-    width: 38%;
+  height: 100%;
+  width: 38%;
 
-    background-color: #0bda51;
-    border-radius: 10px;
+  background-color: #0bda51;
+  border-radius: 10px;
 
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
 }
 
 .calendar {
-    width: 350px;
+  width: 350px;
+}
+
+.headerText {
+  font-size: 0.8rem;
+  font-family: var(--ff-p);
+  font-weight: 450;
+
+  color: black;
+
+  margin: 100px 0 10px 0;
 }
 
 .section {
-    display: flex;
-    align-items: flex-start;
-    flex-flow: column wrap;
-    gap: 0;
+  display: flex;
+  align-items: flex-start;
+  flex-flow: column wrap;
+  gap: 0;
 
-    width: 100%;
-    height: max-content;
-    min-width: 630px;
+  width: 100%;
+  height: max-content;
+  min-width: 630px;
 
-    border: 1px solid #F0F0F0;
-    border-radius: 5px;
+  border: 1px solid #F0F0F0;
+  border-radius: 5px;
 
-    padding: 0 10px 10px;
-    position: relative;
+  padding: 0 10px 10px;
+  position: relative;
 
-    margin: 50px 20px 10px;
+  margin-top: 30px;
 
-    padding: 20px 10px;
+  padding: 10px;
 }
 
 .sectionHeader {
-    height: 60px;
-    width: 100%;
+  height: 60px;
+  width: 100%;
+  margin-top: 30px;
 
-    display: flex;
+  display: flex;
 }
 
 .labels {
-    height: max-content;
+  height: max-content;
 
-    display: flex;
-    flex-flow: wrap;
-    justify-content: flex-start;
-    align-items: center;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: flex-start;
+  align-items: center;
 
-    gap: 5px;
+  gap: 5px;
 
-    min-width: 700px;
-    width: 700px;
-  }
+  width: 100%;
+}
 
 .doughnutAndLabelsContent {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    /* justify-content: space-between; */
-    gap: 45px;
-  
-    width: 100%;
-    height: max-content;
-  
-    overflow-x: scroll;
-    overflow-y: hidden;
-  
+  display: flex;
+  flex-flow: column;
+  gap: 45px;
+
+  width: 100%;
+  height: max-content;
+
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 .overview {
@@ -400,7 +399,6 @@
   position: relative;
   left: 17px;
 }
-
 
 .category,
 .selectedCategory {

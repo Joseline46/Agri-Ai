@@ -25,7 +25,7 @@ import { UserAuth } from '@/contexts/auth'
 import styles from '@/styles/dashboard.module.css'
 
 // Assets
-import { TrendingUp, TrendingDown, Bean, Nut } from 'lucide-react' 
+import { TrendingUp, TrendingDown, Bean, Nut  } from 'lucide-react' 
 
 import { PiGrainsBold } from "react-icons/pi"
 
@@ -151,7 +151,6 @@ const Card = ({children, recordGrainSale, selectedTab='Maize', cardName, current
         }
   
         </section>
-        <p className={styles.h3}>Total amount of produce</p>
       </section>
     );
 }
@@ -240,7 +239,6 @@ const GrainLabel = (props)=> {
 
 const Dashboard = ()=> {
   const { user, credentials, signout } = UserAuth()
-  console.log('credentials', credentials)
   const router = useRouter() 
   const [showAddUserForm, setShowAddUserForm] = useState(false)
   const [showRecordSale, setShowRecordSale] = useState(false)
@@ -264,92 +262,68 @@ const Dashboard = ()=> {
 
   if(user){
     return (
-
-      <section className={styles.dashboard}>
-        <Sidebar setShowAddUserForm={setShowAddUserForm} signout={signout} credentials={credentials} />
-        <section className={styles.component}>
-          {
-            showAddUserForm?<AddUser setShowAddUserForm={setShowAddUserForm}/>:null
-          }
-          {
-            showRecordSale?<RecordSale setShowRecordSale={setShowRecordSale}/>:null
-          }
-          {/* <section className={styles.nav}>
-            <section className={styles.roof}>
-              <p className={styles.logo}>Agri-Ai</p>
-            </section>
-            <section className={styles.floor}>
-              <ul className={styles.ul}>
-              <li className={styles.selectedLink}>Dashboard</li>
-                <li className={styles.link}>Farmers</li>
-                <li className={styles.link}>Employees</li>
-                <li className={styles.link}>Reports</li>
-                <li className={styles.link}>About</li>
-              </ul>
-            </section>
-          </section> */}
-          <section className={styles.header}>
-            <section className={styles.dashboardTitle}>
-              <p className={styles.logoText}>Dashboard</p>
-              <p className={styles.inventoryOverview}>Inventory overview</p>
-            </section>
-              {/* <section className={styles.controls}>
-                <button className={styles.addUser} onClick={()=>setShowAddUserForm((prevState)=>!prevState)}>
-                  <UserPlus size={17} color='#020817' />
-                  <p>Add User</p>
-                </button>
-                <button className={styles.addSale}>
-                  <CirclePlus size={17} color='#ffffff' />
-                  <p>Record Sale</p>
-                </button>
-              </section> */}
-          </section>
-
-          <section className={styles.corusel}>
-            <Card recordGrainSale={recordGrainSale} cardName="Maize" selectedTab="Maize" currentValue={120} previousValue={110} target={134}>
-              <PiGrainsBold size={20} color='black' />
-            </Card>
-            <Card recordGrainSale={recordGrainSale} cardName="Beans" selectedTab="Beans" currentValue={231} previousValue={110} target={200}>
-              <Bean size={17} color='black' />
-            </Card>  
-            <Card recordGrainSale={recordGrainSale} cardName="Groundnuts" selectedTab="Groundnuts" currentValue={61} previousValue={53} target={100}>
-              <Nut  size={20} color='black' />
-            </Card>
-          </section>
-
-          <section className={styles.section}>
-            <section className={styles.sectionHeader}>
-              <section className={styles.calendar}>
-                <Calendar setDateFilterValues={setDateFilterValues} handleChangeDateRange={handleChangeDateRange} dateFilterValues={dateFilterValues} handleChangeDateFilterValues={handleChangeDateFilterValues} />
+      <>
+        <section className={styles.dashboard}>
+          <Sidebar setShowAddUserForm={setShowAddUserForm} signout={signout} credentials={credentials} />
+          <section className={styles.component}>
+            { showAddUserForm && <AddUser setShowAddUserForm={setShowAddUserForm}/> }
+            { showRecordSale && <RecordSale setShowRecordSale={setShowRecordSale}/> }
+            <section className={styles.header}>
+              <section className={styles.dashboardTitle}>
+                <p className={styles.logoText}>Dashboard</p>
               </section>
             </section>
-            <section className={styles.doughnutAndLabelsContent}>
-                <section className={styles.overview}>
-                  <h2 className={styles.title} style={{  position: "relative", left: "174px", top: "103px"}}> Silos Overview </h2>
-                  <h1 className={styles.doughnut}>
-                    <span>416Kg</span>
-                    <span>Total Produce</span>
-                  </h1>
-                  <Doughnut values={doughnutValues} />
-                </section>
 
-                {/* Labels */}
-                <section className={styles.labels}>
-                  {
-                    grainCategoriesColumnMaps.map((grain, index)=> {
-                      return (
-                        <GrainLabel  mapIcons={mapIcons} grainCategoryFilter={grainCategoryFilter} setGrainsCategoryFilter={setGrainsCategoryFilter} showComparativeStats={showComparativeStats} key={index} copyCategories={copyGrainCategory} categories={grainCategories} grain={grain} />
-                      )
-                    })
-                  }
-                </section>
-
+            <section className={styles.corusel}>
+              <Card recordGrainSale={recordGrainSale} cardName="Maize" selectedTab="Maize" currentValue={120} previousValue={110} target={134}>
+                <PiGrainsBold size={20} color='black' />
+              </Card>
+              <Card recordGrainSale={recordGrainSale} cardName="Beans" selectedTab="Beans" currentValue={231} previousValue={110} target={200}>
+                <Bean size={17} color='black' />
+              </Card>  
+              <Card recordGrainSale={recordGrainSale} cardName="Groundnuts" selectedTab="Groundnuts" currentValue={61} previousValue={53} target={100}>
+                <Nut  size={20} color='black' />
+              </Card>
             </section>
-            <GrainsTable setGrainsCategoryFilter={setGrainsCategoryFilter} grainCategoryFilter={grainCategoryFilter} grains={filteredGrainsData} />
-            <FarmersTable  farmersData={farmersData} />
+
+            <section className={styles.section}>
+              <section className={styles.sectionHeader}>
+                <section className={styles.calendar}>
+                  <Calendar setDateFilterValues={setDateFilterValues} handleChangeDateRange={handleChangeDateRange} dateFilterValues={dateFilterValues} handleChangeDateFilterValues={handleChangeDateFilterValues} />
+                </section>
+              </section>
+              <section className={styles.doughnutAndLabelsContent}>
+                  <section className={styles.overview}>
+                    <h2 className={styles.title} style={{  position: "relative", left: "174px", top: "103px"}}> Silos Overview </h2>
+                    <h1 className={styles.doughnut}>
+                      <span>416Kg</span>
+                      <span>Total Produce</span>
+                    </h1>
+                    <Doughnut values={doughnutValues} />
+                  </section>
+
+                  {/* Labels */}
+                  <section className={styles.labels}>
+                    {
+                      grainCategoriesColumnMaps.map((grain, index)=> {
+                        return (
+                          <GrainLabel  mapIcons={mapIcons} grainCategoryFilter={grainCategoryFilter} setGrainsCategoryFilter={setGrainsCategoryFilter} showComparativeStats={showComparativeStats} key={index} copyCategories={copyGrainCategory} categories={grainCategories} grain={grain} />
+                        )
+                      })
+                    }
+                  </section>
+
+              </section>
+
+              <p className={styles.headerText}>Grains Inventory</p>
+              <GrainsTable setGrainsCategoryFilter={setGrainsCategoryFilter} grainCategoryFilter={grainCategoryFilter} grains={filteredGrainsData} />
+              
+              {/* <p className={styles.headerText}>Farmers</p>
+              <FarmersTable  farmersData={farmersData} /> */}
+            </section>
           </section>
         </section>
-      </section>
+      </>
     )
   }
 }

@@ -14,10 +14,10 @@ const Sidebar = (props)=> {
             <section className={styles.nav}>
                 <p className={styles.smText}>Quick Links</p>
                 <section className={styles.navLinks}>
-                    <section className={styles.link}>
+                    <section className={styles.link} onClick={()=>props.setShowAddUserForm((prevState)=>!prevState)}>
                         <Plus size={17} color='black' /> &nbsp;&nbsp;Register Farmer
                     </section>
-                    <section className={styles.link} onClick={()=>props.setShowAddUserForm((prevState)=>!prevState)}>
+                    <section className={styles.link}>
                         <UserRoundPlus size={17} color='black' /> &nbsp;&nbsp;Register User
                     </section>
                     <section className={styles.link}>
