@@ -6,7 +6,8 @@ import { clsx } from 'clsx'
 
 // Components
 import Header from '@/components/header/header'
-import AddUser from '@/components/addUser/addUser'
+import AddFarmer from '@/components/addUser/addUser'
+import AddCropAmount from '@/components/addCropAmount/addCropAmount'
 import RecordSale from '@/components/recordSale/recordSale'
 import Calendar from '@/components/calendar/calendar'
 import Doughnut from "@/components/charts/doughnut/doughnut"
@@ -25,7 +26,8 @@ import { UserAuth } from '@/contexts/auth'
 import styles from '@/styles/dashboard.module.css'
 
 // Assets
-import { TrendingUp, TrendingDown, Bean, Nut  } from 'lucide-react' 
+import { TrendingUp, TrendingDown, Bean, Wheat } from 'lucide-react' 
+import { GiPeas  } from "react-icons/gi"
 
 import { PiGrainsBold } from "react-icons/pi"
 
@@ -80,7 +82,7 @@ const Consumed = (props) => {
     );
 }
   
-const Card = ({children, recordGrainSale, selectedTab='Maize', cardName, currentValue, previousValue, target}) => {
+const Card = ({children, recordGrainSale, cardName, currentValue, previousValue, target, updateCropAmount}) => {
     const [percentageIncrease, setPercentageIncrease] = useState(0);
     const [hasIncreased, setHasIncreased] = useState(false);
     const [difference, setDifference] = useState(0);
@@ -123,14 +125,14 @@ const Card = ({children, recordGrainSale, selectedTab='Maize', cardName, current
     }, [currentValue, previousValue]);
   
     return (
-      <section className={styles.card} style={{ backgroundColor: selectedTab.trim().toLowerCase() === cardName.trim().toLowerCase() ? "beige" : "transparent", }} onClick={()=>recordGrainSale(4.3, cardName)}>
-        <section className={styles.icons}>
+      <section className={styles.card}  >
+        <section className={styles.icons} onClick={()=>updateCropAmount(cardName, currentValue)}>
           {children}
           <Consumed gained={currentValue} target={target} />
         </section>
         <p className={styles.h2}>{cardName}</p>
         <section className={styles.comparisonH1}>
-          <p className={styles.h1}>{currentValue}</p>
+          <p className={styles.h1} onClick={()=>recordGrainSale(4.3, cardName)}>{currentValue}</p>
           
         {
             hasIncreased===null?null:(
@@ -242,10 +244,24 @@ const Dashboard = ()=> {
   const router = useRouter() 
   const [showAddUserForm, setShowAddUserForm] = useState(false)
   const [showRecordSale, setShowRecordSale] = useState(false)
+  const [showAddCropAmountForm, setShowAddCropAmountForm] = useState(false)
+  const [cropData, setCropData] = useState(null)
 
   const [grainCategoryFilter, setGrainsCategoryFilter] = useState('all')
   const { setValues } = useRecordSale()
-  const { farmersData, doughnutValues, filteredGrainsData, grainCategories, copyGrainCategory, showComparativeStats, dateFilterValues, setDateFilterValues, handleChangeDateRange, handleChangeDateFilterValues, mapIcons, grainCategoriesColumnMaps } = useDashboard()
+  const {
+    insertDoc, 
+    farmersData, 
+    doughnutValues, 
+    filteredGrainsData, 
+    grainCategories, 
+    copyGrainCategory, 
+    dateFilterValues, 
+    setDateFilterValues, 
+    handleChangeDateRange, 
+    handleChangeDateFilterValues, 
+    mapIcons, 
+    grainCategoriesColumnMaps } = useDashboard()
 
   const recordGrainSale = (price, grainType)=> {
     setShowRecordSale((prevState)=>!prevState)
@@ -260,29 +276,44 @@ const Dashboard = ()=> {
     }
   }, [user, router])
 
+  const updateCropAmount = (name, amount)=> {
+    setShowAddCropAmountForm(true)
+    setCropData({ name, amount })
+  }
+
+  const closeUpdateCropAmount = ()=> {
+    setShowAddCropAmountForm(false)
+    setCropData(null)
+  }
+
   if(user){
     return (
       <>
         <section className={styles.dashboard}>
           <Sidebar setShowAddUserForm={setShowAddUserForm} signout={signout} credentials={credentials} />
           <section className={styles.component}>
-            { showAddUserForm && <AddUser setShowAddUserForm={setShowAddUserForm}/> }
+            { showAddUserForm && <AddFarmer setShowAddUserForm={setShowAddUserForm}/> }
             { showRecordSale && <RecordSale setShowRecordSale={setShowRecordSale}/> }
+            { showAddCropAmountForm && <AddCropAmount closeUpdateCropAmount={closeUpdateCropAmount} cropData={cropData}/> }
+
             <section className={styles.header}>
               <section className={styles.dashboardTitle}>
-                <p className={styles.logoText}>Dashboard</p>
+                <p className={styles.logoText} onClick={()=>insertDoc()}>Dashboard</p>
               </section>
             </section>
 
             <section className={styles.corusel}>
-              <Card recordGrainSale={recordGrainSale} cardName="Maize" selectedTab="Maize" currentValue={120} previousValue={110} target={134}>
-                <PiGrainsBold size={20} color='black' />
+              <Card updateCropAmount={updateCropAmount} recordGrainSale={recordGrainSale} cardName="Maize" currentValue={120} previousValue={110} target={134}>
+                <PiGrainsBold size={20} color='#0058FF' />
               </Card>
-              <Card recordGrainSale={recordGrainSale} cardName="Beans" selectedTab="Beans" currentValue={231} previousValue={110} target={200}>
-                <Bean size={17} color='black' />
+              <Card updateCropAmount={updateCropAmount} recordGrainSale={recordGrainSale} cardName="Beans" currentValue={231} previousValue={110} target={200}>
+                <Bean size={17} color='#4B10BF' />
               </Card>  
-              <Card recordGrainSale={recordGrainSale} cardName="Groundnuts" selectedTab="Groundnuts" currentValue={61} previousValue={53} target={100}>
-                <Nut  size={20} color='black' />
+              <Card updateCropAmount={updateCropAmount} recordGrainSale={recordGrainSale} cardName="Wheat" currentValue={61} previousValue={53} target={100}>
+                <Wheat  size={20} color='#FFC700' />
+              </Card>
+               <Card updateCropAmount={updateCropAmount} recordGrainSale={recordGrainSale} cardName="Soybeans" currentValue={61} previousValue={53} target={100}>
+                <GiPeas  size={20} color='#EB17A4' />
               </Card>
             </section>
 
@@ -294,12 +325,10 @@ const Dashboard = ()=> {
               </section>
               <section className={styles.doughnutAndLabelsContent}>
                   <section className={styles.overview}>
-                    <h2 className={styles.title} style={{  position: "relative", left: "174px", top: "103px"}}> Silos Overview </h2>
                     <h1 className={styles.doughnut}>
                       <span>416Kg</span>
-                      <span>Total Produce</span>
                     </h1>
-                    <Doughnut values={doughnutValues} />
+                    <Doughnut values={[261, 45, 61, 67]} />
                   </section>
 
                   {/* Labels */}
@@ -307,7 +336,7 @@ const Dashboard = ()=> {
                     {
                       grainCategoriesColumnMaps.map((grain, index)=> {
                         return (
-                          <GrainLabel  mapIcons={mapIcons} grainCategoryFilter={grainCategoryFilter} setGrainsCategoryFilter={setGrainsCategoryFilter} showComparativeStats={showComparativeStats} key={index} copyCategories={copyGrainCategory} categories={grainCategories} grain={grain} />
+                          <GrainLabel  mapIcons={mapIcons} grainCategoryFilter={grainCategoryFilter} setGrainsCategoryFilter={setGrainsCategoryFilter} key={index} copyCategories={copyGrainCategory} categories={grainCategories} grain={grain} />
                         )
                       })
                     }
@@ -317,9 +346,6 @@ const Dashboard = ()=> {
 
               <p className={styles.headerText}>Grains Inventory</p>
               <GrainsTable setGrainsCategoryFilter={setGrainsCategoryFilter} grainCategoryFilter={grainCategoryFilter} grains={filteredGrainsData} />
-              
-              {/* <p className={styles.headerText}>Farmers</p>
-              <FarmersTable  farmersData={farmersData} /> */}
             </section>
           </section>
         </section>

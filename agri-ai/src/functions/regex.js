@@ -4,6 +4,7 @@ const regex = {
     consumerType: /^(Livestock|Human)$/,
     grainType: /^[A-Za-z\s]+$/,
     quantity: /^(1000000000|[1-9][0-9]{0,4})$/,
+    amount: /^(1000000000|[1-9][0-9]{0,4})$/,
     landsize:/^\d+\s?(acres|ha|hectares)$/,
     arable: /^\d+\s?(acres|ha|hectares)$/,
     price: /^\$?\d{1,3}(,\d{3})*(\.\d{2})?$/,

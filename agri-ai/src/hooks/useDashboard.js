@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { collection, setDoc, onSnapshot, updateDoc, doc, arrayUnion } from "firebase/firestore"
 import {db} from '@/firebase'
 
-import { Bean, Soup, Wheat, Nut, Torus } from 'lucide-react' 
+import { Bean, Wheat, Nut } from 'lucide-react' 
 import { PiGrainsBold } from "react-icons/pi"
-import { GiPeas, GiOakLeaf  } from "react-icons/gi"
+import { GiPeas  } from "react-icons/gi"
 
 const mapIcons = (description)=> {
     let ICON = null
@@ -16,20 +16,8 @@ const mapIcons = (description)=> {
         case 'beans':
             ICON = <Bean color='#4B10BF' size={20} />
             break
-        case 'groundnuts':
-            ICON = <Nut  color='#21D59B' size={20} />
-            break
         case 'wheat':
             ICON = <Wheat color='#FFC700' size={20} />
-            break
-        case 'rice':
-            ICON = <Soup color='#F99600' size={20} />
-            break
-        case 'barley':
-            ICON = <GiOakLeaf color='#5E17EB' size={20} />
-            break
-        case 'sorghum':
-            ICON = <Torus color='#C817EB' size={20} />
             break
         case 'soybeans':
             ICON = <GiPeas color='#EB17A4' size={20} />
@@ -58,6 +46,26 @@ const filterByDate = (from, to, DATA)=> {
     return filteredByDate
 }
 
+export const createRandomString = (length) => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
+const insertDoc = ()=> {
+    let usersDocumentId = createRandomString(10)
+    setDoc(doc(db, 'crops', usersDocumentId), {name: 'Soybeans', amount: 0})
+    .then(()=>{
+        console.log('we are done')
+    })
+    .catch((error)=> {
+        console.log('error', error)
+    })
+}
+
 const getFirstAndLastDateStringOfCurrentMonth = ()=> {
     // Get the current year : "2024"
     let currentYear = new Date().getFullYear()
@@ -81,15 +89,8 @@ const getFirstAndLastDateStringOfCurrentMonth = ()=> {
 
 const grainCategoriesColumnMaps = [
     { unTransformedName: 'Maize', transformedName: 'Maize' },
-    { unTransformedName: 'Groundnuts', transformedName: 'Groundnuts' },
     { unTransformedName: 'Beans', transformedName: 'Beans' },
-
     { unTransformedName: 'Wheat', transformedName: 'Wheat' },
-    { unTransformedName: 'Rice', transformedName: 'Rice' },
-
-
-    { unTransformedName: 'Barley', transformedName: 'Barley' },
-    { unTransformedName: 'Sorghum', transformedName: 'Sorghum' },
     { unTransformedName: 'Soybeans', transformedName: 'Soybeans' },
 ]
 
@@ -97,10 +98,9 @@ function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const grainsTypes = ['Maize', 'Beans', 'Groundnuts', 'Wheat', 'Rice', 'Barley', 'Sorghum', 'Soybeans']
+const grainsTypes = ['Maize', 'Beans', 'Wheat', 'Soybeans']
   
 const useDashboard = ()=> {
-    const [showComparativeStats, setShowComparativeStats] = useState(true)
     const [filteredGrainsData, setFilteredGrainsData] = useState([])
     const [grainsData, setGrainsData] = useState([])
     const [farmersData, setFarmersData] = useState([])
@@ -115,22 +115,12 @@ const useDashboard = ()=> {
         Maize: 0,
         Beans: 0,
         Wheat: 0,
-        Groundnuts: 0,
-        Wheat: 0,
-        Rice: 0,
-        Barley: 0,
-        Sorghum: 0,
         Soybeans: 0
     })
     const [grainCategories, setGrainCategories] = useState({
         Maize: 0,
         Beans: 0,
         Wheat: 0,
-        Groundnuts: 0,
-        Wheat: 0,
-        Rice: 0,
-        Barley: 0,
-        Sorghum: 0,
         Soybeans: 0
     })
 
@@ -232,11 +222,9 @@ const useDashboard = ()=> {
             querySnapshot.forEach((doc) => {
             records.push(doc.data())
             })
-    
             setGrainsData(records)
         })
     }, [])
-
 
     // Fetch sales data in real time
     useEffect(() => {
@@ -245,7 +233,7 @@ const useDashboard = ()=> {
         const unsubscribeProperty = onSnapshot(farmersDocsRef, (querySnapshot) => {
             let records = []
             querySnapshot.forEach((doc) => {
-            records.push(doc.data())
+                records.push(doc.data())
             })
     
             setFarmersData(records)
@@ -264,7 +252,6 @@ const useDashboard = ()=> {
     }, [grainsData, dateFilterValues.from, dateFilterValues.to])
 
     useEffect(()=> {
-
         let grainsTypesAndTotal = {}
 
         grainsTypes.map((type)=> {
@@ -273,21 +260,30 @@ const useDashboard = ()=> {
 
         
         if(filteredGrainsData.length){
-            // console.log('filteredGrainsData', filteredGrainsData)
             filteredGrainsData.map((sale)=> {
                 grainsTypesAndTotal[`${sale.grainType}`] = parseFloat(grainsTypesAndTotal[`${sale.grainType}`]) + parseFloat(sale.quantity)
             })
         }
 
-        console.log('grainsTypesAndTotal', grainsTypesAndTotal)
-
         setGrainCategories(grainsTypesAndTotal)
 
-        let { Maize, Beans, Groundnuts, Wheat, Rice, Barley, Sorghum, Soybeans } = grainsTypesAndTotal
-        setDoughnutValues([Maize, Beans, Groundnuts, Wheat, Rice, Barley, Sorghum, Soybeans])
+        let { Maize, Beans, Wheat, Soybeans } = grainsTypesAndTotal
+        setDoughnutValues([Maize, Beans, Wheat, Soybeans])
     }, [filteredGrainsData])
 
-    return { farmersData, doughnutValues, filteredGrainsData, grainCategories, copyGrainCategory, showComparativeStats, dateFilterValues, setDateFilterValues, handleChangeDateRange, handleChangeDateFilterValues, mapIcons, grainCategoriesColumnMaps }
+    return { 
+        insertDoc,
+        farmersData, 
+        doughnutValues, 
+        filteredGrainsData, 
+        grainCategories, 
+        copyGrainCategory, 
+        dateFilterValues, 
+        setDateFilterValues, 
+        handleChangeDateRange, 
+        handleChangeDateFilterValues, 
+        mapIcons, 
+        grainCategoriesColumnMaps }
 }
 
 export default useDashboard

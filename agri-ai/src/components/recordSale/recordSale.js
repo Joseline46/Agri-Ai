@@ -7,7 +7,6 @@ import Input  from "@/ui/input/input"
 import { AudioWaveform, PersonStanding, HandCoins, Torus  } from 'lucide-react' 
 
 import { PiGrainsBold } from "react-icons/pi"
-import { GiPeas } from "react-icons/gi"
 
 // Styles
 import styles from './recordSale.module.css'
