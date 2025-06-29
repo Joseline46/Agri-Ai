@@ -398,7 +398,7 @@ export const DateInput = (props)=> {
     return (
         <section className={styles.component} ref={boxRef} onMouseLeave={()=>closeCalendarUI()}>
             <section className={styles.in} onClick={()=>openCalendarUI()}>
-                <p className={styles.label}>{props.labels?props.labels[0]:'FROM'}</p>
+                <p className={styles.label}>{props.labels?props.labels[0]:'From'}</p>
                 <Textbox
                     setDateFilterValues={props.setDateFilterValues}
                     name='from'
@@ -412,7 +412,7 @@ export const DateInput = (props)=> {
                     topRect={topRect} />
             </section>
             <section className={styles.out}>
-                <p className={styles.label}>{props.labels?props.labels[1]:'TO'}</p>
+                <p className={styles.label}>{props.labels?props.labels[1]:'To'}</p>
                 <Textbox
                     setDateFilterValues={props.setDateFilterValues}
                     name='to'

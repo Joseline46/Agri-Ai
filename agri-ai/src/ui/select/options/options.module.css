@@ -9,12 +9,12 @@
     border-radius: 5px 5px;
     
     font-weight: 400;
-    font-size: var(--fs-7);
+    font-size: .7rem;
     font-family: var(--ff-p);
 
     background-color: white;
 
-    color: var(--dark-gray);
+    color: #808080;
     text-overflow: ellipsis;
 
     display: flex;

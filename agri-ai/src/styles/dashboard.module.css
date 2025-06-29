@@ -56,7 +56,7 @@
 .inventoryOverview {
     font-weight: 450;
     font-family: var(--ff-p);
-    font-size: 0.65rem;
+    font-size: .7rem;
     color: #666;
     display: block;
 }
@@ -223,7 +223,7 @@
 
 .recordSale > p {
   font-family: var(--ff-p);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 
   color: white;
 }
@@ -305,13 +305,12 @@
 }
 
 .headerText {
-  font-size: 0.8rem;
+  font-size: .9rem;
   font-family: var(--ff-p);
   font-weight: 450;
-
-  color: black;
-
-  margin: 100px 0 10px 0;
+  
+  color: #000;
+  margin: 100px 0 30px;
 }
 
 .section {
@@ -342,6 +341,7 @@
 
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .labels {
@@ -389,22 +389,16 @@
 .h2,
 .title {
   font-size: 0.7rem;
-  font-family: var(--ff-m);
-  font-weight: 550;
+  font-family: var(--ff-p);
+  font-weight: 400;
 
   color: #808080;
 }
 
 .title {
-  font-weight: 550;
-  font-size: 0.7rem;
-  font-family: var(--ff-p);
-
   color: black;
 
-  font-family: var(--ff-p);
   font-weight: 700;
-  font-size: 0.65rem;
 
   text-transform: capitalize;
   letter-spacing: 0.3px;
@@ -485,7 +479,7 @@
 
 .label {
   font-family: var(--ff-p);
-  font-size: 0.65rem;
+  font-size: .7rem;
   font-weight: 500;
 
   color: #808080;
@@ -515,7 +509,7 @@
   gap: 3px;
   align-items: center;
 
-  font-size: 0.65rem;
+  font-size: .7rem;
   font-weight: bold;
   font-family: var(--ff-p);
 

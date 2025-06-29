@@ -49,8 +49,7 @@ const Sidebar = (props)=> {
                     <section className={styles.avatar}>
                     </section>
                     <section className={styles.credentials}>
-                        <p className={styles.title}>Account User</p>
-                        <p className={styles.username}>{props.credentials.email}</p>
+                        <p className={styles.title}>{props.credentials.email}</p>
                     </section>
                 </section>
                 <button className={styles.signout} onClick={()=>props.signout()}>

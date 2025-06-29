@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import { useRouter } from 'next/navigation'
 
 // Components
@@ -20,7 +20,12 @@ import useSignin from '@/hooks/useSignin'
 const SignIn = () => {
   const { user } = UserAuth()
   const router = useRouter()
-  const { values, errors, isLoading, signIn, changeValues } = useSignin()
+  const { 
+    values, 
+    errors, 
+    isLoading, 
+    signIn, 
+    changeValues } = useSignin()
 
   useEffect(()=>{
     if(user){

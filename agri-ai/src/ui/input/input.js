@@ -1,8 +1,6 @@
 // Styles
 import styles from "./input.module.css";
 
-import { AlertCircle } from 'lucide-react';
-
 const Input = (props) => {
     return (
         <section className={styles.attribute}>
@@ -23,13 +21,6 @@ const Input = (props) => {
                         required />
                 </section>
             </section>
-            { 
-                props.notification  &&   <section className={styles.alert}>
-                                            <AlertCircle color='#EF4444' size={15}/>
-                                            <span>{props.notification}</span>
-                                        </section> 
-            }
-            { props.error && <p className={styles.errorMessage}>{props.errorMessage}</p> }
         </section>
     )
 }

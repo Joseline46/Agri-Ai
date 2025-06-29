@@ -119,11 +119,16 @@
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    transition: all 0.2s;
   }
   
   .submitButton:disabled {
     background-color: #d6e4f0;
     cursor: not-allowed;
+  }
+
+  .submitButton:active {
+    transform: scale(0.96);
   }
   
   .createAccountText {

@@ -373,7 +373,6 @@ const useDashboard = ()=> {
         handleChangeDateRange, 
         handleChangeDateFilterValues, 
         mapIcons,
-        insertDoc,
     }
 }
 

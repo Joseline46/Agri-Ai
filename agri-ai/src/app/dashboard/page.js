@@ -12,6 +12,7 @@ import Doughnut from "@/components/charts/doughnut/doughnut"
 import GrainsTable from '@/components/tables/grains/grains'
 import Sidebar from '@/components/sidebar/sidebar'
 import { predictMaize } from '@/utils/models'
+
 // Hooks
 import useDashboard from '@/hooks/useDashboard'
 
@@ -201,8 +202,7 @@ const Dashboard = ()=> {
     setDateFilterValues, 
     handleChangeDateRange, 
     handleChangeDateFilterValues, 
-    mapIcons,
-    insertDoc
+    mapIcons
    } = useDashboard()
 
   const recordGrainSale = ()=> {
@@ -307,7 +307,7 @@ const Dashboard = ()=> {
                 </section>
               </section>
 
-              <p className={styles.headerText}>Grains Inventory</p>
+              <p className={styles.headerText}>Grains Sales</p>
               <GrainsTable grains={filteredGrainsData} />
             </section>
           </section>

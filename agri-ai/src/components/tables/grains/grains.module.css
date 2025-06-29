@@ -31,7 +31,7 @@
     outline: none;
   
     font-family: var(--ff-p);
-    font-size: 0.65rem;
+    font-size: .7rem;
     font-weight: 400;
   
     text-overflow: ellipsis;
@@ -127,7 +127,7 @@
       text-align: left;
       font-family: var(--ff-p);
       font-weight: 400;
-      font-size: 0.65rem;
+      font-size: .7rem;
       color: #808080;
       height: 40px; /* Match row height */
       box-sizing: border-box;
@@ -169,7 +169,7 @@
       text-align: left;
       font-family: var(--ff-p);
       font-weight: 400;
-      font-size: 0.65rem;
+      font-size: .7rem;
       color: #808080;
       height: 40px; /* Ensure uniform height */
       padding-left: 5px;
@@ -181,7 +181,7 @@
       text-align: left;
       font-family: var(--ff-p);
       font-weight: 400;
-      font-size: 0.65rem;
+      font-size: .7rem;
       color: #808080;
       height: 40px;
       padding-left: 5px;

@@ -26,15 +26,19 @@
 .alert > span {
     font-family: var(--ff-p);
     font-weight: 500;
-    font-size: var(--fs-7);
+    font-size: .7rem;
 
-    color: var(--faded-black);
+    color: black;
 
     padding-left: 6px;
 }
 
+.label {
+    font-size: .875rem;
+}
+
 .alert > span {
-    color: var(--faded-black);
+    color: black;
 }
 
 .alert > span {
@@ -109,7 +113,7 @@
 }
 
 .textbox {
-    font-size: var(--fs-65);
+    font-size: .75rem;
     font-weight: 400;
     font-family: var(--ff-p);
     
@@ -120,7 +124,7 @@
     border-radius: 0 7px 7px 0;
 
     outline: none;
-    color: var(--faded-black);
+    color: black;
     
     width: calc(100% - 35px);
     height: 100%;
@@ -138,15 +142,15 @@
 }
 
 .placeholder {
-    color: var(--dark-gray);
+    color:#808080;
 }
 
 .valid {
-    color: var(--faded-black);
+    color: black;
 }
 
 .disabledTextbox > p {
-    color: var(--dark-)
+    color: #808080;
 }
 
 .disabledTextbox {
@@ -176,7 +180,7 @@
     justify-content: space-between;
     gap: 0px;
 
-    background-color: var(--faded-blue);
+    background-color: #f9f7f7;
 }
 
 .input {
@@ -188,12 +192,12 @@
 
     border-radius: 0 5px 5px 0;
     border: none;
-    background-color: var(--faded-blue);
+    background-color: #f9f7f7;
     
     color: #020817;
 
     font-weight: 400;
-    font-size: var(--fs-65);
+    font-size: .65rem;
     font-family: var(--ff-p);
 
     text-overflow: ellipsis;
@@ -253,7 +257,7 @@
 @media (min-width: 768px) {
     .input,
     .textbox{
-        font-size: var(--fs-75);
+        font-size: .75rem;
     }
 }
 
