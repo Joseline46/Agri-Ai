@@ -12,6 +12,7 @@ import Calendar from '@/components/calendar/calendar'
 import Doughnut from "@/components/charts/doughnut/doughnut"
 import GrainsTable from '@/components/tables/grains/grains'
 import Sidebar from '@/components/sidebar/sidebar'
+import ViewFarmersComponent from '@/components/farmers/farmers'
 import { predictMaize } from '@/utils/models'
 
 // Hooks
@@ -53,7 +54,7 @@ const Consumed = (props) => {
     )
 }
   
-const Card = ({children, cardName, currentValue, previousValue, target, displayValue, updateCropAmount}) => {
+export const Card = ({children, cardName, currentValue, previousValue, target, displayValue, updateCropAmount}) => {
   const [percentChange, setPercentChange] = useState(0)
   const [hasIncreased, setHasIncreased] = useState(false)
   const [difference, setDifference] = useState(0)
@@ -190,8 +191,10 @@ const Dashboard = ()=> {
   const [showAddCropAmountForm, setShowAddCropAmountForm] = useState(false)
   const [cropData, setCropData] = useState(null)
   const [totalWeight, setTotalWeight] = useState(0)
+  const [viewFarmers, setViewFarmers] = useState(false)
 
   const {
+    farmersData,
     stocks,
     doughnutValues, 
     filteredGrainsData, 
@@ -212,6 +215,14 @@ const Dashboard = ()=> {
 
   const closeRecordSale = ()=> {
     setShowRecordSale(false)
+  }
+
+  const openViewFarmers = ()=> {
+    setViewFarmers(true)
+  }
+
+  const closeViewFarmers = ()=> {
+    setViewFarmers(false)
   }
 
   // useEffect(() => {
@@ -251,8 +262,14 @@ const Dashboard = ()=> {
     return (
       <>
         <Toaster position="bottom-right" />
+        { viewFarmers && <ViewFarmersComponent showComponent={viewFarmers} farmers={farmersData} close={closeViewFarmers} /> }
         <section className={styles.dashboard}>
-          <Sidebar recordGrainSale={recordGrainSale} setShowAddUserForm={setShowAddUserForm} signout={signout} credentials={credentials} />
+          <Sidebar 
+            openViewFarmers={openViewFarmers}
+            recordGrainSale={recordGrainSale} 
+            setShowAddUserForm={setShowAddUserForm} 
+            signout={signout} 
+            credentials={credentials} />
           <section className={styles.component}>
             { showAddUserForm && <AddFarmer setShowAddUserForm={setShowAddUserForm}/> }
             { showRecordSale && <RecordSale closeRecordSale={closeRecordSale} setShowRecordSale={setShowRecordSale}/> }

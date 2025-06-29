@@ -363,6 +363,7 @@ const useDashboard = ()=> {
     }, [grainsSalesData, dateFilterValues.from, dateFilterValues.to])
 
     return { 
+        farmersData,
         stocks,
         farmersData, 
         doughnutValues, 

@@ -1,0 +1,385 @@
+.page {
+  min-height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.company {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.container {
+  background-color: var(--dull-red);
+  height: 35px;
+  width: 35px;
+
+  border-radius: 50%;
+}
+
+.regionAndAccount {
+  background-color: var(--white);
+
+  width: 100%;
+  height: 70px;
+
+  padding: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.headerText {
+  font-family: var(--ff-p);
+  color: var(--black);
+  font-weight: 450;
+  font-size: var(--fs-8);
+
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.headerText > span {
+  font-family: var(--ff-p);
+  font-weight: 450;
+  font-size: var(--fs-8);
+  color: var(--black);
+
+  display: inline-block;
+}
+
+.logoutIcon {
+  color: var(--black);
+}
+
+.logout {
+  height: 40px;
+  width: 95px;
+  width: max-content;
+
+  background-color: var(--dull-red);
+  background-color: transparent;
+
+  border-radius: 7px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout > p {
+  font-family: var(--ff-p);
+  font-size: 0.7rem;
+  font-weight: 450;
+
+  position: relative;
+  top: 2px;
+
+  display: none;
+
+  color: var(--white);
+}
+
+.logout:hover {
+  transform: scale(1.05); /* Slight pop on hover */
+}
+
+.logout:active {
+  transform: scale(0.95);
+}
+
+.headerOne,
+.headerTwo {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 100px;
+  width: 100%;
+
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--light-gray);
+
+  margin: 0;
+  padding: 0 10px;
+
+  position: relative;
+}
+
+.headerTwo {
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.dropDownContainer {
+  order: 1;
+}
+
+.skeletonCover {
+  order: 2;
+}
+
+.navigation {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-end;
+
+  height: max-content;
+  width: 100%;
+
+  border-bottom: 1px solid var(--light-gray);
+  border-top: 1px solid var(--light-gray);
+
+  padding: 0 10px;
+}
+
+.titleAndArrow {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  cursor: pointer;
+
+  gap: 10px;
+}
+
+.arrowBackCircle {
+ position: relative;
+  top: -2px;
+}
+
+.arrowBack {
+  display: inline-block;
+}
+
+.content {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 75px;
+
+  padding: 10px 10px 10px 10px;
+
+  width: 100vw;
+  height: max-content;
+}
+
+.group {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 20px;
+
+  overflow-x: scroll;
+  
+  width: 100%;
+  height: max-content;
+}
+
+.calendarCover {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 5px;
+
+  width: 100%;
+}
+
+.numberOfDeliveries {
+  font-size: var(--fs-7);
+  font-family: var(--ff-p);
+  color: var(--dark-gray);
+}
+
+.calendarContainer,
+.insights {
+  border: 1px solid var(--light-gray);
+  border-radius: 10px;
+  background-color: var(--faded-blue);
+
+  padding: 20px;
+
+  width: 100%;
+  overflow-x: auto;
+}
+
+.insightRow {
+  display: flex;
+  align-items: flex-start;
+  flex-flow: column nowrap;
+  gap: 50px;
+
+  height: max-content;
+}
+
+.insights {
+  height: max-content;
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 50px;
+
+  overflow: hidden;
+}
+
+.insight {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.circle,
+.arrowBackCircle {
+  height: 35px;
+  width: 35px;
+
+  border-radius: 50%;
+  background-color: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease;
+
+  cursor: pointer;
+}
+
+.arrowBackCircle {
+  background-color: var(--light-gray);
+}
+
+.circle:hover,
+.arrowBackCircle:hover {
+  background-color: var(--light-gray);
+}
+
+.circle:active,
+.arrowBackCircle:active {
+  transform: scale(0.95);
+}
+
+.column {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.h1,
+.h2 {
+  white-space: nowrap;
+}
+
+.h1 {
+  font-family: var(--ff-p);
+  font-weight: 450;
+  font-size: var(--fs-8);
+
+  color: var(--black);
+}
+
+.h2 {
+  font-family: var(--ff-p);
+  font-weight: 450;
+  font-size: var(--fs-7);
+
+  color: var(--dark-gray);
+}
+
+.tanks,
+.corusel {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 10px;
+
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+@media screen and (min-width: 481px){
+  .insightRow {
+    align-items: center;
+    flex-flow: row nowrap;
+    gap: 50px;
+
+    height: 120px;
+  }
+
+  .insights {
+    align-items: center;
+  }
+
+  .logoutIcon {
+    color: var(--white);
+  }
+  
+  .logout {
+    width: 95px;
+    background-color: var(--dull-red);
+  }
+  
+  .logout > p {
+    display: inline-block;
+  }
+}
+
+@media screen and (min-width: 630px) {
+  .row {
+    flex-flow: row nowrap;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .headerTwo {
+    justify-content: space-between;
+  }
+
+  .dropDownContainer {
+    order: 2;
+  }
+
+  .skeletonCover {
+    order: 1;
+  }
+}
+
+@media screen and (min-width: 910px) {
+  .insights {
+    flex-flow: row nowrap;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .insights {
+    justify-content: center;
+  }
+
+  .arrowBackCircle {
+    background-color: transparent;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .headerText,
+  .headerText > span {
+    font-size: var(--fs-1);
+  }
+}

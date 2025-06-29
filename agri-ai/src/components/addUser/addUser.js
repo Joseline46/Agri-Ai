@@ -3,7 +3,7 @@
 // Components
 import Button from "@/ui/button/button"
 import Input  from "@/ui/input/input"
-import { GitCompare, User, Pickaxe, Nut, TreePalm } from "lucide-react"
+import { GitCompare, Mail, Pickaxe, Nut, TreePalm, House, IdCard } from "lucide-react"
 
 // Styles
 import styles from './addUser.module.css'
@@ -25,7 +25,19 @@ const AddUser = ((props) => {
             <div className={styles.inputGroup}>
                 <div className={styles.inputField}>
                   <Input label='Username' errorMessage='Username is required' placeholder='ruemapara@gmail.com' name='username' type='text' value={values.username} error={errors.username} change={changeValues}>
-                    <User size={20} color='black' />
+                    <Mail size={20} color='black' />
+                  </Input>
+                </div>
+
+                <div className={styles.inputField}>
+                  <Input label='Firstname' errorMessage='firstname is required' placeholder='Ruvimbo' name='firstname' type='text' value={values.firstname} error={errors.firstname} change={changeValues}>
+                    <IdCard size={20} color='black' />
+                  </Input>
+                </div>
+
+                <div className={styles.inputField}>
+                  <Input label='Lastname' errorMessage='Lastname is required' placeholder='Mapara' name='lastname' type='text' value={values.lastname} error={errors.lastname} change={changeValues}>
+                    <IdCard size={20} color='black' />
                   </Input>
                 </div>
 
@@ -59,6 +71,12 @@ const AddUser = ((props) => {
                       <GitCompare size={20} color='black' />
                     </Input>
                   </div>
+                </div>
+
+                 <div className={styles.inputField}>
+                  <Input label='Address' errorMessage='Address is required' placeholder='Farm 45, Chivhu' name='address' type='text' value={values.address} error={errors.address} change={changeValues}>
+                    <House size={20} color='black' />
+                  </Input>
                 </div>
             </div>
 

@@ -3,7 +3,7 @@ import { useState } from 'react'
 // Context
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
-import { auth, db } from '@/firebase'
+import { db } from '@/firebase'
 
 // Hooks
 import useValidation from './useValidation'
@@ -27,6 +27,9 @@ const useAddUser = (closeModal) => {
     const [isLoading, setIsLoading] = useState(false)
     const [values, setValues] = useState({
         username: '',
+        firstname: '',
+        address: '',
+        lastname: '',
         plants: '',
         landsize: '',
         arable: '',
@@ -34,6 +37,8 @@ const useAddUser = (closeModal) => {
     })
     const [errors, setErrors] = useState({
         username: false,
+        firstname: false,
+        lastname: false,
         plants: false,
         landsize: false,
         arable: false,
@@ -50,6 +55,9 @@ const useAddUser = (closeModal) => {
             landsize: '',
             arable: '',
             region: '',
+            firstname: '',
+            lastname: '',
+            address: '',
         })
         setErrors({
             username: false,
@@ -57,11 +65,14 @@ const useAddUser = (closeModal) => {
             landsize: false,
             arable: false,
             region: false,
+            firstname: false,
+            lastname: false,
+            address: false,
         })
         setIsLoading(false)
     }
 
-     const addUser = async ()=> {
+    const addUser = async ()=> {
         const numberOfErrors = checkErrors()
         if(numberOfErrors <= 0) {
             const numberOfFieldsErrors = checkEmptyFields()

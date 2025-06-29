@@ -1,6 +1,13 @@
-import { useState } from 'react'
-
-import { Store, Tractor, Library, UsersRound, LogOut, PanelRightOpen, HandCoins, UserRoundPlus, Plus } from 'lucide-react'
+import { 
+    Store, 
+    Tractor, 
+    Library, 
+    UsersRound, 
+    LogOut, 
+    PanelRightOpen, 
+    HandCoins, 
+    UserRoundPlus, 
+    Plus } from 'lucide-react'
 
 import styles from './sidebar.module.css'
 
@@ -29,7 +36,7 @@ const Sidebar = (props)=> {
             <section className={styles.nav}>
                 <p className={styles.smText}>Main Menu</p>
                 <section className={styles.navLinks}>
-                    <section className={styles.link}>
+                    <section className={styles.link} onClick={()=>props.openViewFarmers()}>
                         <Tractor size={17} color='black' /> &nbsp;&nbsp;Farmers
                     </section>
                     <section className={styles.link}>
