@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { collection, setDoc, onSnapshot, updateDoc, doc } from "firebase/firestore";
 import { db } from '@/firebase'
 
+import { toast } from "sonner"
+
 // Hooks
 import useValidation from './useValidation'
 
@@ -29,15 +31,10 @@ const useAddCropAmount = (cropData, closeModal) => {
         amount: false,
         grainType: false
     })
-    const [notificationStatus, setNotificationStatus] = useState({
-        show: false,
-        message:'',
-        type:'success'
-    })
     const [stocks, setStocks] = useState(null)
     const [price, setPrice] = useState(0)
 
-    const { changeValues, checkEmptyFields, checkErrors } = useValidation(values, errors, setValues, setErrors, setNotificationStatus)
+    const { changeValues, checkEmptyFields, checkErrors } = useValidation(values, errors, setValues, setErrors)
 
     useEffect(()=>{
         if(cropData){
@@ -91,9 +88,6 @@ const useAddCropAmount = (cropData, closeModal) => {
             if(numberOfFieldsErrors <= 0) {
                 setIsLoading(true)
                 let newAmount = parseFloat(cropData.amount) + parseFloat(values.amount)
-                console.log('newAmount', newAmount)
-                console.log(' parseFloat(cropData.amount)',  parseFloat(cropData.amount))
-                console.log('parseFloat(values.amount)',  parseFloat(values.amount))
 
                 let date = new Date()
                 let dateString = `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
@@ -109,19 +103,19 @@ const useAddCropAmount = (cropData, closeModal) => {
                         price: price,
                     }
 
-                    console.log('restockData', restockData)
-
                     setDoc(doc(db, 'restocks', documentId), restockData)
                     .then(()=>{
                         setIsLoading(false)
                         reset()
                         closeModal()
-                        console.log('updated crop amount successfully')
+                        toast.message(`${cropData.name} added successfully`)
                     })
                     .catch((error)=> {
+                        toast.message(error)
                         setIsLoading(false)
                     })
                 }).catch((error)=> {
+                    toast.message(error)
                     setIsLoading(false)
                 })
             }

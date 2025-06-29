@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-
+import { Toaster } from "@/components/ui/sonner"
 
 // Components
 import AddFarmer from '@/components/addUser/addUser'

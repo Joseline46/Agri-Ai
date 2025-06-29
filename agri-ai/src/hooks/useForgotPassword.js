@@ -12,14 +12,8 @@ const useSignin = () => {
     const [errors, setErrors] = useState({
         username: false,
     })
-    const [dateFilterValues, setDateFilterValues] = useState({ date: '' })
 
-    const [notificationStatus, setNotificationStatus] = useState({
-        show: false,
-        message:'',
-        type:'success'
-    })
-    const { changeValues, checkEmptyFields, checkErrors } = useValidation(values, errors, setValues, setErrors, setNotificationStatus)
+    const { changeValues, checkEmptyFields, checkErrors } = useValidation(values, errors, setValues, setErrors)
 
     // Reset to defaults
     const reset = ()=> {
@@ -28,11 +22,6 @@ const useSignin = () => {
         })
         setErrors({
             username: false,
-        })
-        setNotificationStatus({
-            show: false,
-            message:'',
-            type:'success'
         })
         setIsLoading(false)
     }

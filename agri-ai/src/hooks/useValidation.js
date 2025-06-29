@@ -3,7 +3,7 @@ import regex from "@/functions/regex"
 
 import { toast } from "sonner"
 
-const useValidation = (values, errors, setValues, setErrors, setNotificationStatus) => {
+const useValidation = (values, errors, setValues, setErrors) => {
     const changeValues = (event)=> {
         const { name, value } = event.target
         regex[`${name}`].test(value)? validateValues(true, event) : validateValues(false, event)

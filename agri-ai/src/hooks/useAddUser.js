@@ -40,12 +40,7 @@ const useAddUser = (closeModal) => {
         region: false,
     })
 
-    const [notificationStatus, setNotificationStatus] = useState({
-        show: false,
-        message:'',
-        type:'success'
-    })
-    const { changeValues, checkEmptyFields, checkErrors } = useValidation(values, errors, setValues, setErrors, setNotificationStatus)
+    const { changeValues, checkEmptyFields, checkErrors } = useValidation(values, errors, setValues, setErrors)
 
     // Reset to defaults
     const reset = ()=> {
@@ -62,11 +57,6 @@ const useAddUser = (closeModal) => {
             landsize: false,
             arable: false,
             region: false,
-        })
-        setNotificationStatus({
-            show: false,
-            message:'',
-            type:'success'
         })
         setIsLoading(false)
     }
@@ -96,7 +86,8 @@ const useAddUser = (closeModal) => {
                         signout()
                         setIsLoading(false)
                         closeModal()
-                        toast.message('New use added successfully')
+                        reset()
+                        toast.message('New farmer added successfully')
                     })
                     .catch((error)=> {
                         toast.message(error)

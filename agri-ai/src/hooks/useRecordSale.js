@@ -32,12 +32,6 @@ const useRecordSale = (closeRecordSale) => {
         quantity: false,
         price: false,
     })
-    const [notificationStatus, setNotificationStatus] = useState({
-        show: false,
-        message:'',
-        type:'success'
-    })
-
     const [optionsValues, setOptionsValues] = useState({
         grainType: '',
         consumerType: ''
@@ -97,7 +91,7 @@ const useRecordSale = (closeRecordSale) => {
         }
     }, [stocks, values.grainType])
 
-    const { changeValues, checkEmptyFields, checkErrors } = useValidation(values, errors, setValues, setErrors, setNotificationStatus)
+    const { changeValues, checkEmptyFields, checkErrors } = useValidation(values, errors, setValues, setErrors)
 
     // Reset to defaults
     const reset = ()=> {
@@ -112,11 +106,6 @@ const useRecordSale = (closeRecordSale) => {
             consumerType: false,
             quantity: false,
             price: false,
-        })
-        setNotificationStatus({
-            show: false,
-            message:'',
-            type:'success'
         })
         setIsLoading(false)
     }
@@ -149,7 +138,7 @@ const useRecordSale = (closeRecordSale) => {
                     .then(()=> {
                         closeRecordSale()
                         reset()
-                        toast.message('Updated crop amount successfully')
+                        toast.message(`${values.grainType} sale recorded successfully`)
                     }).catch((error)=> {
                         toast.message(error)
                         setIsLoading(false)
