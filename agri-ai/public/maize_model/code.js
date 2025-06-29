@@ -1,1 +1,1 @@
-cont foo = 'bar'
+const foo = 'bar'
