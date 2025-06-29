@@ -1,132 +1,134 @@
 .dashboard {
-    min-height: 100vh;
-    width: 100vw;
+  min-height: 100vh;
+  width: 100vw;
 
-    display: flex;
-    flex-flow: row nowrap;
+  display: flex;
+  flex-flow: row nowrap;
 }
 
 .sidebar {
-    width: 450px;
-    min-height: 100vh;
-    height: 100vh;
+  width: 450px;
+  min-height: 100vh;
+  height: 100vh;
 
-    display: flex;
+  display: flex;
 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 50;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
 }
 
 .component {
-    min-height: 100vh;
-    width: calc(100% - 450px);
-    padding: 0;
+  min-height: 100vh;
+  width: calc(100% - 450px);
+  padding: 0;
 
-    display: flex;
-    flex-flow: column nowrap;
+  display: flex;
+  flex-flow: column nowrap;
 
-    position: relative;
-    left: 450px;
+  position: relative;
+  left: 450px;
 }
 
 /* Header Styles */
 .header {
-    width: 100%;
-    height: 150px;
+  width: 100%;
+  height: 150px;
 
-    backdrop-filter: blur(10px);
-    background-color: rgba(255, 255, 255, 1);
-    border-bottom: 1px solid #f0f0f0;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 1);
+  border-bottom: 1px solid #f0f0f0;
 
-    padding: 0 20px 0 20px;
+  padding: 0 20px 0 20px;
 
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .inventoryOverview {
-    font-weight: 450;
-    font-family: var(--ff-p);
-    font-size: .7rem;
-    color: #666;
-    display: block;
+  font-weight: 450;
+  font-family: var(--ff-p);
+  font-size: .7rem;
+  color: #666;
+  display: block;
 }
 
 .dashboardTitle {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    gap: 0px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  gap: 10px;
+
+  width: 100%;
 }
 
 .controls {
-    display: flex;
-    flex-flow: row nowrap;
-    gap: 15px;
-    align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 15px;
+  align-items: center;
 }
 
 .addUser,
 .addSale {
-    height: 40px;
-    width: max-content;
+  height: 40px;
+  width: max-content;
 
-    padding: 0.125rem 0.8rem;
+  padding: 0.125rem 0.8rem;
 
-    font-weight: bold;
-    font-size: 0.875rem;
-    font-family: var(--ff-p);
+  font-weight: bold;
+  font-size: 0.875rem;
+  font-family: var(--ff-p);
 
-    color: black;
-    cursor: pointer;
+  color: black;
+  cursor: pointer;
 
-    transition: all 0.4s;
+  transition: all 0.4s;
 
-    background-color: transparent;
-    border: 1px solid #f0f0f0;
-    border-radius: 7px;
+  background-color: transparent;
+  border: 1px solid #f0f0f0;
+  border-radius: 7px;
 
-    display: flex;
-    flex-flow: row nowrap;
-    gap: 5px;
-    align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 5px;
+  align-items: center;
 }
 
 .addSale {
-    font-weight: bold;
-    font-size: 0.875rem;
-    font-family: var(--ff-p);
+  font-weight: bold;
+  font-size: 0.875rem;
+  font-family: var(--ff-p);
 
-    color: white;
-    cursor: pointer;
+  color: white;
+  cursor: pointer;
 
-    transition: all 0.4s;
+  transition: all 0.4s;
 
-    background-color: #3b82f6;
-    border: none;
-    border-radius: 7px;
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 7px;
 }
   
 .logoText,
 .logo {
-    font-weight: bold;
-    font-size: 1.85rem;
-    font-family: var(--ff-p);
-    letter-spacing: -2px;
+  font-weight: bold;
+  font-size: 1.85rem;
+  font-family: var(--ff-p);
+  letter-spacing: -2px;
 }
 
 .logo {
-    font-size: 1.25rem;
-    color: #3b82f6;
+  font-size: 1.25rem;
+  color: #3b82f6;
 }
 
 .corusel {
@@ -164,30 +166,30 @@
 }
 
 .icons {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 
-    width: 100%;
-    height: 40px;
+  width: 100%;
+  height: 40px;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .h1 {
-    font-size: 1.5rem;
-    font-weight: 900;
-    font-family: var(--ff-p);
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-family: var(--ff-p);
 
-    color: black;
+  color: black;
 }
 
 .h2 {
-    font-size: 0.7rem;
-    font-family: var(--ff-js);
-    font-weight: 550;
+  font-size: 0.7rem;
+  font-family: var(--ff-js);
+  font-weight: 550;
 
-    color: #808080;
+  color: #808080;
 }
 
 .circle {
@@ -235,19 +237,19 @@
 
 .compared,
 .comparedValue {
-    display: flex;
-    flex-flow: column nowrap;
-    gap: 3px;
-    align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 3px;
+  align-items: center;
 
-    font-size: .65rem;
-    font-weight: 700;
-    font-family: var(--ff-p);
+  font-size: .65rem;
+  font-weight: 700;
+  font-family: var(--ff-p);
 }
 
 .comparedValue {
-    position: relative;
-    top: -9px;
+  position: relative;
+  top: -9px;
 }
 
 .comparisonH1 {
@@ -342,6 +344,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 45px;
+
 }
 
 .labels {

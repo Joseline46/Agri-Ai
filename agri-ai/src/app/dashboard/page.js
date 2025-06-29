@@ -13,6 +13,7 @@ import Doughnut from "@/components/charts/doughnut/doughnut"
 import GrainsTable from '@/components/tables/grains/grains'
 import Sidebar from '@/components/sidebar/sidebar'
 import ViewFarmersComponent from '@/components/farmers/farmers'
+import Aiinsights from '@/components/insights/aiinsights'
 
 import { loadModel, predict } from '@/predict'
 
@@ -26,7 +27,7 @@ import { UserAuth } from '@/contexts/auth'
 import styles from '@/styles/dashboard.module.css'
 
 // Assets
-import { TrendingUp, TrendingDown, Bean, Wheat, Plus } from 'lucide-react' 
+import { TrendingUp, TrendingDown, Bean, Wheat, Plus, Sparkles } from 'lucide-react' 
 import { GiPeas  } from "react-icons/gi"
 
 import { PiGrainsBold } from "react-icons/pi"
@@ -186,13 +187,13 @@ const grainsTypes = ['Maize', 'Wheat', 'Beans', 'Soybeans']
 const Dashboard = ()=> {
   const { user, credentials, signout } = UserAuth()
   const router = useRouter() 
-  const [prediction, setPrediction] = useState(null)
   const [showAddUserForm, setShowAddUserForm] = useState(false)
   const [showRecordSale, setShowRecordSale] = useState(false)
   const [showAddCropAmountForm, setShowAddCropAmountForm] = useState(false)
   const [cropData, setCropData] = useState(null)
   const [totalWeight, setTotalWeight] = useState(0)
   const [viewFarmers, setViewFarmers] = useState(false)
+  const [viewInsights, setViewInsights] = useState(false)
 
   const {
     stocks,
@@ -212,9 +213,8 @@ const Dashboard = ()=> {
   } = useDashboard()
 
   const testPredict = async ()=> {
-    console.log('test-predict')
     const model = await loadModel();
-    const prediction = await predict(model, [2025, 3, 15, 6]);
+    const prediction = await predict(model, [2025, 6, 29, 555]);
     console.log(`Predicted Quantity (kg): ${prediction.toFixed(2)}`);
   }
 
@@ -234,14 +234,13 @@ const Dashboard = ()=> {
     setViewFarmers(false)
   }
 
-  // useEffect(() => {
-  //   async function runPrediction() {
-  //     const result = await predictMaize([14, 6, 2]) // Example: June 14, Friday
-  //     setPrediction(result.toFixed(2))
-  //   }
+  const openViewInsights = ()=> {
+    setViewInsights(true)
+  }
 
-  //   runPrediction()
-  // }, [])
+  const closeViewInsights = ()=> {
+    setViewInsights(false)
+  }
 
   useEffect(()=>{
     if(user === null ){
@@ -271,6 +270,7 @@ const Dashboard = ()=> {
     return (
       <>
         <Toaster position="bottom-right" />
+        { viewInsights && <Aiinsights showComponent={viewInsights} currentYearRestocksStats={currentYearRestocksStats} close={closeViewInsights} /> }
         { viewFarmers && <ViewFarmersComponent showComponent={viewFarmers} farmers={farmersData} close={closeViewFarmers} /> }
         <section className={styles.dashboard}>
           <Sidebar 
@@ -287,6 +287,11 @@ const Dashboard = ()=> {
             <section className={styles.header}>
               <section className={styles.dashboardTitle}>
                 <p className={styles.logoText} onClick={()=>testPredict()}>Dashboard</p>
+                <section className={styles.controls}>
+                  <section className={styles.circle} onClick={()=>openViewInsights()}>
+                    <Sparkles size={20} color='#800080' />
+                  </section>
+                </section>
               </section>
             </section>
 
