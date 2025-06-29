@@ -1,0 +1,1 @@
+cont foo = 'bar'
