@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
+
 // Components
 import AddFarmer from '@/components/addUser/addUser'
 import AddCropAmount from '@/components/addCropAmount/addCropAmount'
@@ -249,6 +250,7 @@ const Dashboard = ()=> {
   if(user){
     return (
       <>
+        <Toaster position="bottom-right" />
         <section className={styles.dashboard}>
           <Sidebar recordGrainSale={recordGrainSale} setShowAddUserForm={setShowAddUserForm} signout={signout} credentials={credentials} />
           <section className={styles.component}>

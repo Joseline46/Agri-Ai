@@ -6,6 +6,9 @@ import { Bean, Wheat, Nut } from 'lucide-react'
 import { PiGrainsBold } from "react-icons/pi"
 import { GiPeas  } from "react-icons/gi"
 
+// Hoc
+import { toast } from "sonner"
+
 const mapIcons = (description)=> {
     let ICON = null
     let transformedDescription = description.trim().toLowerCase()

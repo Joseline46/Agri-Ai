@@ -8,6 +8,8 @@ import { auth, db } from '@/firebase'
 // Hooks
 import useValidation from './useValidation'
 
+import { toast } from "sonner"
+
 export const createRandomString = (length) => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
@@ -37,7 +39,6 @@ const useAddUser = (closeModal) => {
         arable: false,
         region: false,
     })
-    const [dateFilterValues, setDateFilterValues] = useState({ date: '' })
 
     const [notificationStatus, setNotificationStatus] = useState({
         show: false,
@@ -90,22 +91,20 @@ const useAddUser = (closeModal) => {
                 .then((userCredential) => {
                     const user = userCredential.user;
 
-                    console.log('user', user)
-                    console.log('user.uid', user.uid)
-
                     setDoc(doc(db, 'farmers', usersDocumentId), {...usersDocument, id:user.uid})
                     .then(()=>{
                         signout()
                         setIsLoading(false)
                         closeModal()
+                        toast.message('New use added successfully')
                     })
                     .catch((error)=> {
-                        console.log('error-1', error)
+                        toast.message(error)
                         setIsLoading(false)
                     })
                 })
                 .catch((error) => {
-                    console.log('error-2', error)
+                    toast.message(error)
                     setIsLoading(false)
                 });
             }

@@ -1,10 +1,11 @@
 // Functions
 import regex from "@/functions/regex"
 
+import { toast } from "sonner"
+
 const useValidation = (values, errors, setValues, setErrors, setNotificationStatus) => {
     const changeValues = (event)=> {
         const { name, value } = event.target
-        // console.log(value)
         regex[`${name}`].test(value)? validateValues(true, event) : validateValues(false, event)
     }
 
@@ -22,13 +23,7 @@ const useValidation = (values, errors, setValues, setErrors, setNotificationStat
             if((values[value]==="") || (values[value].length===0) || (values[value]===null)) {
                 counter++
                 errors[`${value}`] = true
-                setNotificationStatus({
-                    head: 'Check Empty Fields',
-                    meta: 'All fields are required. Please complete them before submitting.', 
-                    show:true, 
-                    message:"Kindly complete the highlighted fields.", 
-                    type:"fail" 
-                })
+                toast.message("Complete the highlighted fields.")
             }
         }
         setErrors(errors)
@@ -41,13 +36,7 @@ const useValidation = (values, errors, setValues, setErrors, setNotificationStat
         for(const error in errors) {
             if(errors[error]===true) {
                 counter++
-                setNotificationStatus({
-                    head: 'Check Errors',
-                    meta: 'Please provide accurate and complete data for all records.', 
-                    show:true, 
-                    message:"To proceed, kindly resolve the errors highlighted in the input fields.", 
-                    type:"fail"
-                })
+                toast.message("Resolve the highlighted errors")
             }
         }
         return counter

@@ -5,6 +5,8 @@ import {db} from '@/firebase'
 // Hooks
 import useValidation from './useValidation'
 
+import { toast } from "sonner"
+
 export const createRandomString = (length) => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
@@ -126,7 +128,7 @@ const useRecordSale = (closeRecordSale) => {
             if(numberOfFieldsErrors <= 0) {
 
                 if(stockLevel < parseFloat(values.quantity)) {
-                    console.log('Insufficient stock level')
+                    toast.message('Insufficient stock level')
                     return
                 }
 
@@ -147,12 +149,14 @@ const useRecordSale = (closeRecordSale) => {
                     .then(()=> {
                         closeRecordSale()
                         reset()
-                        console.log('updated crop amount successfully')
+                        toast.message('Updated crop amount successfully')
                     }).catch((error)=> {
+                        toast.message(error)
                         setIsLoading(false)
                     })
                 })
                 .catch((error)=> {
+                    toast.message(error)
                     setIsLoading(false)
                 })
             }

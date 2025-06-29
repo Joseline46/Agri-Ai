@@ -1,5 +1,6 @@
 "use client"
 import { useRef } from 'react'
+import { Toaster } from "@/components/ui/sonner"
 
 // Components
 import Hero from '@/components/hero/hero'
@@ -17,6 +18,7 @@ export default function Home() {
 
   return (
     <>
+      <Toaster position="bottom-right" />
       <Header />
       <Hero onExplore={scrollToFeatures} />
       <Features ref={featuresRef} />
