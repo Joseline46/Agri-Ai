@@ -17,16 +17,21 @@ import { GiPeas  } from "react-icons/gi"
 
 import { PiGrainsBold } from "react-icons/pi"
 
+// Hooks
+import useFarmer from '@/hooks/getFarmerData'
+
 const Farmer = () => {
   const searchParams = useSearchParams()
 
-  const [customerId, setCustomerId] = useState('')
+  const [farmerId, setFarmerId] = useState('')
   const [lineChartData, setLineChartData] = useState([])
   const [barChartData, setBarChartData] = useState([])
 
+  const { farmerCredentials, farmersDeliveries } = useFarmer(farmerId)
+
   useEffect(() => {
     const id = searchParams.get("id")
-    setCustomerId(id)
+    setFarmerId(id)
   }, [searchParams])
 
   const goToOrdersDashboard = () => {
@@ -52,7 +57,7 @@ const Farmer = () => {
         </section>
 
         <section className={styles.headerTwo}>
-          { true?<section className={styles.skeletonCover}><p className={styles.headerText}>Stany / Ganyani</p></section>:<section className={styles.skeletonCover}><Skeleton className="h-4 w-[120px] bg-gray-200" /></section> }
+          { farmerCredentials?<section className={styles.skeletonCover}><p className={styles.headerText}>{`${farmerCredentials.firstname} / ${farmerCredentials.lastname}`}</p></section>:<section className={styles.skeletonCover}><Skeleton className="h-4 w-[120px] bg-gray-200" /></section> }
         </section>
 
         <section className={styles.content}>

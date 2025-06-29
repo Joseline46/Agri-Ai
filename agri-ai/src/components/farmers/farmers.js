@@ -145,7 +145,7 @@ const Farmers = (props)=> {
                                                 filteredFarmers.map((user, index) => {
                                                     const initials = `${user.firstname[0]}`
                                                     return (
-                                                        <Link key={index} href={`/dashboard/customer/?id=${user.firstname}`}>
+                                                        <Link key={index} href={`/dashboard/farmer/?id=${user.docId}`}>
                                                             <section className={usersTableStyles.tr}>
                                                                 <section className={usersTableStyles.profile}>
                                                                     <section className={usersTableStyles.avatar}>

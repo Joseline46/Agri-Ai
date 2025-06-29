@@ -240,6 +240,18 @@ const useDashboard = ()=> {
         })
     }
 
+    const [usernames, setUsernames] = useState([])
+
+    useEffect(()=> {
+        let names = []
+        if(farmersData.length){
+            farmersData.map((farmer)=> {
+                names.push({"name": farmer.username, "code": farmer.username})
+            })
+        }
+        setUsernames(names)
+    }, [farmersData])
+
     useEffect(() => {
         function extractOrderedValues(dataObj) {
             const order = ['Maize', 'Beans', 'Wheat', 'Soybeans']
@@ -327,9 +339,12 @@ const useDashboard = ()=> {
         const unsubscribeProperty = onSnapshot(farmersDocsRef, (querySnapshot) => {
             let records = []
             querySnapshot.forEach((doc) => {
-                records.push(doc.data())
+                records.push({docId: doc.id, ...doc.data()})
             })
-    
+
+            records.map(r=>console.log('id', r.id))
+
+            console.log('farmers-data', records)
             setFarmersData(records)
         })
     }, [])
@@ -373,6 +388,7 @@ const useDashboard = ()=> {
         previousYearSalesStats,
         currentYearRestocksStats,
         previousYearRestocksStats,
+        usernames,
         setDateFilterValues, 
         handleChangeDateRange, 
         handleChangeDateFilterValues, 

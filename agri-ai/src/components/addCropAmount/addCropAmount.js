@@ -3,9 +3,10 @@
 // Components
 import Button from "@/ui/button/button"
 import Input  from "@/ui/input/input"
+import Select from "@/ui/select/select"
 
 // Assets
-import { Package } from "lucide-react"
+import { Package, PersonStanding } from "lucide-react"
 import { PiGrainsBold } from "react-icons/pi"
 
 // Styles
@@ -15,7 +16,18 @@ import styles from './addCropAmount.module.css'
 import useAddCropAmount from '@/hooks/useAddCropAmount'
 
 const AddCropAmount = ((props) => {
-  const { values, errors, isLoading, updateCropAmount, changeValues } = useAddCropAmount(props.cropData, props.closeUpdateCropAmount)
+  const { 
+    optionsValues, 
+    setOptionsValues, 
+    values, 
+    errors, 
+    isLoading, 
+    updateCropAmount, 
+    changeValues,
+    setValues,
+    setErrors
+  } = useAddCropAmount(props.cropData, props.closeUpdateCropAmount)
+
   return (
     <div className={styles.signInContainer}>
       <div className={styles.card}>
@@ -30,6 +42,29 @@ const AddCropAmount = ((props) => {
                   <Input label='Grain Type' errorMessage='Grain type is required' placeholder='Maize' name='grainType' type='text' value={values.grainType} error={errors.grainType} change={changeValues}>
                     <PiGrainsBold size={20} color='black' />
                   </Input>
+                </div>
+                <div className={styles.inputWrapper}>
+                  <Select 
+                    id='username'
+                    notification={null} 
+                    label='Purchase From' 
+                    errorMessage='Username is required'
+                    placeholder='stnganyani@gmail.com' 
+                    name='username' 
+                    type='text' 
+                    value={values.username} 
+                    error={errors.username} 
+                    change={changeValues}
+
+                    list={props.usernames}  
+                    values={values} 
+                    setValue={setValues} 
+                    errors={errors} 
+                    setError={setErrors}
+                    optionsValues={optionsValues}
+                    setOptionsValues={setOptionsValues}>
+                    <PersonStanding color='#808080' size={17} />
+                  </Select>
                 </div>
                 <div className={styles.inputField}>
                   <div className={styles.inputWrapper}>

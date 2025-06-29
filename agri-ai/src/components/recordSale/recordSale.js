@@ -4,7 +4,7 @@
 import Button from "@/ui/button/button"
 import Input  from "@/ui/input/input"
 import Select from "@/ui/select/select"
-import { AudioWaveform, PersonStanding, HandCoins  } from 'lucide-react' 
+import { AudioWaveform, HandCoins  } from 'lucide-react' 
 
 import { PiGrainsBold } from "react-icons/pi"
 
@@ -62,30 +62,6 @@ const RecordSale = ((props) => {
                   </Select>
                 </div>
               </div>
-
-              {/* <div className={styles.inputField}>
-                <Select 
-                  id='consumerType'
-                  notification={null} 
-                  label='Consumer Type' 
-                  errorMessage='Consumer Type is required'
-                  placeholder='Livestock/Human' 
-                  name='consumerType' 
-                  type='text' 
-                  value={values.consumerType} 
-                  error={errors.consumerType} 
-                  change={changeValues}
-
-                  list={listItem.consumerType}  
-                  values={values} 
-                  setValue={setValues} 
-                  errors={errors} 
-                  setError={setErrors}
-                  optionsValues={optionsValues}
-                  setOptionsValues={setOptionsValues}>
-                  <PersonStanding color='#808080' size={17} />
-                </Select>
-              </div> */}
 
               <div className={styles.inputField}>
                 <div className={styles.inputWrapper}>

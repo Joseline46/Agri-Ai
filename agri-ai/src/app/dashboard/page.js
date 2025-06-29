@@ -194,8 +194,8 @@ const Dashboard = ()=> {
   const [viewFarmers, setViewFarmers] = useState(false)
 
   const {
-    farmersData,
     stocks,
+    farmersData, 
     doughnutValues, 
     filteredGrainsData, 
     dateFilterValues, 
@@ -203,10 +203,11 @@ const Dashboard = ()=> {
     previousYearSalesStats,
     currentYearRestocksStats,
     previousYearRestocksStats,
+    usernames,
     setDateFilterValues, 
     handleChangeDateRange, 
     handleChangeDateFilterValues, 
-    mapIcons
+    mapIcons,
    } = useDashboard()
 
   const recordGrainSale = ()=> {
@@ -273,7 +274,7 @@ const Dashboard = ()=> {
           <section className={styles.component}>
             { showAddUserForm && <AddFarmer setShowAddUserForm={setShowAddUserForm}/> }
             { showRecordSale && <RecordSale closeRecordSale={closeRecordSale} setShowRecordSale={setShowRecordSale}/> }
-            { showAddCropAmountForm && <AddCropAmount closeUpdateCropAmount={closeUpdateCropAmount} cropData={cropData}/> }
+            { showAddCropAmountForm && <AddCropAmount usernames={usernames} closeUpdateCropAmount={closeUpdateCropAmount} cropData={cropData}/> }
 
             <section className={styles.header}>
               <section className={styles.dashboardTitle}>

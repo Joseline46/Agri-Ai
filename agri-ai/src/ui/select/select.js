@@ -101,7 +101,7 @@ const StandardSelect = (props) => {
                         <section className={styles.list}>
                             {
                                 props.list.length && props.list.filter((option)=> {
-                                    return option.name.toLowerCase().includes(props.optionsValues[props.id].toLowerCase())
+                                    return props.optionsValues[props.id]!==''?option.name.toLowerCase().includes(props.optionsValues[props.id].toLowerCase()):option
                                 }).map((option, index) => (
                                         <Option 
                                             closeShowOptions={closeShowOptions}

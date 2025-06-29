@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { collection, setDoc, onSnapshot, updateDoc, doc, arrayUnion } from "firebase/firestore"
+import { collection, setDoc, onSnapshot, updateDoc, doc } from "firebase/firestore"
 import {db} from '@/firebase'
 
 // Hooks
@@ -34,7 +34,7 @@ const useRecordSale = (closeRecordSale) => {
     })
     const [optionsValues, setOptionsValues] = useState({
         grainType: '',
-        consumerType: ''
+        consumerType: '',
     })
 
     const listItem = {

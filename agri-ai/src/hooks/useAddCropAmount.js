@@ -18,21 +18,24 @@ export const createRandomString = (length) => {
     return result;
 }
 
-// Context
-import { UserAuth } from '@/contexts/auth'
-
 const useAddCropAmount = (cropData, closeModal) => {
     const [isLoading, setIsLoading] = useState(false)
     const [values, setValues] = useState({
         amount: '',
-        grainType: ''
+        grainType: '',
+        username: ''
     })
     const [errors, setErrors] = useState({
         amount: false,
-        grainType: false
+        grainType: false,
+        username: false
     })
     const [stocks, setStocks] = useState(null)
     const [price, setPrice] = useState(0)
+
+    const [optionsValues, setOptionsValues] = useState({
+        username: ''
+    })
 
     const { changeValues, checkEmptyFields, checkErrors } = useValidation(values, errors, setValues, setErrors)
 
@@ -72,16 +75,18 @@ const useAddCropAmount = (cropData, closeModal) => {
     const reset = ()=> {
         setValues({
             amount: '',
-            grainType: ''
+            grainType: '',
+            username: ''
         })
         setErrors({
             amount: false,
-            grainType: false
+            grainType: false,
+            username: false
         })
         setIsLoading(false)
     }
 
-     const updateCropAmount = async ()=> {
+    const updateCropAmount = async ()=> {
         const numberOfErrors = checkErrors()
         if(numberOfErrors <= 0) {
             const numberOfFieldsErrors = checkEmptyFields()
@@ -101,6 +106,7 @@ const useAddCropAmount = (cropData, closeModal) => {
                         amount: parseFloat(values.amount),
                         date: dateString,
                         price: price,
+                        username: values.username,
                     }
 
                     setDoc(doc(db, 'restocks', documentId), restockData)
@@ -122,7 +128,17 @@ const useAddCropAmount = (cropData, closeModal) => {
         }
     }
 
-    return { values, errors, isLoading, updateCropAmount, changeValues }
+    return { 
+        optionsValues, 
+        values, 
+        errors, 
+        isLoading, 
+        setOptionsValues, 
+        updateCropAmount, 
+        changeValues,
+        setValues,
+        setErrors
+    }
 }
  
 export default useAddCropAmount
