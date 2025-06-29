@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { clsx } from 'clsx'
 
 // Components
 import AddFarmer from '@/components/addUser/addUser'
@@ -12,7 +11,7 @@ import Calendar from '@/components/calendar/calendar'
 import Doughnut from "@/components/charts/doughnut/doughnut"
 import GrainsTable from '@/components/tables/grains/grains'
 import Sidebar from '@/components/sidebar/sidebar'
-import { predictMaize } from '@/utils/models';
+import { predictMaize } from '@/utils/models'
 // Hooks
 import useDashboard from '@/hooks/useDashboard'
 
@@ -29,239 +28,182 @@ import { GiPeas  } from "react-icons/gi"
 import { PiGrainsBold } from "react-icons/pi"
 
 const Consumed = (props) => {
-    const [primaryColor, setPrimaryColor] = useState("");
-    const [secondaryColor, setSecondaryColor] = useState("");
-    const [sign, setSign] = useState("plus");
-    const [percent, setPercent] = useState(0);
-  
+    const [primaryColor, setPrimaryColor] = useState("")
+    const [secondaryColor, setSecondaryColor] = useState("")
+
     useEffect(() => {
-      let target = parseFloat(props.target);
-      let gained = parseFloat(props.gained);
-  
-      let operand = "plus";
-      let total = 0;
-  
-      // Cannot divide by zero
-      if (parseFloat(target) > 0) {
-        total = parseInt((parseFloat(gained) / parseFloat(target)) * 100);
+      if (props.hasIncreased) {
+        setPrimaryColor("#98FB98")
+        setSecondaryColor("#0BDA51")
+      } else {
+        setPrimaryColor("#FA8072")
+        setSecondaryColor("#FF2400")
       }
-      if (total > 100) {
-        total = total - 100;
-        operand = "minus";
-      }
-      setPercent(total);
-      setSign(operand);
-    }, [props.gained, props.target]);
-  
-    useEffect(() => {
-      if (sign === "plus") {
-        setPrimaryColor("#98FB98");
-        setSecondaryColor("#0BDA51");
-      } else if (sign === "minus") {
-        setPrimaryColor("#FA8072");
-        setSecondaryColor("#FF2400");
-      }
-    }, [sign]);
+    }, [props.hasIncreased])
   
     return (
       <section className={styles.consumed}>
-        <span>{`${sign === "plus" ? "+" : ""}${percent}%`}</span>
-        <section
-          className={styles.faint}
-          style={{ backgroundColor: primaryColor }}
-        >
-          <section
-            className={styles.fluid}
-            style={{ width: `${percent}%`, backgroundColor: secondaryColor }}
-          ></section>
+        <span style={{color:`${secondaryColor}`}}>{`${props.hasIncreased ? "+" : ""}${props.percent}%`}</span>
+        <section className={styles.faint} style={{ backgroundColor: primaryColor }}>
+          <section className={styles.fluid} style={{ width: `${props.percent}%`, backgroundColor: secondaryColor }}></section>
         </section>
       </section>
-    );
+    )
 }
   
-const Card = ({children, cardName, currentValue, previousValue, target, updateCropAmount}) => {
-  const [percentageIncrease, setPercentageIncrease] = useState(0);
-  const [hasIncreased, setHasIncreased] = useState(false);
-  const [difference, setDifference] = useState(0);
+const Card = ({children, cardName, currentValue, previousValue, target, displayValue, updateCropAmount}) => {
+  const [percentChange, setPercentChange] = useState(0)
+  const [hasIncreased, setHasIncreased] = useState(false)
+  const [difference, setDifference] = useState(0)
 
   useEffect(() => {
-    // Ensure values are valid numbers
-    let calculatedDifference = 0;
     if (isNaN(previousValue) || isNaN(currentValue)) {
-      setPercentageIncrease(0);
-      setHasIncreased(false);
-      setDifference(0);
-      return;
+      setPercentChange(0)
+      setHasIncreased(false)
+      setDifference(0)
+      return
+    }else if(previousValue === currentValue) {
+      setPercentChange(0)
+      setHasIncreased(false)
+      setDifference(0)
+    }else if(previousValue === 0 && currentValue > 0) {
+      setPercentChange(100)
+      setHasIncreased(true)
+      setDifference(currentValue)
+    }else {
+      let calculatedDifference = currentValue - previousValue
+      let percent = previousValue === 0 ? 100 : (calculatedDifference / previousValue) * 100
+
+      percent = Math.round(percent)
+
+      setPercentChange(percent)
+      setDifference(calculatedDifference)
     }
-
-      if(previousValue === currentValue) {
-      setPercentageIncrease(null);
-      setHasIncreased(null);
-      setDifference(null);
-    } else if (previousValue === 0) {
-      setPercentageIncrease(100)
-      
-      setHasIncreased(true);
-      setDifference(currentValue);
-    }  else {
-      calculatedDifference = currentValue - previousValue;
-      let percent = (calculatedDifference / previousValue) * 100;
-
-      // Round to nearest whole number
-      percent = Math.round(percent);
-
-      setPercentageIncrease(percent);
-      if(cardName.trim().toLowerCase()==='expenses'){
-        setHasIncreased(calculatedDifference < 0);
-      }else {
-        setHasIncreased(calculatedDifference > 0);
-      }
-      
-      setDifference(Math.abs(calculatedDifference));
-    }
-  }, [currentValue, previousValue]);
+  }, [currentValue, previousValue])
 
   return (
     <section className={styles.card} onClick={()=>updateCropAmount(cardName, currentValue)}>
       <section className={styles.icons}>
         <section className={styles.circle}>{children}</section>
-        <Consumed gained={currentValue} target={target} />
+        <Consumed percent={percentChange} hasIncreased={hasIncreased} />
       </section>
       <p className={styles.h2}>{cardName}</p>
       <section className={styles.comparisonH1}>
-        <p className={styles.h1}>{currentValue} Kgs</p>
-        
-      {
-        hasIncreased===null?null:(
-          <p className={styles.compared} style={{ color: hasIncreased ? "#217346" : "#EB173A" }}>
-              {`${hasIncreased ? "+" : ""}${percentageIncrease}%`}
-          </p>
-        )
-      }
-
-
-      {
-        hasIncreased===null?null:(
-          <p className={styles.comparedValue} style={{ color: hasIncreased ? "#217346" : "#EB173A", }}>
-            {hasIncreased ? ( <TrendingUp color="#217346" size={15} /> ) : ( <TrendingDown color="#EB173A" size={15} /> )}
-            {difference} kgs
-          </p>
-        )
-      }
-
+        <p className={styles.h1}>{displayValue} Kgs</p>
+        {
+          hasIncreased===null?null:(
+            <p className={styles.compared} style={{ color: hasIncreased ? "#217346" : "#EB173A" }}>
+              {`${hasIncreased ? "+" : ""}${percentChange}%`}
+            </p>
+          )
+        }
+        {
+          hasIncreased===null?null:(
+            <p className={styles.comparedValue} style={{ color: hasIncreased ? "#217346" : "#EB173A", }}>
+              {hasIncreased ? ( <TrendingUp color="#217346" size={15} /> ) : ( <TrendingDown color="#EB173A" size={15} /> )}
+              {difference} kgs
+            </p>
+          )
+        }
       </section>
     </section>
-  );
+  )
 }
 
 function formatNumber(number) {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
 const GrainLabel = (props)=> {
-  const [percentageIncrease, setPercentageIncrease] = useState(0);
-  const [hasIncreased, setHasIncreased] = useState(false);
-  const [difference, setDifference] = useState(0);
-  const [isCategorySelected,  setIsCategorySelected] = useState(false)
+  const [percentChange, setPercentChange] = useState(0)
+  const [hasIncreased, setHasIncreased] = useState(false)
+  const [difference, setDifference] = useState(0)
 
   useEffect(() => {
-    // Ensure values are valid numbers
-    if(props.stocks){
-      let calculatedDifference = 0;
-      let previousValue = props.copyCategories[`${props.grain.unTransformedName}`]
-      let currentValue = props.stocks[`${props.grain.unTransformedName}`]
-      if (isNaN(previousValue) || isNaN(currentValue)) {
-        setPercentageIncrease(0);
-        setHasIncreased(false);
-        setDifference(0);
-        return;
-      }
+    let previousValue = props.previousValue
+    let currentValue = props.currentValue
 
-      if(previousValue === currentValue) {
-        setPercentageIncrease(null);
-        setHasIncreased(null);
-        setDifference(null);
-      } else if(previousValue === 0) {
-        setPercentageIncrease(100);
-        setHasIncreased(true);
-        setDifference(currentValue);
-      } else {
-        calculatedDifference = currentValue - previousValue;
-        let percent = (calculatedDifference / previousValue) * 100;
+    if (isNaN(previousValue) || isNaN(currentValue)) {
+      setPercentChange(0)
+      setHasIncreased(false)
+      setDifference(0)
+      return
+    }else if(previousValue === currentValue) {
+      setPercentChange(0)
+      setHasIncreased(false)
+      setDifference(0)
+    }else if(previousValue === 0 && currentValue > 0) {
+      setPercentChange(100)
+      setHasIncreased(true)
+      setDifference(currentValue)
+    }else {
+      let calculatedDifference = currentValue - previousValue
+      let percent = previousValue === 0 ? 100 : (calculatedDifference / previousValue) * 100
 
-        // Round to nearest whole number
-        percent = Math.round(percent);
+      percent = Math.round(percent)
 
-        setPercentageIncrease(percent);
-        setHasIncreased(calculatedDifference > 0);
-        setDifference(Math.abs(calculatedDifference));
-      }
+      setPercentChange(percent)
+      setDifference(calculatedDifference)
     }
-  }, [props.copyCategories, props.stocks])
-
-  useEffect(()=> {
-    const isSelected = props.grain.transformedName===props.grainCategoryFilter
-    setIsCategorySelected(isSelected)
-  }, [props.grainCategoryFilter, props.grain.transformedName])
+  }, [props.currentValue, props.previousValue])
 
   return (
-    <section className={clsx({[styles.category]:isCategorySelected===false, [styles.selectedCategory]:isCategorySelected===true})} onClick={()=>props.setGrainsCategoryFilter(props.grain.transformedName)}>
+    <section className={styles.category}>
       <section className={styles.avatar}>
-        { props.mapIcons(props.grain.transformedName) }
+        { props.mapIcons(props.name) }
       </section>
       <section className={styles.labelAndAmount}>
-        <p className={styles.label}>{props.grain.transformedName}</p>
+        <p className={styles.label}>{props.name}</p>
         <section className={styles.amount}>
-          { props.stocks && formatNumber(props.stocks[`${props.grain.unTransformedName}`]) }Kg
-          {/* {
-            props.showComparativeStats?(
-              hasIncreased===null?null:(
-                <p className={styles.compared} style={{ color: hasIncreased ? "#EB173A" : "#217346", }} >
-                  {`${hasIncreased ? "+" : ""}${percentageIncrease}%`}
-                </p>
-              )
-            ):null
+          { formatNumber(props.currentValue) }Kg
+          {
+            hasIncreased===null?null:(
+              <p className={styles.compared} style={{ color: hasIncreased ? "#EB173A" : "#217346", }} >
+                {`${hasIncreased ? "+" : ""}${percentChange}%`}
+              </p>
+            )
           }
           {
-            props.showComparativeStats?(
-              hasIncreased===null?null:(
-                <p className={styles.comparedValue} style={{ color: hasIncreased ? "#EB173A" : "#217346", top:"0", flexFlow:"row nowrap" }}>
-                  {hasIncreased ? ( <TrendingUp color="#EB173A" size={15} /> ) : ( <TrendingDown color="#217346" size={15} />)}
-                  {difference}
-                </p>
-              )
-            ):null
-          } */}
+            hasIncreased===null?null:(
+              <p className={styles.comparedValue} style={{ color: hasIncreased ? "#EB173A" : "#217346", top:"0", flexFlow:"row nowrap" }}>
+                {hasIncreased ? ( <TrendingUp color="#EB173A" size={15} /> ) : ( <TrendingDown color="#217346" size={15} />)}
+                {difference} Kg
+              </p>
+            )
+          }
         </section>
       </section>
     </section>
   )
 }
 
+const grainsTypes = ['Maize', 'Wheat', 'Beans', 'Soybeans']
+
 const Dashboard = ()=> {
   const { user, credentials, signout } = UserAuth()
   const router = useRouter() 
-  const [prediction, setPrediction] = useState(null);
+  const [prediction, setPrediction] = useState(null)
   const [showAddUserForm, setShowAddUserForm] = useState(false)
   const [showRecordSale, setShowRecordSale] = useState(false)
   const [showAddCropAmountForm, setShowAddCropAmountForm] = useState(false)
   const [cropData, setCropData] = useState(null)
+  const [totalWeight, setTotalWeight] = useState(0)
 
-  const [grainCategoryFilter, setGrainsCategoryFilter] = useState('all')
   const {
     stocks,
-    insertDoc, 
-    farmersData, 
     doughnutValues, 
     filteredGrainsData, 
-    grainCategories, 
-    copyGrainCategory, 
     dateFilterValues, 
+    currentYearSalesStats,
+    previousYearSalesStats,
+    currentYearRestocksStats,
+    previousYearRestocksStats,
     setDateFilterValues, 
     handleChangeDateRange, 
     handleChangeDateFilterValues, 
-    mapIcons, 
-    grainCategoriesColumnMaps } = useDashboard()
+    mapIcons,
+    insertDoc
+   } = useDashboard()
 
   const recordGrainSale = ()=> {
     setShowRecordSale((prevState)=>!prevState)
@@ -271,20 +213,28 @@ const Dashboard = ()=> {
     setShowRecordSale(false)
   }
 
-  useEffect(() => {
-    async function runPrediction() {
-      const result = await predictMaize([14, 6, 2]); // Example: June 14, Friday
-      setPrediction(result.toFixed(2));
-    }
+  // useEffect(() => {
+  //   async function runPrediction() {
+  //     const result = await predictMaize([14, 6, 2]) // Example: June 14, Friday
+  //     setPrediction(result.toFixed(2))
+  //   }
 
-    runPrediction();
-  }, []);
+  //   runPrediction()
+  // }, [])
 
   useEffect(()=>{
     if(user === null ){
       router.push('/sign-in')
     }
   }, [user, router])
+
+  useEffect(() => {
+    function sumArrayValues(arr) {
+      return arr.reduce((total, value) => total + value, 0);
+    }
+    const total = sumArrayValues(doughnutValues);
+    setTotalWeight(total);  
+  }, [doughnutValues])
 
   const updateCropAmount = (name, amount)=> {
     setShowAddCropAmountForm(true)
@@ -313,16 +263,16 @@ const Dashboard = ()=> {
             </section>
 
             <section className={styles.corusel}>
-              <Card updateCropAmount={updateCropAmount} cardName="Maize" currentValue={stocks?stocks['Maize'] : 0} previousValue={110} target={134}>
+              <Card updateCropAmount={updateCropAmount} cardName="Maize" currentValue={currentYearRestocksStats['Maize']} displayValue={stocks?stocks['Maize'] : 0} previousValue={previousYearRestocksStats['Maize']} target={previousYearRestocksStats['Maize']}>
                 <PiGrainsBold size={20} color='#0058FF' />
               </Card>
-              <Card updateCropAmount={updateCropAmount} cardName="Beans" currentValue={stocks?stocks['Beans'] : 0} previousValue={110} target={200}>
+              <Card updateCropAmount={updateCropAmount} cardName="Beans" currentValue={currentYearRestocksStats['Beans']} displayValue={stocks?stocks['Beans'] : 0} previousValue={previousYearRestocksStats['Beans']} target={previousYearRestocksStats['Beans']}>
                 <Bean size={17} color='#4B10BF' />
               </Card>  
-              <Card updateCropAmount={updateCropAmount} cardName="Wheat" currentValue={stocks?stocks['Wheat'] : 0} previousValue={53} target={100}>
+              <Card updateCropAmount={updateCropAmount} cardName="Wheat" currentValue={currentYearRestocksStats['Wheat']} displayValue={stocks?stocks['Wheat'] : 0} previousValue={previousYearRestocksStats['Wheat']} target={previousYearRestocksStats['Wheat']}>
                 <Wheat  size={20} color='#FFC700' />
               </Card>
-               <Card updateCropAmount={updateCropAmount} cardName="Soybeans" currentValue={stocks?stocks['Soybeans'] : 0} previousValue={53} target={100}>
+               <Card updateCropAmount={updateCropAmount} cardName="Soybeans" currentValue={currentYearRestocksStats['Soybeans']} displayValue={stocks?stocks['Soybeans'] : 0} previousValue={previousYearRestocksStats['Soybeans']} target={previousYearRestocksStats['Soybeans']}>
                 <GiPeas  size={20} color='#EB17A4' />
               </Card>
             </section>
@@ -340,17 +290,17 @@ const Dashboard = ()=> {
               <section className={styles.doughnutAndLabelsContent}>
                 <section className={styles.overview}>
                   <h1 className={styles.doughnut}>
-                    <span>416Kg</span>
+                    <span>{totalWeight}Kgs</span>
                   </h1>
-                  <Doughnut values={[261, 45, 61, 67]} />
+                  <Doughnut values={doughnutValues} />
                 </section>
 
                 {/* Labels */}
                 <section className={styles.labels}>
                   {
-                    grainCategoriesColumnMaps.map((grain, index)=> {
+                    grainsTypes.map((grain, index)=> {
                       return (
-                        <GrainLabel  stocks={stocks} mapIcons={mapIcons} grainCategoryFilter={grainCategoryFilter} setGrainsCategoryFilter={setGrainsCategoryFilter} key={index} copyCategories={copyGrainCategory} categories={grainCategories} grain={grain} />
+                        <GrainLabel currentValue={currentYearSalesStats[`${grain}`]} previousValue={previousYearSalesStats[`${grain}`]} mapIcons={mapIcons} key={index} name={grain} />
                       )
                     })
                   }
@@ -358,7 +308,7 @@ const Dashboard = ()=> {
               </section>
 
               <p className={styles.headerText}>Grains Inventory</p>
-              <GrainsTable setGrainsCategoryFilter={setGrainsCategoryFilter} grainCategoryFilter={grainCategoryFilter} grains={filteredGrainsData} />
+              <GrainsTable grains={filteredGrainsData} />
             </section>
           </section>
         </section>

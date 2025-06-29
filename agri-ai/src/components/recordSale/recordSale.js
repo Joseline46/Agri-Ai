@@ -63,7 +63,7 @@ const RecordSale = ((props) => {
                 </div>
               </div>
 
-              <div className={styles.inputField}>
+              {/* <div className={styles.inputField}>
                 <Select 
                   id='consumerType'
                   notification={null} 
@@ -85,7 +85,7 @@ const RecordSale = ((props) => {
                   setOptionsValues={setOptionsValues}>
                   <PersonStanding color='#808080' size={17} />
                 </Select>
-              </div>
+              </div> */}
 
               <div className={styles.inputField}>
                 <div className={styles.inputWrapper}>

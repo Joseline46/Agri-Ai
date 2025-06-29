@@ -424,24 +424,19 @@
   align-items: center;
 }
 
-.doughnut > span:first-child {
-  font-size: 0.7rem;
-  font-family: var(--ff-p);
-  color: black;
-}
-
-.doughnut > span:last-child {
+.doughnut > span {
   display: block;
   white-space: wrap;
 
-  font-size: 0.65rem;
-  font-family: var(--ff-m);
-  color: #808080;
-
-  width: 115px;
+  font-weight: 450;
+  font-size: .75rem;
+  font-family: var(--ff-p);
+  
+  color: black;
 
   position: relative;
-  left: 17px;
+  left: 37px;
+  top: -20px;
 }
 
 .category,

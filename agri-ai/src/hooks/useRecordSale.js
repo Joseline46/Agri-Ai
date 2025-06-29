@@ -101,7 +101,7 @@ const useRecordSale = (closeRecordSale) => {
     const reset = ()=> {
         setValues({
             grainType: '',
-            consumerType: '',
+            consumerType: 'Human',
             quantity: '',
             price: '',
         })

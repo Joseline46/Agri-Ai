@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { collection, setDoc, onSnapshot, updateDoc, doc, arrayUnion } from "firebase/firestore"
-import {db} from '@/firebase'
+import { collection, setDoc, onSnapshot, doc } from "firebase/firestore"
+import { db } from '@/firebase'
 
 import { Bean, Wheat, Nut } from 'lucide-react' 
 import { PiGrainsBold } from "react-icons/pi"
@@ -47,22 +47,12 @@ const filterByDate = (from, to, DATA)=> {
 }
 
 export const createRandomString = (length) => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let result = "";
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    let result = ""
     for (let i = 0; i < length; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
+        result += chars.charAt(Math.floor(Math.random() * chars.length))
     }
-    return result;
-}
-
-const insertDoc = ()=> {
-    setDoc(doc(db, 'crops', 'Wheat'), {name: 'Wheat', amount: 0})
-    .then(()=>{
-        console.log('we are done')
-    })
-    .catch((error)=> {
-        console.log('error', error)
-    })
+    return result
 }
 
 const getFirstAndLastDateStringOfCurrentMonth = ()=> {
@@ -86,23 +76,74 @@ const getFirstAndLastDateStringOfCurrentMonth = ()=> {
     return [firstDayString, lastDayString]
 }
 
-const grainCategoriesColumnMaps = [
-    { unTransformedName: 'Maize', transformedName: 'Maize' },
-    { unTransformedName: 'Beans', transformedName: 'Beans' },
-    { unTransformedName: 'Wheat', transformedName: 'Wheat' },
-    { unTransformedName: 'Soybeans', transformedName: 'Soybeans' },
-]
+function getYearStartAndEnd(year) {
+  // Create date objects for Jan 1 and Dec 31
+  const startDate = new Date(year, 0, 1) // Month is 0-based (0 = January)
+  const endDate = new Date(year, 11, 31) // 11 = December
 
-function formatNumber(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  // Helper to format date as mm/dd/yyyy
+  function formatDate(date) {
+    const mm = String(date.getMonth() + 1).padStart(2, '0')
+    const dd = String(date.getDate()).padStart(2, '0')
+    const yyyy = date.getFullYear()
+    return `${mm}/${dd}/${yyyy}`
+  }
+
+  return [
+    formatDate(startDate),
+    formatDate(endDate)
+  ]
 }
 
-const grainsTypes = ['Maize', 'Beans', 'Wheat', 'Soybeans']
+function getCumulativeQuantities(salesData) {
+  // Initialize with all known grain types
+  const grainTypes = ['Maize', 'Wheat', 'Soybeans', 'Beans']
+  const cumulativeTotals = {
+    Maize: 0,
+    Wheat: 0,
+    Soybeans: 0,
+    Beans: 0
+  }
+
+  salesData.forEach(sale => {
+    const grain = sale.grainType
+    const quantity = parseFloat(sale.quantity)
+
+    if (grainTypes.includes(grain)) {
+      cumulativeTotals[grain] += quantity
+    }
+  })
+
+  return cumulativeTotals
+}
+
+function getCumulativeQuantitiesForRestocks(restocksData) {
+    // Initialize with all known grain types
+    const grainTypes = ['Maize', 'Wheat', 'Soybeans', 'Beans']
+    const cumulativeTotals = {
+        Maize: 0,
+        Wheat: 0,
+        Soybeans: 0,
+        Beans: 0
+    }
+
+    restocksData.forEach(record => {
+        const grain = record.name
+        const amount = parseFloat(record.amount)
+
+        if (grainTypes.includes(grain)) {
+        cumulativeTotals[grain] += amount
+        }
+    })
+
+    return cumulativeTotals
+}
   
 const useDashboard = ()=> {
     const [stocks, setStocks] = useState(null)
     const [filteredGrainsData, setFilteredGrainsData] = useState([])
-    const [grainsData, setGrainsData] = useState([])
+    const [grainsSalesData, setGrainsSalesData] = useState([])
+    const [restocksData, setRestocksData] = useState([])
     const [farmersData, setFarmersData] = useState([])
 
     const [doughnutValues, setDoughnutValues] = useState([])
@@ -111,19 +152,12 @@ const useDashboard = ()=> {
         from: '',
         to: ''
     })
-    
-    const [copyGrainCategory, setCopyGrainCategory] = useState({
-        Maize: 0,
-        Beans: 0,
-        Wheat: 0,
-        Soybeans: 0
-    })
-    const [grainCategories, setGrainCategories] = useState({
-        Maize: 0,
-        Beans: 0,
-        Wheat: 0,
-        Soybeans: 0
-    })
+
+    const [currentYearSalesStats, setCurrentYearSalesStats] = useState({Maize: 0, Wheat: 0, Soybeans: 0, Beans: 0})
+    const [previousYearSalesStats, setPreviousYearSalesStats] = useState({Maize: 0, Wheat: 0, Soybeans: 0, Beans: 0})
+
+    const [currentYearRestocksStats, setCurrentYearRestocksStats] = useState({Maize: 0, Wheat: 0, Soybeans: 0, Beans: 0})
+    const [previousYearRestocksStats, setPreviousYearRestocksStats] = useState({Maize: 0, Wheat: 0, Soybeans: 0, Beans: 0})
 
     const handleChangeDateRange = (range)=> {
         let year = new Date().getFullYear()
@@ -203,6 +237,15 @@ const useDashboard = ()=> {
         })
     }
 
+    useEffect(() => {
+        function extractOrderedValues(dataObj) {
+            const order = ['Maize', 'Beans', 'Wheat', 'Soybeans']
+            return order.map(grain => dataObj[grain] || 0)
+        }
+        let orderedValues = extractOrderedValues(currentYearSalesStats)
+        setDoughnutValues(orderedValues)
+    }, [currentYearSalesStats])
+
     // Set date filter values
     useEffect(() => {
         let [firstDayString, lastDayString] = getFirstAndLastDateStringOfCurrentMonth()
@@ -221,11 +264,58 @@ const useDashboard = ()=> {
         const unsubscribeProperty = onSnapshot(salesDocsRef, (querySnapshot) => {
             let records = []
             querySnapshot.forEach((doc) => {
-            records.push(doc.data())
+                records.push(doc.data())
             })
-            setGrainsData(records)
+            setGrainsSalesData(records)
         })
     }, [])
+
+    // Fetch restocks data in real time
+    useEffect(() => {
+        const restocksDocsRef = collection(db, "restocks")
+    
+        const unsubscribeProperty = onSnapshot(restocksDocsRef, (querySnapshot) => {
+            let records = []
+            querySnapshot.forEach((doc) => {
+                records.push(doc.data())
+            })
+            setRestocksData(records)
+        })
+    }, [])
+
+    useEffect(() => {
+        let [__, _, currentYear] = dateFilterValues.from.split('/')
+        let previousYear = currentYear - 1
+
+        let [firstDatePreviousYear, lastDatePreviousYear] = getYearStartAndEnd(previousYear)
+        let [firstDateCurrentYear, lastDateCurrentYear] = getYearStartAndEnd(currentYear)
+
+        let prevYearGrainsData = filterByDate(firstDatePreviousYear, lastDatePreviousYear, grainsSalesData)
+        let currentYearGrainsData = filterByDate(firstDateCurrentYear, lastDateCurrentYear, grainsSalesData)
+
+        let currentYearTotals = getCumulativeQuantities(currentYearGrainsData)
+        let previousYearTotals = getCumulativeQuantities(prevYearGrainsData)
+
+        setCurrentYearSalesStats(currentYearTotals)
+        setPreviousYearSalesStats(previousYearTotals)
+    }, [grainsSalesData, dateFilterValues.from])
+
+    useEffect(() => {
+        let [__, _, currentYear] = dateFilterValues.from.split('/')
+        let previousYear = currentYear - 1
+
+        let [firstDatePreviousYear, lastDatePreviousYear] = getYearStartAndEnd(previousYear)
+        let [firstDateCurrentYear, lastDateCurrentYear] = getYearStartAndEnd(currentYear)
+
+        let prevYearRestocksData = filterByDate(firstDatePreviousYear, lastDatePreviousYear, restocksData)
+        let currentYearRestocksData = filterByDate(firstDateCurrentYear, lastDateCurrentYear, restocksData)
+        
+        let currentYearRestocks = getCumulativeQuantitiesForRestocks(currentYearRestocksData)
+        let previousYearRestocks = getCumulativeQuantitiesForRestocks(prevYearRestocksData)
+
+        setCurrentYearRestocksStats(currentYearRestocks)
+        setPreviousYearRestocksStats(previousYearRestocks)
+    }, [restocksData, dateFilterValues.from])
 
     // Fetch sales data in real time
     useEffect(() => {
@@ -260,49 +350,31 @@ const useDashboard = ()=> {
 
     // Filter sales data by date
     useEffect(()=> {
-        if(grainsData.length){
-          let filteredByDate = filterByDate(dateFilterValues.from, dateFilterValues.to, grainsData)
+        if(grainsSalesData.length){
+          let filteredByDate = filterByDate(dateFilterValues.from, dateFilterValues.to, grainsSalesData)
           const sortedRecords = [...filteredByDate].sort((a, b)=> {
             return new Date(a['date']).getTime() < new Date(b['date']).getTime()? 1 : -1
           })
           setFilteredGrainsData(sortedRecords)
         }
-    }, [grainsData, dateFilterValues.from, dateFilterValues.to])
-
-    useEffect(()=> {
-        let grainsTypesAndTotal = {}
-
-        grainsTypes.map((type)=> {
-            grainsTypesAndTotal = {...grainsTypesAndTotal, [type]:0}
-        })
-
-        
-        if(filteredGrainsData.length){
-            filteredGrainsData.map((sale)=> {
-                grainsTypesAndTotal[`${sale.grainType}`] = parseFloat(grainsTypesAndTotal[`${sale.grainType}`]) + parseFloat(sale.quantity)
-            })
-        }
-
-        setGrainCategories(grainsTypesAndTotal)
-
-        let { Maize, Beans, Wheat, Soybeans } = grainsTypesAndTotal
-        setDoughnutValues([Maize, Beans, Wheat, Soybeans])
-    }, [filteredGrainsData])
+    }, [grainsSalesData, dateFilterValues.from, dateFilterValues.to])
 
     return { 
         stocks,
-        insertDoc,
         farmersData, 
         doughnutValues, 
         filteredGrainsData, 
-        grainCategories, 
-        copyGrainCategory, 
         dateFilterValues, 
+        currentYearSalesStats,
+        previousYearSalesStats,
+        currentYearRestocksStats,
+        previousYearRestocksStats,
         setDateFilterValues, 
         handleChangeDateRange, 
         handleChangeDateFilterValues, 
-        mapIcons, 
-        grainCategoriesColumnMaps }
+        mapIcons,
+        insertDoc,
+    }
 }
 
 export default useDashboard

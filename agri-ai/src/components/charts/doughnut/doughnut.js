@@ -1,29 +1,24 @@
-import { useState } from 'react'
-
 // Components
 import { Doughnut } from 'react-chartjs-2'
 import { Chart } from 'chart.js/auto'
 
-// labels: ['Food & Beverages', 'Electricity Charges', 'Fuel Costs', 'Cooking And Heating', 'Uniform Expenses', 'Mantanance And Repairs', 'Capital Expenditure', 'Miscellaneous', 'Discounts', 'Wages', 'Communication And Entertainment', 'Marketing And Advertisement', 'Transport And Logistics', 'General Expenses', 'Detergents'],
-// backgroundColor: ['#0058FF','#4B10BF', '#21D59B','#FFC700','#F99600', '#5E17EB', '#C817EB', '#EB17A4', '#5E17EB', ' #EB173A', '#FFA500', '#17EBC8', '#A4EB17', '#A5755A', '#000000' ],
-
-
 const Pie = (props) => {
-  let defaultData = [0,0,0,0,0,0,0,0]
-    const data = {
-      labels: ['Maize', 'Beans', 'Groundnuts', 'Wheat', 'Rice', 'Barley', 'Sorghum', 'Soybeans'],
-        datasets: [{
-          data: props.values?(props.values.length?props.values:defaultData):defaultData,
-          backgroundColor: ['#0058FF', '#4B10BF', '#21D59B', '#FFC700', '#F99600', '#5E17EB' , '#C817EB', '#EB17A4'],
-          borderWidth:1,
-          borderRadius: 5,
-          hoverOffset: 4,
-          cutout: '60%',
-          radius: 100
-        }]
-    }
+  let defaultData = [0,0,0,0]
 
-    const config = {
+  const data = {
+    labels: ['Maize', 'Beans', 'Wheat', 'Soybeans'],
+      datasets: [{
+        data: props.values?(props.values.length?props.values:defaultData):defaultData,
+        backgroundColor: ['#0058FF', '#4B10BF', '#FFC700', '#EB17A4'],
+        borderWidth:1,
+        borderRadius: 5,
+        hoverOffset: 4,
+        cutout: '60%',
+        radius: 100
+      }]
+  }
+
+  const config = {
       options: {
           plugins:{
             legend: {
@@ -82,9 +77,9 @@ const Pie = (props) => {
       },
   }
   
-    return ( 
-      <Doughnut data={data} options={config.options} />
-    )
+  return ( 
+    <Doughnut data={data} options={config.options} />
+  )
 }
  
 export default Pie
