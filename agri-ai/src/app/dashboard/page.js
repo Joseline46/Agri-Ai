@@ -13,7 +13,8 @@ import Doughnut from "@/components/charts/doughnut/doughnut"
 import GrainsTable from '@/components/tables/grains/grains'
 import Sidebar from '@/components/sidebar/sidebar'
 import ViewFarmersComponent from '@/components/farmers/farmers'
-import { predictMaize } from '@/utils/models'
+
+import { loadModel, predict } from '@/predict'
 
 // Hooks
 import useDashboard from '@/hooks/useDashboard'
@@ -208,7 +209,14 @@ const Dashboard = ()=> {
     handleChangeDateRange, 
     handleChangeDateFilterValues, 
     mapIcons,
-   } = useDashboard()
+  } = useDashboard()
+
+  const testPredict = async ()=> {
+    console.log('test-predict')
+    const model = await loadModel();
+    const prediction = await predict(model, [2025, 3, 15, 6]);
+    console.log(`Predicted Quantity (kg): ${prediction.toFixed(2)}`);
+  }
 
   const recordGrainSale = ()=> {
     setShowRecordSale((prevState)=>!prevState)
@@ -278,7 +286,7 @@ const Dashboard = ()=> {
 
             <section className={styles.header}>
               <section className={styles.dashboardTitle}>
-                <p className={styles.logoText} onClick={()=>insertDoc()}>Dashboard</p>
+                <p className={styles.logoText} onClick={()=>testPredict()}>Dashboard</p>
               </section>
             </section>
 
