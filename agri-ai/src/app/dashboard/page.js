@@ -12,7 +12,7 @@ import Calendar from '@/components/calendar/calendar'
 import Doughnut from "@/components/charts/doughnut/doughnut"
 import GrainsTable from '@/components/tables/grains/grains'
 import Sidebar from '@/components/sidebar/sidebar'
-
+import { predictMaize } from '@/utils/models';
 // Hooks
 import useDashboard from '@/hooks/useDashboard'
 
@@ -241,6 +241,7 @@ const GrainLabel = (props)=> {
 const Dashboard = ()=> {
   const { user, credentials, signout } = UserAuth()
   const router = useRouter() 
+  const [prediction, setPrediction] = useState(null);
   const [showAddUserForm, setShowAddUserForm] = useState(false)
   const [showRecordSale, setShowRecordSale] = useState(false)
   const [showAddCropAmountForm, setShowAddCropAmountForm] = useState(false)
@@ -269,6 +270,15 @@ const Dashboard = ()=> {
   const closeRecordSale = ()=> {
     setShowRecordSale(false)
   }
+
+  useEffect(() => {
+    async function runPrediction() {
+      const result = await predictMaize([14, 6, 2]); // Example: June 14, Friday
+      setPrediction(result.toFixed(2));
+    }
+
+    runPrediction();
+  }, []);
 
   useEffect(()=>{
     if(user === null ){

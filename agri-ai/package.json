@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.11",
+    "@tensorflow/tfjs": "^4.22.0",
     "chart.js": "^4.4.8",
     "clsx": "^2.1.1",
     "firebase": "^11.5.0",
