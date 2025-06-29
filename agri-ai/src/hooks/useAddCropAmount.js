@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 // Context
-import { updateDoc, doc } from "firebase/firestore";
+import { collection, setDoc, onSnapshot, updateDoc, doc } from "firebase/firestore";
 import { db } from '@/firebase'
 
 // Hooks
@@ -34,6 +34,9 @@ const useAddCropAmount = (cropData, closeModal) => {
         message:'',
         type:'success'
     })
+    const [stocks, setStocks] = useState(null)
+    const [price, setPrice] = useState(0)
+
     const { changeValues, checkEmptyFields, checkErrors } = useValidation(values, errors, setValues, setErrors, setNotificationStatus)
 
     useEffect(()=>{
@@ -46,6 +49,27 @@ const useAddCropAmount = (cropData, closeModal) => {
             })
         }
     }, [cropData])
+
+    // Fetch crops stocks data in real time
+    useEffect(() => {
+        const cropsDocsRef = collection(db, "crops")
+    
+        const unsubscribeProperty = onSnapshot(cropsDocsRef, (querySnapshot) => {
+            let records = []
+            querySnapshot.forEach((doc) => {
+                records.push(doc.data())
+            })
+            setStocks(records)
+        })
+    }, [])
+
+    // Fetch price of stocks data
+    useEffect(() => {
+        if(cropData && stocks) {
+            let stock = stocks.find((stock)=> stock.name.trim().toLowerCase() === cropData.name.trim().toLowerCase())
+            setPrice(stock ? stock.price : 0)
+        }
+    }, [cropData, stocks])
 
     // Reset to defaults
     const reset = ()=> {
@@ -71,12 +95,32 @@ const useAddCropAmount = (cropData, closeModal) => {
                 console.log(' parseFloat(cropData.amount)',  parseFloat(cropData.amount))
                 console.log('parseFloat(values.amount)',  parseFloat(values.amount))
 
+                let date = new Date()
+                let dateString = `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
+
                 updateDoc(doc(db, 'crops', cropData.name), {amount: newAmount})
                 .then(()=>{
-                    setIsLoading(false)
-                    reset()
-                    closeModal()
-                    console.log('updated crop amount successfully')
+                    let documentId = createRandomString(10)
+
+                    let restockData = {
+                        name: cropData.name,
+                        amount: parseFloat(values.amount),
+                        date: dateString,
+                        price: price,
+                    }
+
+                    console.log('restockData', restockData)
+
+                    setDoc(doc(db, 'restocks', documentId), restockData)
+                    .then(()=>{
+                        setIsLoading(false)
+                        reset()
+                        closeModal()
+                        console.log('updated crop amount successfully')
+                    })
+                    .catch((error)=> {
+                        setIsLoading(false)
+                    })
                 }).catch((error)=> {
                     setIsLoading(false)
                 })

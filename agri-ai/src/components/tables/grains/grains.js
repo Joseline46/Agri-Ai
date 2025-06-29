@@ -46,10 +46,10 @@ export default function ScrollableTable(props) {
             </thead>
             <tbody>
                 {
-                    recordsToUse.length > 0 && recordsToUse.map(grain => (
-                    <tr  className={styles.tr} key={grain.id}>
-                        <td className={styles.fixedColumn}>{grain.grainType}</td>
-                    </tr>
+                    recordsToUse.length > 0 && recordsToUse.map((grain, index) => (
+                        <tr  className={styles.tr} key={index}>
+                            <td className={styles.fixedColumn}>{grain.grainType}</td>
+                        </tr>
                     ))
                 }
             </tbody>
@@ -57,24 +57,24 @@ export default function ScrollableTable(props) {
         </div>
         <div ref={tableRef} className={styles.scrollableWrapper} onScroll={handleScroll}>
             <table className={styles.scrollableTable}>
-            <thead>
-                <tr className={styles.tr}>
-                <th>Date</th>
-                <th>Quantity</th>
-                <th>Consumer Type</th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    recordsToUse.length > 0 && recordsToUse.map(expense => (
-                        <tr className={styles.tr} key={expense.id}>
-                            <td>{expense.date}</td>
-                            <td>{expense.quantity}Kg</td>
-                            <td>{expense.consumerType}</td>
-                        </tr>
-                    ))
-                }
-            </tbody>
+                <thead>
+                    <tr className={styles.tr}>
+                    <th>Date</th>
+                    <th>Quantity</th>
+                    <th>Consumer Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        recordsToUse.length > 0 && recordsToUse.map((grain, index) => (
+                            <tr className={styles.tr} key={index}>
+                                <td>{grain.date}</td>
+                                <td>{grain.quantity}Kg</td>
+                                <td>{grain.consumerType}</td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
             </table>
         </div>
         </div>

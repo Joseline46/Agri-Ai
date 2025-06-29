@@ -266,6 +266,10 @@ const Dashboard = ()=> {
     setShowRecordSale((prevState)=>!prevState)
   }
 
+  const closeRecordSale = ()=> {
+    setShowRecordSale(false)
+  }
+
   useEffect(()=>{
     if(user === null ){
       router.push('/sign-in')
@@ -286,10 +290,10 @@ const Dashboard = ()=> {
     return (
       <>
         <section className={styles.dashboard}>
-          <Sidebar setShowAddUserForm={setShowAddUserForm} signout={signout} credentials={credentials} />
+          <Sidebar recordGrainSale={recordGrainSale} setShowAddUserForm={setShowAddUserForm} signout={signout} credentials={credentials} />
           <section className={styles.component}>
             { showAddUserForm && <AddFarmer setShowAddUserForm={setShowAddUserForm}/> }
-            { showRecordSale && <RecordSale setShowRecordSale={setShowRecordSale}/> }
+            { showRecordSale && <RecordSale closeRecordSale={closeRecordSale} setShowRecordSale={setShowRecordSale}/> }
             { showAddCropAmountForm && <AddCropAmount closeUpdateCropAmount={closeUpdateCropAmount} cropData={cropData}/> }
 
             <section className={styles.header}>
@@ -315,7 +319,7 @@ const Dashboard = ()=> {
 
             <section className={styles.section}>
               <section className={styles.sectionHeader}>
-                <section className={styles.recordSale} onClick={()=>recordGrainSale(4.3, 'Maize')}>
+                <section className={styles.recordSale} onClick={()=>recordGrainSale()}>
                   <Plus size={20} color='#ffffff' /> 
                   <p>Record Sale</p>
                 </section>

@@ -14,9 +14,10 @@ export const createRandomString = (length) => {
     return result;
 }
 
-const useRecordSale = () => {
+const useRecordSale = (closeRecordSale) => {
     const [isLoading, setIsLoading] = useState(false)
     const [stocks, setStocks] = useState(null)
+    const [stockLevel, setStockLevel] = useState(0)
     const [values, setValues] = useState({
         grainType: '',
         consumerType: 'Human',
@@ -53,18 +54,32 @@ const useRecordSale = () => {
         ]
     }
 
-     // Fetch crops stocks data in real time
-        useEffect(() => {
-            const cropsDocsRef = collection(db, "crops")
-        
-            const unsubscribeProperty = onSnapshot(cropsDocsRef, (querySnapshot) => {
-                let records = []
-                querySnapshot.forEach((doc) => {
-                    records.push(doc.data())
-                })
-                setStocks(records)
+    // Fetch crops stocks data in real time
+    useEffect(() => {
+        const cropsDocsRef = collection(db, "crops")
+    
+        const unsubscribeProperty = onSnapshot(cropsDocsRef, (querySnapshot) => {
+            let records = []
+            querySnapshot.forEach((doc) => {
+                records.push(doc.data())
             })
-        }, [])
+            setStocks(records)
+        })
+    }, [])
+
+     // Fetch price of stocks data
+    useEffect(() => {
+        if(values.grainType!=='' && stocks) {
+            let stock = stocks.find((stock)=> stock.name.trim().toLowerCase() === values.grainType.trim().toLowerCase())
+            setStockLevel(stock ? stock.amount : 0)
+            setValues((prevState)=>{
+                return {
+                    ...prevState,
+                    price: stock ? stock.price : 0,
+                }
+            })
+        }
+    }, [values.grainType, stocks])
 
     useEffect(()=> {
         if(stocks) {
@@ -109,6 +124,12 @@ const useRecordSale = () => {
         if(numberOfErrors <= 0) {
             const numberOfFieldsErrors = checkEmptyFields()
             if(numberOfFieldsErrors <= 0) {
+
+                if(stockLevel < parseFloat(values.quantity)) {
+                    console.log('Insufficient stock level')
+                    return
+                }
+
                 setIsLoading(true)
 
                 let mm = new Date().getMonth()+1
@@ -121,7 +142,15 @@ const useRecordSale = () => {
 
                 setDoc(doc(db, 'sales', salesDocumentId), salesDocument)
                 .then(()=>{
-                    setIsLoading(false)
+                    let newAmount = parseFloat(stockLevel) - parseFloat(values.quantity)
+                    updateDoc(doc(db, 'crops', values.grainType), {amount: newAmount})
+                    .then(()=> {
+                        closeRecordSale()
+                        reset()
+                        console.log('updated crop amount successfully')
+                    }).catch((error)=> {
+                        setIsLoading(false)
+                    })
                 })
                 .catch((error)=> {
                     setIsLoading(false)

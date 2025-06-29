@@ -25,7 +25,7 @@ const RecordSale = ((props) => {
     errors, 
     isLoading, 
     recordSale, 
-    changeValues } = useRecordSale()
+    changeValues } = useRecordSale(props.closeRecordSale)
 
   return (
     <div className={styles.signInContainer}>
@@ -44,7 +44,7 @@ const RecordSale = ((props) => {
                     notification={null} 
                     label='Grain Type' 
                     errorMessage='Grain type is required'
-                    placeholder='Maize' 
+                    placeholder='Grain type' 
                     name='grainType' 
                     type='text' 
                     value={values.grainType} 

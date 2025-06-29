@@ -20,7 +20,7 @@ const Sidebar = (props)=> {
                     <section className={styles.link}>
                         <UserRoundPlus size={17} color='black' /> &nbsp;&nbsp;Register User
                     </section>
-                    <section className={styles.link}>
+                    <section className={styles.link} onClick={()=>props.recordGrainSale()}> 
                         <HandCoins size={17} color='black' />&nbsp;&nbsp;Record Sale
                     </section>
                 </section>
