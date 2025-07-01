@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import ReactToPrint from 'react-to-print'
+import { useReactToPrint } from 'react-to-print'
 
 // Assets
 import { X } from "lucide-react"
@@ -30,10 +32,22 @@ export const UserSkeleton = ()=> {
     )
 }
 
-const Insights = (props)=> {
+export const ComponentToPrint = React.forwardRef((props, ref)=> {
     const [searchValue, setSearchValue] = useState('')
     const componentRef = useRef(null)
     const contentRef = useRef(null)
+
+    const printRef = useRef(null)
+
+    useEffect(() => {
+        if (ref && printRef.current) {
+            if (typeof ref === 'function') {
+                ref(printRef.current)
+            } else {
+                ref.current = printRef.current
+            }
+        }
+    }, [ref])
 
     useEffect(() => {
         const MIN_MARGIN = 40
@@ -94,7 +108,7 @@ const Insights = (props)=> {
     // [year,  month, day, previous_quantity (amount sold on that date)]
 
     return (
-        <section className={styles.container} style={{display: props.showComponent?'flex':'none'}}>
+        <section className={styles.container}  ref={ref}>
             <section ref={componentRef}  className={styles.component}>
                 {/* Header */}
                 <section className={styles.header}>
@@ -106,6 +120,9 @@ const Insights = (props)=> {
                     </section>
 
                     <section className={styles.controls}>
+                        <section style={{color:"red"}} className={styles.control} onClick={props.click}>
+                            Save As Pdf/Print
+                        </section>
                         {
                             props.figure && <section className={styles.figure}>
                                 {props.figure}
@@ -127,25 +144,27 @@ const Insights = (props)=> {
                         <Calendar setDateFilterValues={setDateFilterValues} handleChangeDateRange={handleChangeDateRange} dateFilterValues={dateFilterValues} handleChangeDateFilterValues={handleChangeDateFilterValues} />
                     </section>
 
-                    <section className={usersTableStyles.container}>
+                    <section className={usersTableStyles.container} ref={printRef}>
                         <section className={usersTableStyles.table}>
                             <section className={usersTableStyles.head} style={{padding:'0'}}>
-                                <section className={usersTableStyles.tr} style={{paddingLeft:'5px', gridTemplateColumns:'25% 31% 31%'}}>
+                                <section className={usersTableStyles.tr} style={{paddingLeft:'5px', gridTemplateColumns:'24% 37% 41%'}}>
                                     <p className={usersTableStyles.text}>Name</p>
                                     <p className={usersTableStyles.addressText}>L/Year Consumption</p>
                                     <p className={usersTableStyles.addressText}>C/Year Prediction</p>
-
                                 </section>
                             </section>
                             <section className={usersTableStyles.tbody} style={{padding:'0'}}>
                                 {
                                     ['Maize', 'Beans', 'Wheat', 'Soybeans'].map((crop, index) => {
                                         return (
-                                            <section className={usersTableStyles.tr} style={{paddingLeft:'5px', gridTemplateColumns:'25% 31% 31%'}}>
+                                            <section className={usersTableStyles.tr} style={{paddingLeft:'5px', gridTemplateColumns:'24% 37% 41%'}} key={index}>
                                                 <section className={usersTableStyles.profile}>
                                                     <section className={usersTableStyles.id}>
                                                         <p className={usersTableStyles.name}>{crop}</p>
                                                     </section>
+                                                </section>
+                                                <section className={usersTableStyles.address}>
+                                                    <p>{props.currentYearRestocksStats[`${crop}`]} Kgs</p>
                                                 </section>
                                                 <section className={usersTableStyles.address}>
                                                     <p>{props.currentYearRestocksStats[`${crop}`]} Kgs</p>
@@ -161,6 +180,31 @@ const Insights = (props)=> {
             </section>
         </section>
     )
-}
+})
 
-export default Insights
+ComponentToPrint.displayName = 'ComponentToPrint'
+
+const Insights = (props)=> {
+    const insightsCardRef = useRef(null)
+
+    const handlePrint = useReactToPrint({
+        content: ()=> insightsCardRef.current,
+    }) 
+
+    const click = ()=> {
+        console.log('insightsCardRef.current', insightsCardRef.current)
+        handlePrint() 
+    }
+
+    return ( 
+        <>
+            <ComponentToPrint ref={insightsCardRef} click={click} handlePrint={handlePrint} showComponent={props.showComponent} close={props.close} figure={props.figure} currentYearRestocksStats={props.currentYearRestocksStats} />
+            <section className={styles.communication}>
+                <section style={{color:"red"}} className={styles.control} onClick={handlePrint}>
+                    Save As Pdf/Print
+                </section> 
+            </section>
+        </>
+     );
+}
+export default Insights;

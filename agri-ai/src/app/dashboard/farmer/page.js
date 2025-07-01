@@ -10,6 +10,7 @@ import styles from '@/styles/farmer.module.css';
 import BarChart from '@/components/barchart/barchart'
 import { Card } from '@/app/dashboard/page'
 import { Skeleton } from "@/components/ui/skeleton"
+import Deliveries from '@/components/tables/deliveryActivities/deliveryActivities'
 
 // Assets
 import { Settings2, ArrowLeft, Bean, Wheat } from 'lucide-react' 
@@ -27,7 +28,12 @@ const Farmer = () => {
   const [lineChartData, setLineChartData] = useState([])
   const [barChartData, setBarChartData] = useState([])
 
-  const { farmerCredentials, farmersDeliveries } = useFarmer(farmerId)
+  const { 
+      currentYearSalesStats,
+      previousYearSalesStats, 
+      farmerCredentials, 
+      farmersDeliveries 
+    } = useFarmer(farmerId)
 
   useEffect(() => {
     const id = searchParams.get("id")
@@ -62,18 +68,18 @@ const Farmer = () => {
 
         <section className={styles.content}>
           <section className={styles.corusel}>
-            <Card cardName="Maize" currentValue={0} displayValue={0} previousValue={0} target={0}>
-                <PiGrainsBold size={20} color='#0058FF' />
-              </Card>
-              <Card cardName="Beans" currentValue={0} displayValue={0} previousValue={0} target={0}>
-                <Bean size={17} color='#4B10BF' />
-              </Card>  
-              <Card cardName="Wheat" currentValue={0} displayValue={0} previousValue={0} target={0}>
-                <Wheat  size={20} color='#FFC700' />
-              </Card>
-               <Card cardName="Soybeans" currentValue={0} displayValue={0} previousValue={0} target={0}>
-                <GiPeas  size={20} color='#EB17A4' />
-              </Card>
+            <Card cardName="Maize" currentValue={currentYearSalesStats['Maize']} displayValue={currentYearSalesStats['Maize']} previousValue={previousYearSalesStats['Maize']} target={previousYearSalesStats['Maize']}>
+              <PiGrainsBold size={20} color='#0058FF' />
+            </Card>
+            <Card cardName="Beans" currentValue={currentYearSalesStats['Beans']} displayValue={currentYearSalesStats['Beans']} previousValue={previousYearSalesStats['Beans']} target={previousYearSalesStats['Beans']}>
+              <Bean size={17} color='#4B10BF' />
+            </Card>  
+            <Card cardName="Wheat" currentValue={currentYearSalesStats['Wheat']} displayValue={currentYearSalesStats['Wheat']} previousValue={previousYearSalesStats['Wheat']} target={previousYearSalesStats['Wheat']}>
+              <Wheat  size={20} color='#FFC700' />
+            </Card>
+            <Card cardName="Soybeans" currentValue={currentYearSalesStats['Soybeans']} displayValue={currentYearSalesStats['Soybeans']} previousValue={previousYearSalesStats['Soybeans']} target={previousYearSalesStats['Soybeans']}>
+              <GiPeas  size={20} color='#EB17A4' />
+            </Card>
           </section>
 
           {/* Charts */}
@@ -85,6 +91,7 @@ const Farmer = () => {
           {/* Deliveries Activity */}
           <section className={styles.group}>
             <p className={styles.headerText}>Deliveries Activity</p>
+            <Deliveries records={farmersDeliveries} />
           </section>
         </section>
       </section>
