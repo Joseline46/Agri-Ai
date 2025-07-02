@@ -45,7 +45,8 @@
   white-space: nowrap;
 }
   
-.container {
+.container,
+.printArea {
   background: white;
   border-radius: 7px 7px 17px 17px;
   border: 1px solid #f0f0f0;
@@ -58,10 +59,27 @@
   overflow: scroll;
   overflow-x: hidden;
 }
-  
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .printArea, .printArea * {
+    visibility: visible;
+  }
+
+  .printArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
 .table {
   border-collapse: collapse;
   width: 100%;
+  table-layout: fixed;
 
   height: max-content;
 }
@@ -81,8 +99,7 @@
   padding: 10px;
 }
 
-.text,
-.addressText {
+.th {
   font-family: var(--ff-p);
   font-weight: 450;
   font-size: .8rem;
@@ -96,20 +113,14 @@
 }
 
 .tr {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-
   border-radius: 7px 7px 0 0;
-
-
-  transition: all 0.4s;
-  cursor: pointer;
-
-  height: 70px;
-
   background: white;
   border-bottom: 1px solid #f0f0f0;
+
+  align-items: center;
+
+  height: 70px;
+  width: 100%;
 
   transition: all 0.2s ease;
 }
@@ -118,11 +129,8 @@
   background-color: #f0f0f0;
 }
 
-.tr:active {
-  transform: scale(0.98);
-}
-
 .td,
+.th,
 .profile,
 .address {
   width: 100%;
@@ -137,12 +145,39 @@
   font-family: var(--ff-p);
   font-weight: 400;
   font-size: .7rem;
+  padding-left: 5px;
 
   color: #808080;
 
   display: flex;
   align-items: center;
   gap: 8px;
+
+  word-wrap: break-word;
+  text-align: start;
+
+  overflow-wrap: break-word; /* so long words wrap instead of overflowing */
+}
+
+.printArea {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  overflow: visible !important;
+  background: white !important;
+  z-index: 9999;
+}
+
+.table {
+  width: 100% !important;
+  /* table-layout: fixed !important; */
+  border-collapse: collapse;
+}
+
+.tr {
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100%;
 }
 
 .address {
@@ -165,6 +200,7 @@
   font-size: 0.7rem;
   font-family: var(--ff-p);
 }
+
 
 .avatar {
   width: 40px;
@@ -201,10 +237,6 @@
 
   .addressText {
     display: inline-block;
-  }
-
-  .tr {
-    grid-template-columns: 50% 50%;
   }
 }
 

@@ -1,21 +1,19 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from 'react'
-import ReactToPrint from 'react-to-print'
-import { useReactToPrint } from 'react-to-print'
 
 // Assets
 import { X, Printer } from "lucide-react"
 import { MdSearch } from 'react-icons/md'
 
 // Styles
-import styles from './aiinsights.module.css'
+import styles from './restocksModal.module.css'
 import usersTableStyles from '@/styles/userTable.module.css'
 
 import Calendar from '@/components/calendar/calendar'
 
 import { Skeleton } from "@/components/ui/skeleton"
-import useAiinsights from '@/hooks/useAiinsights'
+import useGetRestocksRecords from '@/hooks/useGetRestocksRecords'
 
 export const UserSkeleton = ()=> {
     return (
@@ -100,32 +98,27 @@ export const ComponentToPrint = React.forwardRef((props, ref)=> {
         }
     }, [])
 
-    const { 
+    const {
+        restocksData, 
         dateFilterValues, 
         setDateFilterValues, 
         handleChangeDateRange, 
         handleChangeDateFilterValues, 
-    } = useAiinsights()
+    } = useGetRestocksRecords()
 
-    // [year,  month, day, previous_quantity (amount sold on that date)]
     return (
         <section ref={ref}>
             <section ref={componentRef} className={styles.component}>
                 {/* Header */}
                 <section className={styles.header}>
                     <section className={styles.location}>
-                        <p className={styles.heading}>AI Insights For Crops List</p>
+                        <p className={styles.heading}>Restocks List</p>
                         <section className={styles.description}>
-                            <p>4 registered and tracked grains with Agri-AI</p>
+                            {/* <p>4 registered and tracked grains with Agri-AI</p> */}
                         </section>
                     </section>
 
                     <section className={styles.controls}>
-                        {
-                            props.figure && <section className={styles.figure}>
-                                {props.figure}
-                            </section>
-                        }
                         <section className={styles.circle} onClick={props.handlePrint}>
                             <Printer size={17} color='#808080' />
                         </section>
@@ -149,19 +142,19 @@ export const ComponentToPrint = React.forwardRef((props, ref)=> {
                         <table className={usersTableStyles.table}>
                             <thead>
                                 <tr className={usersTableStyles.tr}>
-                                    <th className={usersTableStyles.th}>Name</th>
-                                    <th className={usersTableStyles.th}>L/Year Consumption</th>
-                                    <th className={usersTableStyles.th}>C/Year Prediction</th>
+                                    <th className={usersTableStyles.th}>Date</th>
+                                    <th className={usersTableStyles.th}>Grain</th>
+                                    <th className={usersTableStyles.th}>Quantity(Kgs)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    ['Maize', 'Beans', 'Wheat', 'Soybeans'].map((crop, index) => {
+                                    restocksData.map((crop, index) => {
                                         return (
                                             <tr className={usersTableStyles.tr} key={index}>
                                                 <td className={usersTableStyles.td}>{crop}</td>
-                                                <td className={usersTableStyles.td}>{props.currentYearRestocksStats[`${crop}`]} Kgs</td>
-                                                <td className={usersTableStyles.td}>{props.currentYearRestocksStats[`${crop}`]} Kgs</td>
+                                                <td className={usersTableStyles.td}>{props.name}</td>
+                                                <td className={usersTableStyles.td}>{props.amount} Kgs</td>
                                             </tr>
                                         )
                                     })
@@ -177,7 +170,7 @@ export const ComponentToPrint = React.forwardRef((props, ref)=> {
 
 ComponentToPrint.displayName = 'ComponentToprint'
 
-const Insights = (props)=> {
+const RestocksModal = (props)=> {
     const insightsCardRef = useRef(null)
     
     const handlePrint = () => {
@@ -191,4 +184,4 @@ const Insights = (props)=> {
     );
 }
 
-export default Insights;
+export default RestocksModal;

@@ -45,8 +45,8 @@ const Sidebar = (props)=> {
                     <section className={styles.link}>
                         <UsersRound size={17} color='black' />&nbsp;&nbsp;Users
                     </section>
-                    <section className={styles.link}>
-                        <Library size={17} color='black' />&nbsp;&nbsp;Reports
+                    <section className={styles.link} onClick={()=>props.openViewRestocks()}>
+                        <Library size={17} color='black' />&nbsp;&nbsp;Restocks Reports
                     </section>
                 </section>
             </section>

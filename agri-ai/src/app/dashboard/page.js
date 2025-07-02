@@ -14,6 +14,7 @@ import GrainsTable from '@/components/tables/grains/grains'
 import Sidebar from '@/components/sidebar/sidebar'
 import ViewFarmersComponent from '@/components/farmers/farmers'
 import Aiinsights from '@/components/insights/aiinsights'
+import RestocksModal from '@/components/restocksModal/restocksModal'
 
 import { loadModel, predict } from '@/predict'
 
@@ -194,6 +195,7 @@ const Dashboard = ()=> {
   const [totalWeight, setTotalWeight] = useState(0)
   const [viewFarmers, setViewFarmers] = useState(false)
   const [viewInsights, setViewInsights] = useState(false)
+  const [viewRestocks, setViewRestocks] = useState(false)
 
   const {
     stocks,
@@ -242,6 +244,14 @@ const Dashboard = ()=> {
     setViewInsights(false)
   }
 
+  const openViewRestocks = ()=> {
+    setViewRestocks(true)
+  }
+
+  const closeViewRestocks = ()=> {
+    setViewRestocks(false)
+  }
+
   useEffect(()=>{
     if(user === null ){
       router.push('/sign-in')
@@ -270,10 +280,13 @@ const Dashboard = ()=> {
     return (
       <>
         <Toaster position="bottom-right" />
-        { viewInsights && <Aiinsights showComponent={viewInsights} currentYearRestocksStats={currentYearRestocksStats} close={closeViewInsights} /> }
+        { viewInsights ? <Aiinsights currentYearRestocksStats={currentYearRestocksStats} close={closeViewInsights} /> : null }
         { viewFarmers && <ViewFarmersComponent showComponent={viewFarmers} farmers={farmersData} close={closeViewFarmers} /> }
+        { viewRestocks && <RestocksModal showComponent={viewRestocks} farmers={farmersData} close={closeViewRestocks} /> }
+        
         <section className={styles.dashboard}>
-          <Sidebar 
+          <Sidebar
+            openViewRestocks={openViewRestocks} 
             openViewFarmers={openViewFarmers}
             recordGrainSale={recordGrainSale} 
             setShowAddUserForm={setShowAddUserForm} 
