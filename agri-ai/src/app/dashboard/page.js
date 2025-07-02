@@ -16,6 +16,13 @@ import ViewFarmersComponent from '@/components/farmers/farmers'
 import Aiinsights from '@/components/insights/aiinsights'
 import RestocksModal from '@/components/restocksModal/restocksModal'
 
+const predicts = {
+  Maize: 3160,
+  Wheat: 510 ,
+  Beans: 760 ,
+  Soybeans: 345
+}
+
 import { loadModel, predict } from '@/predict'
 
 // Hooks
@@ -164,15 +171,15 @@ const GrainLabel = (props)=> {
           { formatNumber(props.currentValue) }Kg
           {
             hasIncreased===null?null:(
-              <p className={styles.compared} style={{ color: hasIncreased ? "#EB173A" : "#217346", }} >
+              <p className={styles.compared} style={{ color: hasIncreased ? "#217346" : "#EB173A", }} >
                 {`${hasIncreased ? "+" : ""}${percentChange}%`}
               </p>
             )
           }
           {
             hasIncreased===null?null:(
-              <p className={styles.comparedValue} style={{ color: hasIncreased ? "#EB173A" : "#217346", top:"0", flexFlow:"row nowrap" }}>
-                {hasIncreased ? ( <TrendingUp color="#EB173A" size={15} /> ) : ( <TrendingDown color="#217346" size={15} />)}
+              <p className={styles.comparedValue} style={{ color: hasIncreased ? "#217346" : "#EB173A", top:"0", flexFlow:"row nowrap" }}>
+                {hasIncreased ? ( <TrendingUp color="#217346" size={15} /> ) : ( <TrendingDown color="#EB173A" size={15} />)}
                 {difference} Kg
               </p>
             )
@@ -280,7 +287,7 @@ const Dashboard = ()=> {
     return (
       <>
         <Toaster position="bottom-right" />
-        { viewInsights ? <Aiinsights currentYearRestocksStats={currentYearRestocksStats} close={closeViewInsights} /> : null }
+        { viewInsights ? <Aiinsights currentYearRestocksStats={currentYearRestocksStats} close={closeViewInsights} predicts={predicts} /> : null }
         { viewFarmers && <ViewFarmersComponent showComponent={viewFarmers} farmers={farmersData} close={closeViewFarmers} /> }
         { viewRestocks && <RestocksModal showComponent={viewRestocks} farmers={farmersData} close={closeViewRestocks} /> }
         

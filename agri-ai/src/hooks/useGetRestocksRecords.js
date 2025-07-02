@@ -72,6 +72,7 @@ const getFirstAndLastDateStringOfCurrentMonth = ()=> {
 
 const useGetRestocksRecords = ()=> {
     const [restocksData, setRestocksData] = useState([])
+    const [filteredRestocksData, setFilteredRestocksData] = useState([])
     const [dateFilterValues, setDateFilterValues] = useState({ 
         from: '',
         to: ''
@@ -166,21 +167,35 @@ const useGetRestocksRecords = ()=> {
         })
     }, [])
 
-     // Fetch sales data in real time
-        useEffect(() => {
-            const restocksDocsRef = collection(db, "restocks")
-        
-            const unsubscribeProperty = onSnapshot(restocksDocsRef, (querySnapshot) => {
-                let records = []
-                querySnapshot.forEach((doc) => {
-                    records.push(doc.data())
-                })
-                setRestocksData(records)
+    // Fetch sales data in real time
+    useEffect(() => {
+        const restocksDocsRef = collection(db, "restocks")
+    
+        const unsubscribeProperty = onSnapshot(restocksDocsRef, (querySnapshot) => {
+            let records = []
+            querySnapshot.forEach((doc) => {
+                records.push(doc.data())
             })
-        }, [])
+            setRestocksData(records)
+        })
+    }, [])
+
+    console.log('restocksData', restocksData)
+
+    // Filter sales data by date
+    useEffect(()=> {
+        if(restocksData.length){
+            let filteredByDate = filterByDate(dateFilterValues.from, dateFilterValues.to, restocksData)
+            const sortedRecords = [...filteredByDate].sort((a, b)=> {
+            return new Date(a['date']).getTime() < new Date(b['date']).getTime()? 1 : -1
+            })
+            setFilteredRestocksData(sortedRecords)
+        }
+    }, [restocksData, dateFilterValues.from, dateFilterValues.to])
+        
 
     return {
-        restocksData, 
+        filteredRestocksData, 
         dateFilterValues, 
         setDateFilterValues, 
         handleChangeDateRange, 

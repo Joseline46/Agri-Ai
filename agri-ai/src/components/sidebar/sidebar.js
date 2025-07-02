@@ -24,9 +24,6 @@ const Sidebar = (props)=> {
                     <section className={styles.link} onClick={()=>props.setShowAddUserForm((prevState)=>!prevState)}>
                         <Plus size={17} color='black' /> &nbsp;&nbsp;Register Farmer
                     </section>
-                    <section className={styles.link}>
-                        <UserRoundPlus size={17} color='black' /> &nbsp;&nbsp;Register User
-                    </section>
                     <section className={styles.link} onClick={()=>props.recordGrainSale()}> 
                         <HandCoins size={17} color='black' />&nbsp;&nbsp;Record Sale
                     </section>
@@ -38,12 +35,6 @@ const Sidebar = (props)=> {
                 <section className={styles.navLinks}>
                     <section className={styles.link} onClick={()=>props.openViewFarmers()}>
                         <Tractor size={17} color='black' /> &nbsp;&nbsp;Farmers
-                    </section>
-                    <section className={styles.link}>
-                        <Store size={17} color='black' /> &nbsp;&nbsp;Inventory
-                    </section>
-                    <section className={styles.link}>
-                        <UsersRound size={17} color='black' />&nbsp;&nbsp;Users
                     </section>
                     <section className={styles.link} onClick={()=>props.openViewRestocks()}>
                         <Library size={17} color='black' />&nbsp;&nbsp;Restocks Reports

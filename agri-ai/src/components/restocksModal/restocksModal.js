@@ -11,43 +11,12 @@ import styles from './restocksModal.module.css'
 import usersTableStyles from '@/styles/userTable.module.css'
 
 import Calendar from '@/components/calendar/calendar'
-
-import { Skeleton } from "@/components/ui/skeleton"
 import useGetRestocksRecords from '@/hooks/useGetRestocksRecords'
 
-export const UserSkeleton = ()=> {
-    return (
-        <section className={usersTableStyles.tr} style={{borderRadius:"7px"}}>
-            <section className={usersTableStyles.td}>
-                <Skeleton className="bg-gray-200 w-[35px] h-[35px] rounded-full" />
-                <section className={usersTableStyles.id}>
-                    <Skeleton className="h-4 w-[80px] bg-gray-200 mb[2px]" />
-                    <Skeleton className="h-4 w-[120px] bg-gray-200" />
-                </section>
-            </section>
-            <section className={usersTableStyles.td}>
-                <Skeleton className="h-4 w-[100px] bg-gray-200" />
-            </section>
-        </section>
-    )
-}
-
-export const ComponentToPrint = React.forwardRef((props, ref)=> {
+const RestocksModal = (props)=> {
     const [searchValue, setSearchValue] = useState('')
     const componentRef = useRef(null)
     const contentRef = useRef(null)
-
-    const printRef = useRef(null)
-
-    useEffect(() => {
-        if (ref && printRef.current) {
-            if (typeof ref === 'function') {
-                ref(printRef.current)
-            } else {
-                ref.current = printRef.current
-            }
-        }
-    }, [ref])
 
     useEffect(() => {
         const MIN_MARGIN = 40
@@ -99,15 +68,19 @@ export const ComponentToPrint = React.forwardRef((props, ref)=> {
     }, [])
 
     const {
-        restocksData, 
+        filteredRestocksData, 
         dateFilterValues, 
         setDateFilterValues, 
         handleChangeDateRange, 
         handleChangeDateFilterValues, 
     } = useGetRestocksRecords()
 
+    const handlePrint = () => {
+        window.print()
+    }
+
     return (
-        <section ref={ref}>
+        <section className={styles.container}>
             <section ref={componentRef} className={styles.component}>
                 {/* Header */}
                 <section className={styles.header}>
@@ -119,7 +92,7 @@ export const ComponentToPrint = React.forwardRef((props, ref)=> {
                     </section>
 
                     <section className={styles.controls}>
-                        <section className={styles.circle} onClick={props.handlePrint}>
+                        <section className={styles.circle} onClick={handlePrint}>
                             <Printer size={17} color='#808080' />
                         </section>
                         <section className={styles.circle} onClick={()=>props.close()}>
@@ -138,23 +111,23 @@ export const ComponentToPrint = React.forwardRef((props, ref)=> {
                         <Calendar setDateFilterValues={setDateFilterValues} handleChangeDateRange={handleChangeDateRange} dateFilterValues={dateFilterValues} handleChangeDateFilterValues={handleChangeDateFilterValues} />
                     </section>
 
-                    <section className={usersTableStyles.printArea} ref={printRef}>
+                    <section className={usersTableStyles.printArea}>
                         <table className={usersTableStyles.table}>
                             <thead>
                                 <tr className={usersTableStyles.tr}>
                                     <th className={usersTableStyles.th}>Date</th>
                                     <th className={usersTableStyles.th}>Grain</th>
-                                    <th className={usersTableStyles.th}>Quantity(Kgs)</th>
+                                    <th className={usersTableStyles.th}>Purchase From</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    restocksData.map((crop, index) => {
+                                    filteredRestocksData.map((row, index) => {
                                         return (
                                             <tr className={usersTableStyles.tr} key={index}>
-                                                <td className={usersTableStyles.td}>{crop}</td>
-                                                <td className={usersTableStyles.td}>{props.name}</td>
-                                                <td className={usersTableStyles.td}>{props.amount} Kgs</td>
+                                                <td className={usersTableStyles.td}>{row.date}</td>
+                                                <td className={usersTableStyles.td}>{`${row.name}, ${row.amount}Kgs`}</td>
+                                                <td className={usersTableStyles.td}>{row.username}</td>
                                             </tr>
                                         )
                                     })
@@ -166,22 +139,6 @@ export const ComponentToPrint = React.forwardRef((props, ref)=> {
             </section>
         </section>
     )
-})
-
-ComponentToPrint.displayName = 'ComponentToprint'
-
-const RestocksModal = (props)=> {
-    const insightsCardRef = useRef(null)
-    
-    const handlePrint = () => {
-        window.print();
-    };
-
-    return ( 
-        <section className={styles.container}>
-            <ComponentToPrint ref={insightsCardRef} click={handlePrint} handlePrint={handlePrint}  close={props.close} figure={props.figure} currentYearRestocksStats={props.currentYearRestocksStats} />
-        </section>
-    );
 }
 
 export default RestocksModal;

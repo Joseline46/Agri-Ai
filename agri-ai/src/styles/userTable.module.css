@@ -107,6 +107,12 @@
   color: black;
 }
 
+.th,
+.td {
+  width: 33.33%;
+  overflow-wrap: break-word; /* so long words wrap instead of overflowing */
+}
+
 .addressText {
   padding-left: 10px;
   display: none;
@@ -155,8 +161,6 @@
 
   word-wrap: break-word;
   text-align: start;
-
-  overflow-wrap: break-word; /* so long words wrap instead of overflowing */
 }
 
 .printArea {
@@ -165,7 +169,7 @@
   height: auto !important;
   overflow: visible !important;
   background: white !important;
-  z-index: 9999;
+  /* z-index: 9999; */
 }
 
 .table {

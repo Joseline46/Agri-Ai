@@ -1,8 +1,6 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from 'react'
-import ReactToPrint from 'react-to-print'
-import { useReactToPrint } from 'react-to-print'
 
 // Assets
 import { X, Printer } from "lucide-react"
@@ -40,7 +38,7 @@ export const ComponentToPrint = React.forwardRef((props, ref)=> {
     const contentRef = useRef(null)
 
     const printRef = useRef(null)
-
+    
     useEffect(() => {
         if (ref && printRef.current) {
             if (typeof ref === 'function') {
@@ -161,7 +159,7 @@ export const ComponentToPrint = React.forwardRef((props, ref)=> {
                                             <tr className={usersTableStyles.tr} key={index}>
                                                 <td className={usersTableStyles.td}>{crop}</td>
                                                 <td className={usersTableStyles.td}>{props.currentYearRestocksStats[`${crop}`]} Kgs</td>
-                                                <td className={usersTableStyles.td}>{props.currentYearRestocksStats[`${crop}`]} Kgs</td>
+                                                <td className={usersTableStyles.td}>{props.predicts[`${crop}`]} Kgs</td>
                                             </tr>
                                         )
                                     })
@@ -181,14 +179,14 @@ const Insights = (props)=> {
     const insightsCardRef = useRef(null)
     
     const handlePrint = () => {
-        window.print();
-    };
+        window.print()
+    }
 
     return ( 
         <section className={styles.container}>
-            <ComponentToPrint ref={insightsCardRef} click={handlePrint} handlePrint={handlePrint}  close={props.close} figure={props.figure} currentYearRestocksStats={props.currentYearRestocksStats} />
+            <ComponentToPrint predicts={props.predicts} ref={insightsCardRef} click={handlePrint} handlePrint={handlePrint}  close={props.close} figure={props.figure} currentYearRestocksStats={props.currentYearRestocksStats} />
         </section>
-    );
+    )
 }
 
 export default Insights;
